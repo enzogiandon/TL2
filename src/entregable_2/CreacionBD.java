@@ -15,6 +15,11 @@ public class CreacionBD {
 	 * @throws SQLException
 	 */
 
+	public static void crearTablas(Connection con) throws SQLException {
+		creacionDeTablasEnBD(con);
+	}
+	
+	
 	private static void creacionDeTablasEnBD(Connection connection) throws SQLException {
 		Statement stmt = null;
 
