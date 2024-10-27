@@ -17,5 +17,16 @@ public class CuentaCripto extends Cuenta {
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
-
+	
+	//Implementación de guardarDefi(Cripto)
+	public void guardarDefi(Cripto cripto) {
+		//hay que implementar
+	}
+	
+	public Cripto retirar(Cripto defi) {
+		// hay que implementar
+		return defi;
+	}
+	
+	
 }
