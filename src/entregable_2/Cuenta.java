@@ -1,6 +1,9 @@
 package entregable_2;
+import java.util.Comparator;
 
-public class Cuenta {
+//para que las cuentas puedan ordenarse por saldo de manera descendente, implementa la 
+//interfaz Comparable en la clase cuenta
+public class Cuenta implements Comparable<Cuenta>{
 	protected double saldo;
 	protected String id;
 	
@@ -26,5 +29,15 @@ public class Cuenta {
 		this.id = id;
 	}
 	
+	@Override
+	public int compareTo(Cuenta cuenta1) {
+		//orden descendente por saldo
+		return Double.compare(cuenta1.saldo, this.saldo);
+	}
+	
+	@Override
+	public String toString() {
+		return ("ID: " + id + ". Saldo: " + saldo);
+	}
 
 }
