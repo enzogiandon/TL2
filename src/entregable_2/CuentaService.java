@@ -5,7 +5,7 @@ import java.util.List;
 public class CuentaService {
 	private CuentaDAO cuentaDAO = new CuentaDAOjdbc();
 	
-	public boolean crearActivo(String idCuenta, double saldo, String codigoMoneda) {
+	public boolean crearCuenta(String idCuenta, double saldo, String codigoMoneda) {
 		if (cuentaDAO.existeMoneda(codigoMoneda)) {
 			Cuenta cuenta = new CuentaCripto(idCuenta, saldo, null);
 			return cuentaDAO.guardarCuenta(cuenta);
@@ -15,7 +15,7 @@ public class CuentaService {
 		}
 	}
 	
-	public void listarActivos(boolean ordenarPorSaldo) {
+	public void listarCuentas(boolean ordenarPorSaldo) {
 		List<Cuenta> cuentas = cuentaDAO.listarCuentas();
 		if (ordenarPorSaldo) {
 			Collections.sort(cuentas); //ordena por saldo descendente (usando Comparable)
