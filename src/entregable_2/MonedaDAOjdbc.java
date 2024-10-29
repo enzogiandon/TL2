@@ -1,7 +1,11 @@
 package entregable_2;
 
 import java.sql.*;
+import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class MonedaDAOjdbc implements MonedaDAO {
 
@@ -9,11 +13,11 @@ public class MonedaDAOjdbc implements MonedaDAO {
 	public boolean guardarMoneda(Moneda moneda) {
 		String sql = "INSERT INTO MONEDA (TIPO, NOMBRE, NOMENCLATURA, VALOR_DOLAR, STOCK) VALUES (?,?,?,?,?)";
 		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
-			pst.setCharacterStream(1, 'F');
+			pst.setString(1, String.valueOf('F'));
 			pst.setString(2, moneda.getNombre());
 			pst.setString(3, moneda.getCodigo());
-			pst.setDouble(3, moneda.getPrecioEnDolar());
-			pst.setString(2, moneda.getStock());
+			pst.setDouble(4, moneda.getPrecioEnDolar());
+			pst.setDouble(5, moneda.getStock());
 			pst.executeUpdate();
 			return true;
 		} catch (SQLException e) {
@@ -21,14 +25,38 @@ public class MonedaDAOjdbc implements MonedaDAO {
 			return false;
 		}
 	}
+	
+	
 
+	@Override
+	public List<Moneda> listarMonedas(Connection con) {
+		List<Moneda> monedas = new ArrayList<>();
+		String sql = "SELECT * MONEDA";
+
+		try (PreparedStatement pst = con.prepareStatement(sql)) {
+			ResultSet rs = pst.executeQuery();
+			while (rs.next()) {
+				Moneda m = new Moneda(
+                        rs.getString("NOMENCLATURA"),
+                        rs.getDouble("VALOR_DOLAR"),
+                        rs.getString("NOMBRE"),
+                        rs.getDouble("STOCK"),
+                        rs.getDouble("VOLATILIDAD")
+                        );
+				monedas.add(m);
+			}
+			return monedas;
+		} catch (SQLException e) {
+			System.out.println("Error de SQL: " + e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+	}
 	/**
 	 * Método para crear una moneda y almacenarla en la BD.
 	 * 
 	 * @param con La conexión con la base de datos
 	 */
-
-	@SuppressWarnings("finally")
 	@Override
 	public boolean crearMoneda(Connection con) throws SQLException {
 		Scanner in = new Scanner(System.in);
@@ -49,7 +77,7 @@ public class MonedaDAOjdbc implements MonedaDAO {
 			String nombre = in.nextLine();
 
 			System.out.print("Nomenclatura: ");
-			String nomenclatura = in.nextLine();
+			String nomenclatura = in.nextLine().toUpperCase();
 
 			System.out.print("Valor en dólar: ");
 			double valorDolar = in.nextDouble();
@@ -75,27 +103,45 @@ public class MonedaDAOjdbc implements MonedaDAO {
 				}
 				if (confirmacion.equalsIgnoreCase("S")) {
 					// Guardar en la base de datos
-					Moneda m = new Moneda(nomenclatura, valorDolar, nombre);
+					Moneda m = new Moneda(nomenclatura,valorDolar,nombre,stock);
 					guardarMoneda(m);
-					// MonedaDAOjdbc.insertarMoneda(con, tipo, nombre, nomenclatura, valorDolar,
-					// stock);
 					System.out.println("Moneda guardada exitosamente.");
 					in.close();
 					return true;
 				}
 			}
-		} finally {
 			System.out.println("Operación cancelada.");
-			in.close();
 			return false;
+		} catch (InputMismatchException e) {
+			System.out.println("Se envió un tipo de dato incorrecto, intente nuevamente.");
+			return false;
+		} finally {
+			in.close();
 		}
 
 	}
-
-	@Override
-	public boolean listarMonedas() {
-		// TODO Auto-generated method stub
-		return false;
+	
+	/**
+	 * 
+	 * @param con La conexion con la base de datos
+	 * @param nomenclatura indica si se debe ordenar por nomenclatura
+	 * @return
+	 */
+	public boolean imprimirMonedas(Connection con,boolean nomenclatura) {
+		Scanner in = new Scanner(System.in);
+		List<Moneda> monedas = listarMonedas(con);
+		try {
+			if (nomenclatura) {
+				Collections.sort(monedas,new MonedasPorNomenclatura());
+			} else {
+				Collections.sort(monedas);
+			}
+			
+			return true;
+		} finally {
+			in.close();
+		}
 	}
+
 
 }
