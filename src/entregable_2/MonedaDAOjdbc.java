@@ -31,16 +31,20 @@ public class MonedaDAOjdbc implements MonedaDAO {
 		List<Moneda> monedas = new ArrayList<>();
 		String sql = "SELECT * MONEDA";
 
-		try (PreparedStatement pst = con.prepareStatement(sql)) {
+		try {
+			PreparedStatement pst = con.prepareStatement(sql);
 			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
-				Moneda m = new Moneda(rs.getString("NOMENCLATURA"), rs.getDouble("VALOR_DOLAR"), rs.getString("NOMBRE"),
-						rs.getDouble("STOCK"), rs.getDouble("VOLATILIDAD"));
+				Moneda m = new Moneda();
+				m.setNombre(rs.getString(2));
+				m.setCodigo(rs.getString(3));
+				m.setPrecioEnDolar(rs.getDouble(4));
+				m.setStock(rs.getDouble(6));
 				monedas.add(m);
 			}
 			return monedas;
 		} catch (SQLException e) {
-			System.out.println("Error de SQL: " + e.getMessage());
+			System.out.println("Error de SQL al listar monedas: " + e.getMessage());
 			e.printStackTrace();
 			return null;
 		}
@@ -125,10 +129,10 @@ public class MonedaDAOjdbc implements MonedaDAO {
 		Scanner in = new Scanner(System.in);
 		List<Moneda> monedas = listarMonedas(con);
 		try {
-			
+
 			System.out.println("Si desea ordenar por nomenclatura ingrese 'S'. Si no, ingrese cualquier valor");
 			boolean nomenclatura = (in.nextLine().equalsIgnoreCase("S"));
-			
+
 			if (nomenclatura) {
 				Collections.sort(monedas, new MonedasPorNomenclatura());
 			} else {
@@ -136,7 +140,7 @@ public class MonedaDAOjdbc implements MonedaDAO {
 			}
 
 			System.out.println("Monedas disponibles: ");
-			for(Moneda moneda: monedas) {
+			for (Moneda moneda : monedas) {
 				System.out.println(moneda);
 			}
 		} finally {
