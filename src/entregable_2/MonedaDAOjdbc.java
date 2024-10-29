@@ -2,6 +2,7 @@ package entregable_2;
 
 import java.sql.*;
 import java.util.List;
+import java.util.Random;
 import java.util.ArrayList;
 
 public class MonedaDAOjdbc implements MonedaDAO {
@@ -43,7 +44,26 @@ public class MonedaDAOjdbc implements MonedaDAO {
 		}
 	}
 
-
-
-
+	public boolean stockRandomizer(Connection con) {
+		List<Moneda> monedas = listarMonedas(con);
+		if (monedas==null || monedas.isEmpty()) {
+			System.out.println("No se encontró ninguna moneda");
+			return false;
+		}
+		Random rand = new Random();
+		String sql = "UPDATE MONEDA SET STOCK = ? WHERE NOMENCLATURA = ?";
+		try (PreparedStatement pst = con.prepareStatement(sql)){
+			for (Moneda moneda: monedas) {
+				double stock = rand.nextDouble() * 10000;
+				pst.setDouble(1, stock);
+				pst.setString(2, moneda.getCodigo());
+			}
+		System.out.println("Stock generado");
+		return true;
+		} catch (SQLException e) {
+			System.out.println("Error de SQL: " + e.getMessage());
+			e.printStackTrace();
+			return false;
+		}
+	}
 }
