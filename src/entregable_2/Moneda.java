@@ -55,5 +55,23 @@ public class Moneda implements Comparable<Moneda>{
 		this.nombre = nombre;
 	}
 	
+	public double getStock() {
+		return stock;
+	}
+
+	public void setStock(double stock) {
+		this.stock = stock;
+	}
+
+	@Override
+	public String toString() {
+		return "Moneda [codigo=" + codigo + ", precioEnDolar=" + precioEnDolar + ", nombre=" + nombre + ", stock="
+				+ stock + "]";
+	}
+	
+	@Override
+	public int compareTo(Moneda m) {
+		return Double.compare(this.precioEnDolar, m.precioEnDolar);
+	}
 	
 }
