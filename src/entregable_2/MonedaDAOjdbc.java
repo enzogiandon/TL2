@@ -29,7 +29,7 @@ public class MonedaDAOjdbc implements MonedaDAO {
 	@Override
 	public List<Moneda> listarMonedas(Connection con) {
 		List<Moneda> monedas = new ArrayList<>();
-		String sql = "SELECT * MONEDA";
+		String sql = "SELECT * FROM MONEDA";
 
 		try (PreparedStatement pst = con.prepareStatement(sql)) {
 			ResultSet rs = pst.executeQuery();
@@ -83,7 +83,7 @@ public class MonedaDAOjdbc implements MonedaDAO {
 			System.out.println("\nDatos ingresados:");
 			System.out.println("Tipo: " + tipo);
 			System.out.println("Nombre: " + nombre);
-			System.out.println("Nomenclatura: " + nomenclatura);
+			System.out.println("Nomenclatura: " + nomenclatura.toUpperCase());
 			System.out.println("Valor en dólar: " + valorDolar);
 			System.out.println("Stock: " + stock);
 
@@ -121,20 +121,25 @@ public class MonedaDAOjdbc implements MonedaDAO {
 	 * @param nomenclatura indica si se debe ordenar por nomenclatura
 	 * @return
 	 */
-	public boolean imprimirMonedas(Connection con, boolean nomenclatura) {
+	public boolean imprimirMonedas(Connection con) {
 		Scanner in = new Scanner(System.in);
 		List<Moneda> monedas = listarMonedas(con);
+		
 		try {
-			if (nomenclatura) {
+			System.out.println("Ingrese 'S' si quiere ordenar por nomenclatura, de lo contrario, ingrese cualquier valor: ");
+
+			if (in.nextLine().equalsIgnoreCase("S")) {
 				Collections.sort(monedas, new MonedasPorNomenclatura());
 			} else {
 				Collections.sort(monedas);
 			}
 
 			System.out.println("Monedas disponibles: ");
+			for (Moneda moneda: monedas)
+				System.out.println(moneda.toString());
+			
 			return true;
 		} finally {
-			in.close();
 		}
 	}
 

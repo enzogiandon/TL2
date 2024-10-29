@@ -13,31 +13,23 @@ public class Main {
 
 				// probar cosas acá
 
-				// CreacionBD.crearTablas(con);
+				CreacionBD.crearTablas(con);
 				MonedaDAOjdbc m = new MonedaDAOjdbc();
-				m.crearMoneda(con);
+				for (int i=0;i<5;i++)
+					m.crearMoneda(con);
 				
+				m.imprimirMonedas(con);
+				m.imprimirMonedas(con);
 				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+
 			} else {
 				System.out.println("No se pudo conectar con la base de datos.");
 			}
-			
-			
+
 		} catch (SQLException e) {
 			System.out.println("Error al conectar: " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
-	
-	
 
 }
