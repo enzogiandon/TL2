@@ -1,20 +1,33 @@
 package entregable_2;
 
-public class Moneda {
+public class Moneda implements Comparable<Moneda>{
 	protected String codigo; // nomenclatura de la moneda, ej USD
 	protected double precioEnDolar;
 	protected String nombre;
 	protected double stock;
+	protected double volatilidad;
 	
 	public Moneda() {
 	}
 	
-	public Moneda(String codigo, double precioEnDolar, String nombre) {
+	// Constructor sin volatilidad
+	
+	public Moneda(String codigo, double precioEnDolar, String nombre, double stock) {
 		super();
 		this.codigo = codigo;
 		this.precioEnDolar = precioEnDolar;
 		this.nombre = nombre;
-		
+		this.stock = stock;
+	}
+
+	// Constructor con volatilidad
+	public Moneda(String codigo, double precioEnDolar, String nombre, double stock, double volatilidad) {
+		super();
+		this.codigo = codigo;
+		this.precioEnDolar = precioEnDolar;
+		this.nombre = nombre;
+		this.stock = stock;
+		this.volatilidad = volatilidad;
 	}
 
 	// Getters, setters
