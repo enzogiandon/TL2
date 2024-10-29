@@ -13,10 +13,10 @@ public class Main {
 
 				// probar cosas acá
 
-				// CreacionBD.crearTablas(con);
+			//	CreacionBD.crearTablas(con);
 				MonedaDAOjdbc m = new MonedaDAOjdbc();
-				m.crearMoneda(con);
-				
+				System.out.println(m.crearMoneda(con));
+				m.imprimirMonedas(con);
 				
 				
 				
