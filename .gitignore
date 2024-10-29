@@ -1,1 +1,5 @@
 /.metadata/
+git rm -r --cached *.class
+test.db
+*.db
+*.class
