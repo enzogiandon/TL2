@@ -25,8 +25,6 @@ public class MonedaDAOjdbc implements MonedaDAO {
 			return false;
 		}
 	}
-	
-	
 
 	@Override
 	public List<Moneda> listarMonedas(Connection con) {
@@ -36,13 +34,8 @@ public class MonedaDAOjdbc implements MonedaDAO {
 		try (PreparedStatement pst = con.prepareStatement(sql)) {
 			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
-				Moneda m = new Moneda(
-                        rs.getString("NOMENCLATURA"),
-                        rs.getDouble("VALOR_DOLAR"),
-                        rs.getString("NOMBRE"),
-                        rs.getDouble("STOCK"),
-                        rs.getDouble("VOLATILIDAD")
-                        );
+				Moneda m = new Moneda(rs.getString("NOMENCLATURA"), rs.getDouble("VALOR_DOLAR"), rs.getString("NOMBRE"),
+						rs.getDouble("STOCK"), rs.getDouble("VOLATILIDAD"));
 				monedas.add(m);
 			}
 			return monedas;
@@ -52,6 +45,7 @@ public class MonedaDAOjdbc implements MonedaDAO {
 			return null;
 		}
 	}
+
 	/**
 	 * Método para crear una moneda y almacenarla en la BD.
 	 * 
@@ -103,7 +97,7 @@ public class MonedaDAOjdbc implements MonedaDAO {
 				}
 				if (confirmacion.equalsIgnoreCase("S")) {
 					// Guardar en la base de datos
-					Moneda m = new Moneda(nomenclatura,valorDolar,nombre,stock);
+					Moneda m = new Moneda(nomenclatura, valorDolar, nombre, stock);
 					guardarMoneda(m);
 					System.out.println("Moneda guardada exitosamente.");
 					in.close();
@@ -120,28 +114,28 @@ public class MonedaDAOjdbc implements MonedaDAO {
 		}
 
 	}
-	
+
 	/**
 	 * 
-	 * @param con La conexion con la base de datos
+	 * @param con          La conexion con la base de datos
 	 * @param nomenclatura indica si se debe ordenar por nomenclatura
 	 * @return
 	 */
-	public boolean imprimirMonedas(Connection con,boolean nomenclatura) {
+	public boolean imprimirMonedas(Connection con, boolean nomenclatura) {
 		Scanner in = new Scanner(System.in);
 		List<Moneda> monedas = listarMonedas(con);
 		try {
 			if (nomenclatura) {
-				Collections.sort(monedas,new MonedasPorNomenclatura());
+				Collections.sort(monedas, new MonedasPorNomenclatura());
 			} else {
 				Collections.sort(monedas);
 			}
-			
+
+			System.out.println("Monedas disponibles: ");
 			return true;
 		} finally {
 			in.close();
 		}
 	}
-
 
 }
