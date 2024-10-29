@@ -121,10 +121,14 @@ public class MonedaDAOjdbc implements MonedaDAO {
 	 * @param nomenclatura indica si se debe ordenar por nomenclatura
 	 * @return
 	 */
-	public boolean imprimirMonedas(Connection con, boolean nomenclatura) {
+	public void imprimirMonedas(Connection con) {
 		Scanner in = new Scanner(System.in);
 		List<Moneda> monedas = listarMonedas(con);
 		try {
+			
+			System.out.println("Si desea ordenar por nomenclatura ingrese 'S'. Si no, ingrese cualquier valor");
+			boolean nomenclatura = (in.nextLine().equalsIgnoreCase("S"));
+			
 			if (nomenclatura) {
 				Collections.sort(monedas, new MonedasPorNomenclatura());
 			} else {
@@ -132,7 +136,9 @@ public class MonedaDAOjdbc implements MonedaDAO {
 			}
 
 			System.out.println("Monedas disponibles: ");
-			return true;
+			for(Moneda moneda: monedas) {
+				System.out.println(moneda);
+			}
 		} finally {
 			in.close();
 		}
