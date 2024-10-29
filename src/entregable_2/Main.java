@@ -1,6 +1,7 @@
 package entregable_2;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.List;
