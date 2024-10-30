@@ -12,7 +12,7 @@ public class Cripto extends Moneda {
     public Cripto(String codigo, double precioEnDolar, String nombre, double stock, double volatilidad) {
         super(codigo, precioEnDolar, nombre, stock, volatilidad);
     }
-
+    
     // Calcula el saldo total disponible en todas las cuentas de esta cripto
     public double calcularSaldoTotal() {
         double saldoTotal = 0.0;
