@@ -18,14 +18,6 @@ public class Main {
 				System.out.println("Conexión establecida");
 
 				// probar cosas acá
-				// Crear cuentas de criptomonedas para probar el swap
-                CuentaCripto cuentaBTC = new CuentaCripto("BTC", 10.0, "direccionBTC");
-                CuentaCripto cuentaETH = new CuentaCripto("ETH", 5.0, "direccionETH");
-
-                // Llamar al método realizarSwap
-                realizarSwap(cuentaBTC, cuentaETH, 5.0);
-                
-                //fin del probar cosas
 
 				CreacionBD.crearTablas(con);
 
@@ -37,7 +29,18 @@ public class Main {
 					mDAO.guardarMoneda(m);
 				}
 				imprimirMonedas(con, mDAO,in);
+				
+				// MARTI PRUEBA
+				// Crear cuentas de criptomonedas para probar el swap
+                CuentaCripto cuentaBTC = new CuentaCripto("BTC", 10.0, "direccionBTC");
+                CuentaCripto cuentaETH = new CuentaCripto("ETH", 5.0, "direccionETH");
 
+                // Llamar al método realizarSwap
+                realizarSwap(cuentaBTC, cuentaETH, 5.0);
+
+                // Llamar a listar stock
+                listarStock(con, mDAO, in);
+                
 			} else {
 				System.out.println("No se pudo conectar con la base de datos.");
 			}
@@ -153,4 +156,31 @@ public class Main {
         }
     }
 	
+    /**
+     * Método para listar el stock disponible de las monedas.
+     * Muestra en pantalla la información de cada moneda, permitiendo
+     * al usuario elegir si desea ordenar el listado por nomenclatura
+     * o por cantidad en orden descendente.
+     *
+     * @param con    La conexión con la base de datos para acceder a las monedas.
+     * @param mDAO   El objeto de acceso a datos para las monedas.
+     * @param in     El objeto Scanner para leer la entrada del usuario.
+     */
+    public static void listarStock(Connection con, MonedaDAO mDAO, Scanner in) {
+        List<Moneda> monedas = mDAO.listarMonedas(con);
+
+        System.out.println("¿Desea ordenar por nomenclatura? (S/N): ");
+        String opcion = in.nextLine().trim();
+
+        if (opcion.equalsIgnoreCase("S")) {
+            Collections.sort(monedas, new MonedasPorNomenclatura());
+        } else {
+            Collections.sort(monedas, new StockPorCantidad());
+        }
+
+        System.out.println("Stock disponible: ");
+        for (Moneda moneda : monedas) {
+            System.out.println(moneda.toString() + " - Stock: " + moneda.getStock());
+        }
+    }
 }
