@@ -7,7 +7,8 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-// CLASE MAIN para hacer pruebas 
+// CLASE MAIN para hacer pruebas
+
 
 public class Main {
 	public static void main(String[] args) {
@@ -32,6 +33,7 @@ public class Main {
 				
 				// MARTI PRUEBA
 				// Crear cuentas de criptomonedas para probar el swap
+				
                 CuentaCripto cuentaBTC = new CuentaCripto("BTC", 10.0, "direccionBTC");
                 CuentaCripto cuentaETH = new CuentaCripto("ETH", 5.0, "direccionETH");
 
@@ -152,7 +154,7 @@ public class Main {
         if (cuentaConvertir.simularSwap(cuentaConvertir.getId(), cantidad, cuentaEsperada.getId())) {
             System.out.println("Swap realizado exitosamente");
         } else {
-            System.out.println("Error al realizar el swap");
+            System.out.println("Error al realizar el swap"); 
         }
     }
 	
@@ -170,7 +172,7 @@ public class Main {
         List<Moneda> monedas = mDAO.listarMonedas(con);
 
         System.out.println("¿Desea ordenar por nomenclatura? (S/N): ");
-        String opcion = in.nextLine().trim();
+        String opcion = in.nextLine().trim(); 
 
         if (opcion.equalsIgnoreCase("S")) {
             Collections.sort(monedas, new MonedasPorNomenclatura());
