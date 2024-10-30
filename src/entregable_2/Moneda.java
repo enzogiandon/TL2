@@ -77,4 +77,6 @@ public class Moneda implements Comparable<Moneda>{
 	public int compareToNomenclatura(Moneda m) {
 		return this.codigo.compareTo(m.codigo);
 	}
+	
+
 }
