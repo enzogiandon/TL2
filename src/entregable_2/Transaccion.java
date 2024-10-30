@@ -21,6 +21,6 @@ public abstract class Transaccion {
     public abstract void confirmar();
 
     public String getDescripcion() {
-        return "Monto: " + monto + ", Fecha: " + fecha + ", Confirmación: " + confirmacion;
+        return "Monto adquirido: " + monto + ", Fecha: " + fecha + ", Confirmación: " + confirmacion;
     }
 }
