@@ -60,7 +60,7 @@ private CuentaDAO cuentaDAO = new CuentaDAOjdbc();
 		if (ordenarPorSaldo) {
 			Collections.sort(cuentas); //ordena por saldo descendente (usando Comparable)
 		}else {
-			cuentas.sort(new OrdenarPorNomenclatura()); //ordena por nomenclatura (usando Comparator)
+			cuentas.sort(new CuentasPorNomenclatura()); //ordena por nomenclatura (usando Comparator)
 		}
 		//Muestra en pantalla la lista de cuentas ordenada
 		for (Cuenta cuenta : cuentas) {
