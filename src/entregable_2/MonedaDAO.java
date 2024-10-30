@@ -6,5 +6,6 @@ public interface MonedaDAO {
 	boolean guardarMoneda(Moneda moneda) throws SQLException;
 	List<Moneda> listarMonedas(Connection con);
 	boolean stockRandomizer(Connection con);
+	Moneda getMoneda(Connection con, String nomenclatura) throws SQLException;
 }
 
