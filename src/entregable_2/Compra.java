@@ -59,7 +59,6 @@ public class Compra extends Transaccion {
 	            return false;
 	        }
 			
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
