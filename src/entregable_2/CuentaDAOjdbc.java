@@ -3,6 +3,7 @@ import java.sql.Connection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
 public class CuentaDAOjdbc implements CuentaDAO {
 
     @Override
@@ -53,5 +54,18 @@ public class CuentaDAOjdbc implements CuentaDAO {
             System.out.println("Error de SQL: " + e.getMessage());
         }
         return cuentas;
+    }
+    
+    @Override
+    
+    public void registrarTransaccion(String descripcion) {
+        String sql = "INSERT INTO transacciones (descripcion) VALUES (?)";
+        try (Connection con = ConexionBD.getConnection();
+             PreparedStatement pst = con.prepareStatement(sql)) {
+            pst.setString(1, descripcion);
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error de SQL: " + e.getMessage());
+        }
     }
 }
