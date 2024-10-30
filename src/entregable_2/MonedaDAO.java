@@ -7,3 +7,4 @@ public interface MonedaDAO {
 	List<Moneda> listarMonedas(Connection con);
 	boolean stockRandomizer(Connection con);
 }
+
