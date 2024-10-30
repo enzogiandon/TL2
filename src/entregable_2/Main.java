@@ -11,12 +11,21 @@ import java.util.Scanner;
 
 public class Main {
 	public static void main(String[] args) {
+		
 		Scanner in = new Scanner(System.in);
 		try (Connection con = ConexionBD.getConnection()) {
 			if (con != null) {
 				System.out.println("Conexión establecida");
 
 				// probar cosas acá
+				// Crear cuentas de criptomonedas para probar el swap
+                CuentaCripto cuentaBTC = new CuentaCripto("BTC", 10.0, "direccionBTC");
+                CuentaCripto cuentaETH = new CuentaCripto("ETH", 5.0, "direccionETH");
+
+                // Llamar al método realizarSwap
+                realizarSwap(cuentaBTC, cuentaETH, 5.0);
+                
+                //fin del probar cosas
 
 				CreacionBD.crearTablas(con);
 
@@ -128,4 +137,20 @@ public class Main {
 		for (Moneda moneda : monedas)
 			System.out.println(moneda.toString());
 	}
+	
+	/**
+     * Método para realizar un swap entre dos cuentas de criptomonedas.
+     *
+     * @param cuentaConvertir   La cuenta de la criptomoneda que se desea convertir.
+     * @param cuentaEsperada    La cuenta de la criptomoneda esperada.
+     * @param cantidad          La cantidad a intercambiar.
+     */
+    public static void realizarSwap(CuentaCripto cuentaConvertir, CuentaCripto cuentaEsperada, double cantidad) {
+        if (cuentaConvertir.simularSwap(cuentaConvertir.getId(), cantidad, cuentaEsperada.getId())) {
+            System.out.println("Swap realizado exitosamente");
+        } else {
+            System.out.println("Error al realizar el swap");
+        }
+    }
+	
 }
