@@ -1,11 +1,9 @@
 package entregable_2;
 
 import java.sql.*;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 import java.util.List;
+import java.util.Random;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class MonedaDAOjdbc implements MonedaDAO {
 
@@ -29,7 +27,7 @@ public class MonedaDAOjdbc implements MonedaDAO {
 	@Override
 	public List<Moneda> listarMonedas(Connection con) {
 		List<Moneda> monedas = new ArrayList<>();
-		String sql = "SELECT * MONEDA";
+		String sql = "SELECT * FROM MONEDA";
 
 		try {
 			PreparedStatement pst = con.prepareStatement(sql);
@@ -50,102 +48,26 @@ public class MonedaDAOjdbc implements MonedaDAO {
 		}
 	}
 
-	/**
-	 * Método para crear una moneda y almacenarla en la BD.
-	 * 
-	 * @param con La conexión con la base de datos
-	 */
-	@Override
-	public boolean crearMoneda(Connection con) throws SQLException {
-		Scanner in = new Scanner(System.in);
-
-		try {
-			System.out.println("Ingrese los datos de la nueva moneda:");
-
-			String tipo = "";
-			while (!tipo.equalsIgnoreCase("Cripto") && !tipo.equalsIgnoreCase("FIAT")) {
-				System.out.print("Elija un tipo de moneda (Cripto o FIAT): ");
-				tipo = in.nextLine();
-				if (!tipo.equalsIgnoreCase("Cripto") && !tipo.equalsIgnoreCase("FIAT")) {
-					System.out.println("Tipo inválido. Debe ser 'Cripto' o 'FIAT'.");
-				}
-			}
-
-			System.out.print("Nombre: ");
-			String nombre = in.nextLine();
-
-			System.out.print("Nomenclatura: ");
-			String nomenclatura = in.nextLine().toUpperCase();
-
-			System.out.print("Valor en dólar: ");
-			double valorDolar = in.nextDouble();
-
-			System.out.print("Stock disponible: ");
-			double stock = in.nextDouble();
-
-			// Confirmar antes de guardar
-			System.out.println("\nDatos ingresados:");
-			System.out.println("Tipo: " + tipo);
-			System.out.println("Nombre: " + nombre);
-			System.out.println("Nomenclatura: " + nomenclatura);
-			System.out.println("Valor en dólar: " + valorDolar);
-			System.out.println("Stock: " + stock);
-
-			String confirmacion = "";
-
-			while (!confirmacion.equalsIgnoreCase("S") && !confirmacion.equalsIgnoreCase("N")) {
-				System.out.print("\n¿Desea guardar estos datos en la base de datos? (S/N): ");
-				confirmacion = in.nextLine();
-				if (!confirmacion.equalsIgnoreCase("S") && !confirmacion.equalsIgnoreCase("N")) {
-					System.out.println("Por favor ingrese S para confirmar o N para cancelar la operación");
-				}
-				if (confirmacion.equalsIgnoreCase("S")) {
-					// Guardar en la base de datos
-					Moneda m = new Moneda(nomenclatura, valorDolar, nombre, stock);
-					guardarMoneda(m);
-					System.out.println("Moneda guardada exitosamente.");
-					in.close();
-					return true;
-				}
-			}
-			System.out.println("Operación cancelada.");
-			return false;
-		} catch (InputMismatchException e) {
-			System.out.println("Se envió un tipo de dato incorrecto, intente nuevamente.");
-			return false;
-		} finally {
-			in.close();
-		}
-
-	}
-
-	/**
-	 * 
-	 * @param con          La conexion con la base de datos
-	 * @param nomenclatura indica si se debe ordenar por nomenclatura
-	 * @return
-	 */
-	public void imprimirMonedas(Connection con) {
-		Scanner in = new Scanner(System.in);
+	public boolean stockRandomizer(Connection con) {
 		List<Moneda> monedas = listarMonedas(con);
-		try {
-
-			System.out.println("Si desea ordenar por nomenclatura ingrese 'S'. Si no, ingrese cualquier valor");
-			boolean nomenclatura = (in.nextLine().equalsIgnoreCase("S"));
-
-			if (nomenclatura) {
-				Collections.sort(monedas, new MonedasPorNomenclatura());
-			} else {
-				Collections.sort(monedas);
+		if (monedas==null || monedas.isEmpty()) {
+			System.out.println("No se encontró ninguna moneda");
+			return false;
+		}
+		Random rand = new Random();
+		String sql = "UPDATE MONEDA SET STOCK = ? WHERE NOMENCLATURA = ?";
+		try (PreparedStatement pst = con.prepareStatement(sql)){
+			for (Moneda moneda: monedas) {
+				double stock = rand.nextDouble() * 10000;
+				pst.setDouble(1, stock);
+				pst.setString(2, moneda.getCodigo());
 			}
-
-			System.out.println("Monedas disponibles: ");
-			for (Moneda moneda : monedas) {
-				System.out.println(moneda);
-			}
-		} finally {
-			in.close();
+		System.out.println("Stock generado");
+		return true;
+		} catch (SQLException e) {
+			System.out.println("Error de SQL: " + e.getMessage());
+			e.printStackTrace();
+			return false;
 		}
 	}
-
 }
