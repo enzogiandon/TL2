@@ -7,7 +7,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-// CLASE MAIN para hacer pruebas
+// CLASE MAIN para hacer pruebas 
 
 public class Main {
 	public static void main(String[] args) {
