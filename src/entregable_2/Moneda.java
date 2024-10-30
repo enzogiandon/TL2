@@ -73,9 +73,5 @@ public class Moneda implements Comparable<Moneda>{
 	public int compareTo(Moneda m) {
 		return Double.compare(this.precioEnDolar, m.precioEnDolar);
 	}
-	
-	public int compareToNomenclatura(Moneda m) {
-		return this.codigo.compareTo(m.codigo);
-	}
 }
 
