@@ -52,9 +52,12 @@ public class CuentaDAOjdbc implements CuentaDAO {
             }
         } catch (SQLException e) {
             System.out.println("Error de SQL: " + e.getMessage());
+			e.printStackTrace();
+            return null;
         }
         return cuentas;
     }
+    
     
     @Override
     
