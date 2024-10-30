@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class CuentaCripto extends Cuenta {
-
+	protected Cripto cripto;
 	private String direccion;
     private CuentaDAO cuentaDAO = new CuentaDAOjdbc();
 	
