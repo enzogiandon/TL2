@@ -20,16 +20,16 @@ public class Main {
 
 				// probar cosas acá
 
-				CreacionBD.crearTablas(con);
+				//CreacionBD.crearTablas(con);
 
 				MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
-				Moneda m = crearMoneda();
+				//Moneda m = crearMoneda();
 
-				for (int i = 0; i < 5; i++) {
-					m = crearMoneda();
-					mDAO.guardarMoneda(m);
-				}
-				imprimirMonedas(con, mDAO,in);
+				//for (int i = 0; i < 5; i++) {
+					//m = crearMoneda();
+					//mDAO.guardarMoneda(m);
+				//}
+				//imprimirMonedas(con, mDAO,in);
 				
 				// MARTI PRUEBA
 				// Crear cuentas de criptomonedas para probar el swap
