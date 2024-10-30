@@ -4,4 +4,6 @@ public interface CuentaDAO {
 	boolean guardarCuenta(Cuenta cuenta);
 	boolean existeMoneda (String idMoneda);
 	List<Cuenta> listarCuentas(); //Método para listar activos
+	void registrarTransaccion(String descripcion); // Método para registrar una transacción
+
 }
