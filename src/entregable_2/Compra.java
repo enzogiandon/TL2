@@ -67,11 +67,6 @@ public class Compra extends Transaccion {
 
 	}
 	
-	public static double calcularMontoCripto(Cripto cripto, Fiat fiat, double cantidadFiat) {
-		double valorCriptoEnFiat = cripto.getPrecioEnDolar() / fiat.getPrecioEnDolar();
-		return cantidadFiat / valorCriptoEnFiat;
-	}
-	
 	@Override 
 	public String getDescripcion() {
 		return super.getDescripcion() + ", Tipo: Compra" + ", Cripto adquirida: " + cripto.getCodigo() + ", Fiat enviado: " + fiat.getCodigo() + ", Cantidad del fiat enviado: " + cantidadFiat;
