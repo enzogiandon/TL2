@@ -36,22 +36,11 @@ public class Main {
 				Moneda m = mDAO.getMoneda(con, "BTC");
 				System.out.println(m.toString());
 				
-		//		Compra.comprar(con, "BTC", "USD", 50000);
-				/*
+				
+		/*	Compra.comprar(con, "BTC", "USD", 50000);
+				*/
 				imprimirMonedas(con, mDAO,in);
 				
-				// MARTI PRUEBA
-				// Crear cuentas de criptomonedas para probar el swap
-				
-                CuentaCripto cuentaBTC = new CuentaCripto("BTC", 10.0, "direccionBTC");
-                CuentaCripto cuentaETH = new CuentaCripto("ETH", 5.0, "direccionETH");
-
-                // Llamar al método realizarSwap
-                realizarSwap(cuentaBTC, cuentaETH, 5.0);
-
-                // Llamar a listar stock
-                listarStock(con, mDAO, in);
-                */
 			} else {
 				System.out.println("No se pudo conectar con la base de datos.");
 			}
