@@ -71,4 +71,29 @@ public class CuentaDAOjdbc implements CuentaDAO {
             System.out.println("Error de SQL: " + e.getMessage());
         }
     }
+    
+    @Override
+    public boolean actualizarCuentas(List<Cuenta> cuentas) {
+        String sql = "UPDATE cuentas SET saldo = ? WHERE id = ?";
+        try (Connection con = ConexionBD.getConnection()) {
+            try (PreparedStatement pst = con.prepareStatement(sql)) {
+                con.setAutoCommit(false); // Para asegurar transacción atómica
+                for (Cuenta cuenta : cuentas) {
+                    pst.setDouble(1, cuenta.getSaldo());
+                    pst.setString(2, cuenta.getId());
+                    pst.addBatch();
+                }
+                pst.executeBatch();
+                con.commit();
+                return true;
+            } catch (SQLException e) {
+                con.rollback(); // Revertir cambios en caso de error
+                System.out.println("Error de SQL en actualizarCuentas: " + e.getMessage());
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error de conexión: " + e.getMessage());
+            return false;
+        }
+    }
 }
