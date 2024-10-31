@@ -20,16 +20,16 @@ public class Main {
 
 				// probar cosas acá
 
-				//CreacionBD.crearTablas(con);
+			//	CreacionBD.crearTablas(con);
 
 				MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
-				//Moneda m = crearMoneda();
 
-				//for (int i = 0; i < 5; i++) {
-					//m = crearMoneda();
-					//mDAO.guardarMoneda(m);
-				//}
-				//imprimirMonedas(con, mDAO,in);
+				for (int i = 0; i < 5; i++) {
+					Moneda m = crearMoneda(in);
+					mDAO.guardarMoneda(m);
+				}
+				/*
+				imprimirMonedas(con, mDAO,in);
 				
 				// MARTI PRUEBA
 				// Crear cuentas de criptomonedas para probar el swap
@@ -42,7 +42,7 @@ public class Main {
 
                 // Llamar a listar stock
                 listarStock(con, mDAO, in);
-                
+                */
 			} else {
 				System.out.println("No se pudo conectar con la base de datos.");
 			}
@@ -51,6 +51,9 @@ public class Main {
 			System.out.println("Error al conectar: " + e.getMessage());
 			e.printStackTrace();
 		}
+		finally {
+			in.close();
+		}
 	}
 
 	/**
@@ -58,9 +61,7 @@ public class Main {
 	 * 
 	 * @param con La conexión con la base de datos
 	 */
-	public static Moneda crearMoneda() {
-		Scanner in = new Scanner(System.in);
-
+	public static Moneda crearMoneda(Scanner in) {
 		try {
 			System.out.println("Ingrese los datos de la nueva moneda:");
 
@@ -102,10 +103,8 @@ public class Main {
 					System.out.println("Por favor ingrese S para confirmar o N para cancelar la operación");
 				}
 				if (confirmacion.equalsIgnoreCase("S")) {
-					// Guardar en la base de datos
 					Moneda m = new Moneda(nomenclatura, valorDolar, nombre, stock);
 					System.out.println("Moneda creada exitosamente.");
-					in.close();
 					return m;
 				}
 			}
@@ -114,10 +113,7 @@ public class Main {
 		} catch (InputMismatchException e) {
 			System.out.println("Se envió un tipo de dato incorrecto, intente nuevamente.");
 			return null;
-		} finally {
-			in.close();
 		}
-
 	}
 
 	/**
