@@ -75,8 +75,7 @@ public class Compra extends Transaccion {
 			e.printStackTrace();
 			return false;
 		}
-
-	}
+	} 
 	
 	@Override 
 	public String getDescripcion() {
