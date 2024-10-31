@@ -17,6 +17,7 @@ public class MonedaDAOjdbc implements MonedaDAO {
 			pst.setDouble(4, moneda.getPrecioEnDolar());
 			pst.setDouble(5, moneda.getStock());
 			pst.executeUpdate();
+			System.out.println("Se ha guardado exitosamente la moneda en la base de datos.");
 			return true;
 		} catch (SQLException e) {
 			System.out.println("Error de SQL: " + e.getMessage());
@@ -29,21 +30,46 @@ public class MonedaDAOjdbc implements MonedaDAO {
 		List<Moneda> monedas = new ArrayList<>();
 		String sql = "SELECT * FROM MONEDA";
 
-		try (PreparedStatement pst = con.prepareStatement(sql)) {
+		try {
+			PreparedStatement pst = con.prepareStatement(sql);
 			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
-				Moneda m = new Moneda(rs.getString("NOMENCLATURA"), rs.getDouble("VALOR_DOLAR"), rs.getString("NOMBRE"),
-						rs.getDouble("STOCK"), rs.getDouble("VOLATILIDAD"));
+				Moneda m = new Moneda();
+				m.setNombre(rs.getString(2));
+				m.setCodigo(rs.getString(3));
+				m.setPrecioEnDolar(rs.getDouble(4));
+				m.setStock(rs.getDouble(6));
 				monedas.add(m);
 			}
 			return monedas;
 		} catch (SQLException e) {
-			System.out.println("Error de SQL: " + e.getMessage());
+			System.out.println("Error de SQL al listar monedas: " + e.getMessage());
 			e.printStackTrace();
 			return null;
 		}
 	}
 
+	public Moneda getMoneda(Connection con, String nomenclatura) throws SQLException {
+	    String sql = "SELECT * FROM MONEDA WHERE NOMENCLATURA = ?";
+	    Moneda moneda = null;
+
+	    try (PreparedStatement pst = con.prepareStatement(sql)) {
+	        pst.setString(1, nomenclatura);
+	        ResultSet rs = pst.executeQuery();
+
+	        if (rs.next()) {
+	            moneda = new Moneda(
+	                    rs.getString("NOMENCLATURA"),
+	                    rs.getDouble("VALOR_DOLAR"),
+	                    rs.getString("NOMBRE"),
+	                    rs.getDouble("STOCK"),
+	                    rs.getDouble("VOLATILIDAD")
+	            );
+	        }
+	    }
+	    return moneda;
+	}
+	
 	public boolean stockRandomizer(Connection con) {
 		List<Moneda> monedas = listarMonedas(con);
 		if (monedas==null || monedas.isEmpty()) {
@@ -66,6 +92,4 @@ public class MonedaDAOjdbc implements MonedaDAO {
 			return false;
 		}
 	}
-	
-	
 }
