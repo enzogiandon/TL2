@@ -1,6 +1,5 @@
 package entregable_2;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 //para que las cuentas puedan ordenarse por saldo de manera descendente, implementa la 
