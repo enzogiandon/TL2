@@ -20,6 +20,8 @@ public class Compra extends Transaccion {
 	// esto podría estar en el main
 	public static boolean comprar(Connection con,String criptoNomenclatura, String fiatNomenclatura, double cantidadFiat) {
 		MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
+		
+		
 		try {
 			Cripto cripto = (Cripto) mDAO.getMoneda(con, criptoNomenclatura);
 			Fiat fiat = (Fiat) mDAO.getMoneda(con, fiatNomenclatura);
@@ -50,6 +52,7 @@ public class Compra extends Transaccion {
 	        	Compra compra = new Compra(cantidadCripto, cripto, cantidadFiat,fiat);
 	        	// actualizarActivos()
 	        	TransaccionDAO tDAO = FactoryDAO.getTransaccionDAO();
+	        	
 	        	tDAO.guardarTransaccion(con, compra.getDescripcion());
 	            compra.confirmar();
 	           
