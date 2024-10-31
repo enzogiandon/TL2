@@ -7,4 +7,7 @@ public interface CuentaDAO {
 	void registrarTransaccion(String descripcion); // Método para registrar una transacción
 	// Nuevo método para actualizar cuentas
     boolean actualizarCuentas(List<Cuenta> cuentas);
+    //Nuevo método para saber cuantas monedas tengo en mi cuenta
+    double obtenerCantidadMoneda(String idCuenta, String idMoneda);
+
 }
