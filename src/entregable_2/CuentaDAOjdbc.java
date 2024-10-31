@@ -96,4 +96,22 @@ public class CuentaDAOjdbc implements CuentaDAO {
             return false;
         }
     }
+    
+    @Override
+    public double obtenerCantidadMoneda(String idCuenta, String idMoneda) {
+        String sql = "SELECT saldo FROM cuentas WHERE id = ? AND id_moneda = ?";
+        try (Connection con = ConexionBD.getConnection();
+             PreparedStatement pst = con.prepareStatement(sql)) {
+            pst.setString(1, idCuenta);
+            pst.setString(2, idMoneda);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("saldo");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error de SQL: " + e.getMessage());
+        }
+        return 0; // Retorna 0 si no se encuentra la cuenta o hay un error
+    }
+    
 }
