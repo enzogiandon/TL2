@@ -22,12 +22,21 @@ public class Main {
 
 			//	CreacionBD.crearTablas(con);
 
+				
+				
+				
+				
 				MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
 
+			
 				for (int i = 0; i < 5; i++) {
 					Moneda m = crearMoneda(in);
 					mDAO.guardarMoneda(m);
 				}
+				Moneda m = mDAO.getMoneda(con, "BTC");
+				System.out.println(m.toString());
+				
+		//		Compra.comprar(con, "BTC", "USD", 50000);
 				/*
 				imprimirMonedas(con, mDAO,in);
 				
