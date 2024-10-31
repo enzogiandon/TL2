@@ -28,21 +28,7 @@ public class Main {
 					Moneda m = crearMoneda(in);
 					mDAO.guardarMoneda(m);
 				}
-				/*
-				imprimirMonedas(con, mDAO,in);
 				
-				// MARTI PRUEBA
-				// Crear cuentas de criptomonedas para probar el swap
-				
-                CuentaCripto cuentaBTC = new CuentaCripto("BTC", 10.0, "direccionBTC");
-                CuentaCripto cuentaETH = new CuentaCripto("ETH", 5.0, "direccionETH");
-
-                // Llamar al método realizarSwap
-                realizarSwap(cuentaBTC, cuentaETH, 5.0);
-
-                // Llamar a listar stock
-                listarStock(con, mDAO, in);
-                */
 			} else {
 				System.out.println("No se pudo conectar con la base de datos.");
 			}
@@ -146,8 +132,8 @@ public class Main {
      * @param cuentaEsperada    La cuenta de la criptomoneda esperada.
      * @param cantidad          La cantidad a intercambiar.
      */
-    public static void realizarSwap(CuentaCripto cuentaConvertir, CuentaCripto cuentaEsperada, double cantidad) {
-        if (cuentaConvertir.simularSwap(cuentaConvertir.getId(), cantidad, cuentaEsperada.getId())) {
+    public static void realizarSwap(CuentaCripto cuentaConvertir, CuentaCripto cuentaEsperada, double cantidad, CuentaDAO cuentaDAO, MonedaDAO monedaDAO){
+        if (cuentaConvertir.simularSwap(cuentaConvertir.getId(), cantidad, cuentaEsperada.getId(),cuentaDAO, monedaDAO)){
             System.out.println("Swap realizado exitosamente");
         } else {
             System.out.println("Error al realizar el swap"); 
