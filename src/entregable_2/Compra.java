@@ -18,6 +18,14 @@ public class Compra extends Transaccion {
 	
 	
 	// esto podría estar en el main
+	/**
+	 * 
+	 * @param con Conexion con la base de datos.
+	 * @param criptoNomenclatura La nomenclatura de la cripto que voy a comprar.
+	 * @param fiatNomenclatura La nomenclatura de la fiat con la que voy a hacer la compra.
+	 * @param cantidadFiat La cantidad de fiat que uso para comprar de esa cripto. 
+	 * @return
+	 */
 	public static boolean comprar(Connection con,String criptoNomenclatura, String fiatNomenclatura, double cantidadFiat) {
 		MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
 		try {
@@ -60,6 +68,10 @@ public class Compra extends Transaccion {
 	        }
 			
 		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} catch (ClassCastException e) {
+			System.out.println("No se encontró una cripto con esa nomenclatura, intente nuevamente.");
 			e.printStackTrace();
 			return false;
 		}
