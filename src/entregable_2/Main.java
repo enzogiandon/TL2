@@ -57,8 +57,9 @@ public class Main {
 					
 					System.out.println("Ingrese la nomenclatura de la moneda que quiere recibir en el swap");
 					String swapRecibo= in.nextLine();
-					realizarSwap(swapEnvio,swapRecibo,montoSwap,cDAO,mDAO);
+					simularSwap(swapEnvio,montoSwap,swapRecibo,cDAO,mDAO);
 					break;
+					
 				case 5: 
 					System.out.println("Ingrese la nomenclatura de la Cripto que quiere comprar: ");
 					String criptoCompra = in.nextLine();  
@@ -293,21 +294,10 @@ public class Main {
 			return false;
 		}
 	}
-	public static void realizarSwap(
-
-			String cuentaConvertir, String cuentaEsperada, double cantidad, CuentaDAO cuentaDAO, MonedaDAO monedaDAO) {
-		if (cuentaConvertir.simularSwap(cuentaConvertir.getId(), cantidad, cuentaEsperada.getId(), cuentaDAO,
-				monedaDAO)) {
-			System.out.println("Swap realizado exitosamente");
-		} else {
-			System.out.println("Error al realizar el swap");
-		}
-	}
 	
 	
 	
-	
-	public boolean simularSwap(String criptoConvertirCodigo, double cantidad, String criptoEsperadaCodigo,
+	public static boolean simularSwap(String criptoConvertirCodigo, double cantidad, String criptoEsperadaCodigo,
 			CuentaDAO cuentaDAO, MonedaDAO monedaDAO) {
 		List<Cuenta> cuentas = cuentaDAO.listarCuentas();
 
@@ -362,7 +352,7 @@ public class Main {
 		return true;
 	}
 
-	private double obtenerTasaCambio(String criptoConvertirCodigo, String criptoEsperadaCodigo, MonedaDAO monedaDAO) {
+	private static double obtenerTasaCambio(String criptoConvertirCodigo, String criptoEsperadaCodigo, MonedaDAO monedaDAO) {
 		// Consultar MonedaDAO para obtener la tasa de cambio (ejemplo básico)
 		List<Moneda> monedas = monedaDAO.listarMonedas();
 		double precioCriptoConvertir = 0;
