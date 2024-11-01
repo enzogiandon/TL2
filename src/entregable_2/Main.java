@@ -31,7 +31,6 @@ public class Main {
 				opcion = in.nextInt();
 
 				MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
-				
 
 				switch (opcion) {
 
@@ -135,7 +134,7 @@ public class Main {
 	 * @param in           Scanner para leer datos de teclado.
 	 */
 	public static void imprimirMonedas(Connection con, MonedaDAO mDAO, Scanner in) {
-		List<Moneda> monedas = mDAO.listarMonedas(con);
+		List<Moneda> monedas = mDAO.listarMonedas();
 
 		System.out.println(
 				"Ingrese 'S' si quiere ordenar por nomenclatura" + ", de lo contrario, ingrese cualquier valor: ");
@@ -158,8 +157,12 @@ public class Main {
 	 * @param cuentaEsperada  La cuenta de la criptomoneda esperada.
 	 * @param cantidad        La cantidad a intercambiar.
 	 */
-	public static void realizarSwap(CuentaCripto cuentaConvertir, CuentaCripto cuentaEsperada, double cantidad,
-			CuentaDAO cuentaDAO, MonedaDAO monedaDAO) {
+	public static void realizarSwap(
+
+	CuentaCripto cuentaConvertir, CuentaCripto cuentaEsperada,
+	double cantidad, CuentaDAO cuentaDAO,
+	MonedaDAO monedaDAO)
+	{
 		if (cuentaConvertir.simularSwap(cuentaConvertir.getId(), cantidad, cuentaEsperada.getId(), cuentaDAO,
 				monedaDAO)) {
 			System.out.println("Swap realizado exitosamente");
@@ -178,7 +181,7 @@ public class Main {
 	 * @param in   El objeto Scanner para leer la entrada del usuario.
 	 */
 	public static void listarStock(Connection con, MonedaDAO mDAO, Scanner in) {
-		List<Moneda> monedas = mDAO.listarMonedas(con);
+		List<Moneda> monedas = mDAO.listarMonedas();
 
 		System.out.println("¿Desea ordenar por nomenclatura? (S/N): ");
 		String opcion = in.nextLine().trim();
@@ -192,6 +195,63 @@ public class Main {
 		System.out.println("Stock disponible: ");
 		for (Moneda moneda : monedas) {
 			System.out.println(moneda.toString() + " - Stock: " + moneda.getStock());
+		}
+	}
+
+
+	public static boolean comprar(String criptoNomenclatura, String fiatNomenclatura, double cantidadFiat,
+			MonedaDAO mDAO, CuentaDAO cDAO, TransaccionDAO tDAO) {
+		try {
+			Cripto cripto = (Cripto) mDAO.getMoneda(criptoNomenclatura);
+			Fiat fiat = (Fiat) mDAO.getMoneda(fiatNomenclatura);
+
+			if (cripto == null) {
+				System.out.println("La moneda cripto elegida no existe.");
+				return false;
+			}
+			if (fiat == null) {
+				System.out.println("La moneda fiat elegida no existe.");
+				return false;
+			}
+
+			double cantidadCripto = cantidadFiat / ((cripto.getPrecioEnDolar() / fiat.getPrecioEnDolar())); // cantidad
+																											// Fiat /
+																											// valor de
+																											// la cripto
+																											// en esa
+																											// fiat
+
+			if (cantidadCripto > cripto.getStock()) { // verificar stock
+				System.out.println("No hay suficiente stock de la criptomoneda " + criptoNomenclatura + ".");
+				return false;
+			}
+
+			Scanner in = new Scanner(System.in);
+			System.out.printf(
+					"Con %.2f %s puedes comprar %.6f %s. Ingrese 'S' para confirmar u otro valor para cancelar: ",
+					cantidadFiat, fiatNomenclatura, cantidadCripto, criptoNomenclatura);
+			String confirmacion = in.nextLine();
+			in.close();
+
+			if (confirmacion.equalsIgnoreCase("S")) {
+				Compra compra = new Compra(cantidadCripto, cripto, cantidadFiat, fiat);
+				// actualizarActivos()
+				tDAO.guardarTransaccion(compra.getDescripcion());
+				compra.confirmar();
+
+				return true;
+			} else {
+				System.out.println("Operación cancelada.");
+				return false;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} catch (ClassCastException e) {
+			System.out.println("No se encontró una cripto con esa nomenclatura, intente nuevamente.");
+			e.printStackTrace();
+			return false;
 		}
 	}
 }
