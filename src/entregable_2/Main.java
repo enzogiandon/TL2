@@ -31,7 +31,10 @@ public class Main {
 				opcion = in.nextInt();
 
 				MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
-
+				CuentaDAO cDAO = FactoryDAO.getCuentaDAO();
+				TransaccionDAO tDAO = FactoryDAO.getTransaccionDAO();
+				
+				
 				switch (opcion) {
 
 				case 1:
@@ -39,12 +42,39 @@ public class Main {
 					mDAO.guardarMoneda(m);
 					break;
 				case 2:
-					imprimirMonedas(con, mDAO, in);
+					listarMonedas(mDAO, in);
 					break;
 				case 3:
-					listarStock(con, mDAO, in);
+					listarStock(mDAO, in);
+					break;
 				case 4:
+					System.out.println("Ingrese la nomenclatura de la moneda que quiere enviar en el swap");
+					String swapEnvio = in.nextLine();  
+
+					System.out.println("Ingrese el monto que desea enviar de esa moneda");
+					double montoSwap = in.nextDouble();
+					
+					
+					System.out.println("Ingrese la nomenclatura de la moneda que quiere recibir en el swap");
+					String swapRecibo= in.nextLine();
+					realizarSwap(swapEnvio,swapRecibo,montoSwap,cDAO,mDAO);
+					break;
+				case 5: 
+					System.out.println("Ingrese la nomenclatura de la Cripto que quiere comprar: ");
+					String criptoCompra = in.nextLine();  
+
+					System.out.println("Ingrese la nomenclatura de la Fiat que usará para comprar " + criptoCompra + ": ");
+					String fiatCompra = in.nextLine();  
+
+					System.out.printf("Ingrese el monto en %s que desea comprar de %s: ",fiatCompra,criptoCompra);
+					double montoCompra = in.nextDouble();
+					
+					comprar(criptoCompra,fiatCompra,montoCompra,mDAO,cDAO,tDAO);
+					
+				case 6: 
+					System.out.println("Saliendo del programa."); 
 					break menu;
+					
 				}
 
 			}
@@ -133,7 +163,7 @@ public class Main {
 	 * @param nomenclatura indica si se debe ordenar por nomenclatura
 	 * @param in           Scanner para leer datos de teclado.
 	 */
-	public static void imprimirMonedas(Connection con, MonedaDAO mDAO, Scanner in) {
+	public static void listarMonedas(MonedaDAO mDAO, Scanner in) {
 		List<Moneda> monedas = mDAO.listarMonedas();
 
 		System.out.println(
@@ -157,19 +187,7 @@ public class Main {
 	 * @param cuentaEsperada  La cuenta de la criptomoneda esperada.
 	 * @param cantidad        La cantidad a intercambiar.
 	 */
-	public static void realizarSwap(
 
-	CuentaCripto cuentaConvertir, CuentaCripto cuentaEsperada,
-	double cantidad, CuentaDAO cuentaDAO,
-	MonedaDAO monedaDAO)
-	{
-		if (cuentaConvertir.simularSwap(cuentaConvertir.getId(), cantidad, cuentaEsperada.getId(), cuentaDAO,
-				monedaDAO)) {
-			System.out.println("Swap realizado exitosamente");
-		} else {
-			System.out.println("Error al realizar el swap");
-		}
-	}
 
 	/**
 	 * Método para listar el stock disponible de las monedas. Muestra en pantalla la
@@ -180,7 +198,7 @@ public class Main {
 	 * @param mDAO El objeto de acceso a datos para las monedas.
 	 * @param in   El objeto Scanner para leer la entrada del usuario.
 	 */
-	public static void listarStock(Connection con, MonedaDAO mDAO, Scanner in) {
+	public static void listarStock(MonedaDAO mDAO, Scanner in) {
 		List<Moneda> monedas = mDAO.listarMonedas();
 
 		System.out.println("¿Desea ordenar por nomenclatura? (S/N): ");
@@ -198,10 +216,15 @@ public class Main {
 		}
 	}
 
-
 	public static boolean comprar(String criptoNomenclatura, String fiatNomenclatura, double cantidadFiat,
 			MonedaDAO mDAO, CuentaDAO cDAO, TransaccionDAO tDAO) {
 		try {
+			double fondosFiat = cDAO.obtenerCantidadFiat(fiatNomenclatura);
+			if (cantidadFiat < fondosFiat) {
+				System.out.println("Fondos no suficientes en " + fiatNomenclatura + "para realizar esta operación.");
+				return false;
+			}
+
 			Cripto cripto = (Cripto) mDAO.getMoneda(criptoNomenclatura);
 			Fiat fiat = (Fiat) mDAO.getMoneda(fiatNomenclatura);
 
@@ -234,9 +257,25 @@ public class Main {
 			in.close();
 
 			if (confirmacion.equalsIgnoreCase("S")) {
+				// Instancio una compra y la guardo
 				Compra compra = new Compra(cantidadCripto, cripto, cantidadFiat, fiat);
-				// actualizarActivos()
 				tDAO.guardarTransaccion(compra.getDescripcion());
+
+				// actualizo los fondos y lo guardo en BD
+				fondosFiat -= cantidadFiat;
+				double fondosCripto = cDAO.obtenerCantidadCripto(criptoNomenclatura);
+				fondosCripto += cantidadCripto;
+
+				CuentaCripto cc = new CuentaCripto(criptoNomenclatura, fondosCripto, "1234");
+				CuentaFiat cf = new CuentaFiat(fiatNomenclatura, fondosFiat);
+
+				// añado a lista y actualizo la BD
+				List<CuentaFiat> listaFiat = List.of(cf);
+				cDAO.actualizarCuentasFiat(listaFiat);
+
+				List<CuentaCripto> listaCripto = List.of(cc);
+				cDAO.actualizarCuentasCripto(listaCripto);
+
 				compra.confirmar();
 
 				return true;
@@ -253,5 +292,94 @@ public class Main {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	public static void realizarSwap(
+
+			String cuentaConvertir, String cuentaEsperada, double cantidad, CuentaDAO cuentaDAO, MonedaDAO monedaDAO) {
+		if (cuentaConvertir.simularSwap(cuentaConvertir.getId(), cantidad, cuentaEsperada.getId(), cuentaDAO,
+				monedaDAO)) {
+			System.out.println("Swap realizado exitosamente");
+		} else {
+			System.out.println("Error al realizar el swap");
+		}
+	}
+	
+	
+	
+	
+	public boolean simularSwap(String criptoConvertirCodigo, double cantidad, String criptoEsperadaCodigo,
+			CuentaDAO cuentaDAO, MonedaDAO monedaDAO) {
+		List<Cuenta> cuentas = cuentaDAO.listarCuentas();
+
+		CuentaCripto cuentaConvertir = null;
+		CuentaCripto cuentaEsperada = null;
+
+		for (Cuenta cuenta : cuentas) {
+			if (cuenta instanceof CuentaCripto) {
+				CuentaCripto cuentaCripto = (CuentaCripto) cuenta;
+				if (cuentaCripto.getId().equals(criptoConvertirCodigo)) {
+					cuentaConvertir = cuentaCripto;
+				} else if (cuentaCripto.getId().equals(criptoEsperadaCodigo)) {
+					cuentaEsperada = cuentaCripto;
+				}
+			}
+		}
+
+		if (cuentaConvertir == null || cuentaEsperada == null) {
+			System.out.println("Error: Una de las criptomonedas no está en Mis Activos.");
+			return false;
+		}
+
+		if (cuentaConvertir.getSaldo() < cantidad) {
+			System.out.println("Error: Stock insuficiente de " + criptoConvertirCodigo);
+			return false;
+		}
+
+		double tasaCambio = obtenerTasaCambio(criptoConvertirCodigo, criptoEsperadaCodigo, monedaDAO);
+		double cantidadRecibida = cantidad * tasaCambio;
+
+		// Crear el swap y actualizar los activos
+		Swap swap = new Swap(new Cripto(criptoConvertirCodigo, 0, "Cripto", cuentaConvertir.getSaldo()),
+				new Cripto(criptoEsperadaCodigo, 0, "Cripto", cuentaEsperada.getSaldo()), cantidad, cantidadRecibida);
+		swap.confirmar();
+		cuentaConvertir.setSaldo(cuentaConvertir.getSaldo() - cantidad);
+		cuentaEsperada.setSaldo(cuentaEsperada.getSaldo() + cantidadRecibida);
+
+		cuentaDAO.guardarCuenta(cuentaConvertir);
+		cuentaDAO.guardarCuenta(cuentaEsperada);
+
+		// Actualizamos los saldos de las cuentas en la lista
+		List<CuentaCripto> cuentasActualizadas = List.of(cuentaConvertir, cuentaEsperada);
+
+		if (!cuentaDAO.actualizarCuentasCripto(cuentasActualizadas)) {
+			System.out.println("Error al actualizar los activos en la base de datos.");
+			return false;
+		}
+
+		cuentaDAO.registrarTransaccion(swap.getDescripcion());
+
+		System.out.println("Swap realizado exitosamente.");
+		return true;
+	}
+
+	private double obtenerTasaCambio(String criptoConvertirCodigo, String criptoEsperadaCodigo, MonedaDAO monedaDAO) {
+		// Consultar MonedaDAO para obtener la tasa de cambio (ejemplo básico)
+		List<Moneda> monedas = monedaDAO.listarMonedas();
+		double precioCriptoConvertir = 0;
+		double precioCriptoEsperada = 0;
+
+		for (Moneda moneda : monedas) {
+			if (moneda.getCodigo().equals(criptoConvertirCodigo)) {
+				precioCriptoConvertir = moneda.getPrecioEnDolar();
+			} else if (moneda.getCodigo().equals(criptoEsperadaCodigo)) {
+				precioCriptoEsperada = moneda.getPrecioEnDolar();
+			}
+		}
+		if (precioCriptoEsperada == 0) {
+			System.out.println("Error: Moneda esperada no encontrada.");
+			return 0;
+		}
+		return precioCriptoConvertir / precioCriptoEsperada;
+
 	}
 }
