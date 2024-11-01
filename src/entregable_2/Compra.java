@@ -1,9 +1,5 @@
 package entregable_2;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Scanner;
-
 public class Compra extends Transaccion {
 	protected Fiat fiat;
 	protected Cripto cripto;
