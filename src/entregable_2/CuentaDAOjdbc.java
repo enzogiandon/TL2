@@ -1,5 +1,4 @@
 package entregable_2;
-import java.sql.Connection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -161,5 +160,37 @@ public class CuentaDAOjdbc implements CuentaDAO {
         return 0; // Retorna 0 si no se encuentra la cuenta o hay un error
     }
 
+	@Override
+	public CuentaFiat getCuentaFiat(String nomenclatura) throws SQLException {	
+		String sql = "SELECT * FROM TABLA_FIAT WHERE NOMENCLATURA = ?";
+		CuentaFiat cf = null;
+
+		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
+			pst.setString(1, nomenclatura);
+			ResultSet rs = pst.executeQuery();
+
+			if (rs.next()) {
+				cf = new CuentaFiat(rs.getString("NOMENCLATURA"),rs.getDouble("CANTIDAD"));
+			}
+		}
+		return cf;
+	}
+	
+	@Override
+	public CuentaCripto getCuentaCripto(String nomenclatura) throws SQLException {	
+		String sql = "SELECT * FROM TABLA_FIAT WHERE NOMENCLATURA = ?";
+		CuentaCripto cc = null;
+
+		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
+			pst.setString(1, nomenclatura);
+			ResultSet rs = pst.executeQuery();
+
+			if (rs.next()) {
+				cc = new CuentaCripto(rs.getString("NOMENCLATURA"),rs.getDouble("CANTIDAD"),"1234");
+			}
+		}
+		return cc;
+	}
+	
     
 }
