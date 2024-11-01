@@ -19,7 +19,7 @@ public class Cripto extends Moneda {
 
         // Obtener las cuentas desde el DAO y sumar los saldos de la cripto con el código actual
         CuentaDAO cuentaDAO = new CuentaDAOjdbc();
-        List<Cuenta> cuentas = cuentaDAO.listarCuentas();
+        List<Cuenta> cuentas = cuentaDAO.listarCuentasCripto();
 
         for (Cuenta cuenta : cuentas) {
             if (cuenta instanceof CuentaCripto && cuenta.getId().equals(this.codigo)) {

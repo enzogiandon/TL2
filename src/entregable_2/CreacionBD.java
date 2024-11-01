@@ -27,24 +27,24 @@ public class CreacionBD {
 			stmt = connection.createStatement();
 
 			// Tabla moneda
-			String sql = "CREATE TABLE MONEDA " + "(" + " TIPO       VARCHAR(1)    NOT NULL, "
+			String sql = "CREATE TABLE IF NOT EXISTS MONEDA " + "(" + " TIPO       VARCHAR(1)    NOT NULL, "
 					+ " NOMBRE       VARCHAR(50)    NOT NULL, " + " NOMENCLATURA VARCHAR(10)  PRIMARY KEY   NOT NULL, "
 					+ " VALOR_DOLAR	REAL     NOT NULL, " + " VOLATILIDAD	REAL     NULL, " + " STOCK	REAL     NULL "
 					+ ")";
 			stmt.executeUpdate(sql);
 
 			// Tabla activo cripto
-			sql = "CREATE TABLE ACTIVO_CRIPTO" + "(" + " NOMENCLATURA VARCHAR(10)  PRIMARY KEY     NOT NULL, "
+			sql = "CREATE TABLE IF NOT EXISTS ACTIVO_CRIPTO" + "(" + " NOMENCLATURA VARCHAR(10)  PRIMARY KEY     NOT NULL, "
 					+ " CANTIDAD	REAL    NOT NULL " + ")";
 			stmt.executeUpdate(sql);
 
 			// Tabla activo fiat
-			sql = "CREATE TABLE ACTIVO_FIAT" + "(" + " NOMENCLATURA VARCHAR(10)  PRIMARY KEY     NOT NULL, "
+			sql = "CREATE TABLE IF NOT EXISTS ACTIVO_FIAT" + "(" + " NOMENCLATURA VARCHAR(10)  PRIMARY KEY     NOT NULL, "
 					+ " CANTIDAD	REAL    NOT NULL " + ")";
 			stmt.executeUpdate(sql);
 
 			// Tabla transaccion
-			sql = "CREATE TABLE TRANSACCION" + "(" + " RESUMEN VARCHAR(1000)   NOT NULL, "
+			sql = "CREATE TABLE IF NOT EXISTS TRANSACCION" + "(" + " RESUMEN VARCHAR(1000)   NOT NULL, "
 					+ " FECHA_HORA		DATETIME  NOT NULL " + ")";
 			stmt.executeUpdate(sql);
 

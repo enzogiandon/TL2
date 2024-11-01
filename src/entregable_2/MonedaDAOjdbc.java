@@ -11,7 +11,13 @@ public class MonedaDAOjdbc implements MonedaDAO {
 	public boolean guardarMoneda(Moneda moneda) {
 		String sql = "INSERT INTO MONEDA (TIPO, NOMBRE, NOMENCLATURA, VALOR_DOLAR, STOCK) VALUES (?,?,?,?,?)";
 		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
-			pst.setString(1, String.valueOf('F'));
+			if (moneda instanceof Fiat)
+				pst.setString(1, String.valueOf('F'));
+			else if (moneda instanceof Cripto)
+				pst.setString(1, String.valueOf('C'));
+			else
+				return false;
+
 			pst.setString(2, moneda.getNombre());
 			pst.setString(3, moneda.getCodigo());
 			pst.setDouble(4, moneda.getPrecioEnDolar());
@@ -30,7 +36,9 @@ public class MonedaDAOjdbc implements MonedaDAO {
 		List<Moneda> monedas = new ArrayList<>();
 		String sql = "SELECT * FROM MONEDA";
 
-		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
+		try {
+			Connection con = ConexionBD.getConnection();
+			PreparedStatement pst = con.prepareStatement(sql);
 			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
 				Moneda m = new Moneda();
@@ -77,7 +85,7 @@ public class MonedaDAOjdbc implements MonedaDAO {
 		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
 
 			for (Moneda moneda : monedas) {
-				double stock = rand.nextDouble() * 10000;
+				double stock = rand.nextDouble() * 100000;
 				pst.setDouble(1, stock);
 				pst.setString(2, moneda.getCodigo());
 			}

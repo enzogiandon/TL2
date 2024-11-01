@@ -1,6 +1,5 @@
 package entregable_2;
 
-import java.util.List;
 
 public class CuentaCripto extends Cuenta {
 	protected Cripto cripto;

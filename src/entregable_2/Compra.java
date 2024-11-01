@@ -12,8 +12,6 @@ public class Compra extends Transaccion {
 		this.cantidadFiat = cantidadFiat;
 	}
 	
-	
-	// esto podría estar en el main
 	/**
 	 * 
 	 * @param con Conexion con la base de datos.

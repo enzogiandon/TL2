@@ -2,6 +2,7 @@ package entregable_2;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -14,14 +15,14 @@ public class Main {
 
 		Scanner in = new Scanner(System.in);
 		try (Connection con = ConexionBD.getConnection()) {
-			if (con == null) {
+			if (con == null) { // Test de conexion
 				System.out.println("No se pudo conectar con la base de datos.");
 				in.close();
 				System.exit(0);
 			}
 			System.out.println("Conexión establecida");
 
-			// probar cosas acá
+			CreacionBD.crearTablas(con);
 
 			int opcion;
 
@@ -29,12 +30,11 @@ public class Main {
 				mostrarMenu();
 
 				opcion = in.nextInt();
-
+				in.nextLine();
 				MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
 				CuentaDAO cDAO = FactoryDAO.getCuentaDAO();
 				TransaccionDAO tDAO = FactoryDAO.getTransaccionDAO();
-				
-				
+
 				switch (opcion) {
 
 				case 1:
@@ -45,37 +45,70 @@ public class Main {
 					listarMonedas(mDAO, in);
 					break;
 				case 3:
-					listarStock(mDAO, in);
+					mDAO.stockRandomizer();
 					break;
 				case 4:
+					listarStock(mDAO, in);
+					break;
+
+				case 5:
+					System.out.println("Ingrese los datos de la moneda a guardar en la nueva cuenta.");
+					Moneda m1 = crearMoneda(in);
+
+					System.out.println("Ingrese el monto de la nueva cuenta");
+					double montoCuenta = in.nextDouble();
+
+					Cuenta c = null;
+					if (m1 instanceof Fiat) {
+						c = new CuentaFiat(m1.getCodigo(), montoCuenta);
+					} else if (m1 instanceof Cripto) {
+						System.out.println("Ingrese la direccion de la cuenta cripto");
+						String dir = in.next();
+						c = new CuentaCripto(m1.getCodigo(), montoCuenta, dir);
+					} else {
+						System.out.println("No se pudo crear la cuenta");
+						break;
+					}
+					cDAO.guardarCuenta(c);
+					break;
+
+				case 6:
+
+					listarCuentas(cDAO, in);
+					break;
+
+				case 7:
 					System.out.println("Ingrese la nomenclatura de la moneda que quiere enviar en el swap");
-					String swapEnvio = in.nextLine();  
+					String swapEnvio = in.next();
 
 					System.out.println("Ingrese el monto que desea enviar de esa moneda");
 					double montoSwap = in.nextDouble();
-					
-					
+
 					System.out.println("Ingrese la nomenclatura de la moneda que quiere recibir en el swap");
-					String swapRecibo= in.nextLine();
-					simularSwap(swapEnvio,montoSwap,swapRecibo,cDAO,mDAO);
+					String swapRecibo = in.next();
+					simularSwap(swapEnvio, montoSwap, swapRecibo, cDAO, mDAO);
 					break;
-					
-				case 5: 
+
+				case 8:
 					System.out.println("Ingrese la nomenclatura de la Cripto que quiere comprar: ");
-					String criptoCompra = in.nextLine();  
+					String criptoCompra = in.nextLine();
 
-					System.out.println("Ingrese la nomenclatura de la Fiat que usará para comprar " + criptoCompra + ": ");
-					String fiatCompra = in.nextLine();  
+					System.out.println(
+							"Ingrese la nomenclatura de la Fiat que usará para comprar " + criptoCompra + ": ");
+					String fiatCompra = in.nextLine();
 
-					System.out.printf("Ingrese el monto en %s que desea comprar de %s: ",fiatCompra,criptoCompra);
+					System.out.printf("Ingrese el monto en %s que desea comprar de %s: ", fiatCompra, criptoCompra);
 					double montoCompra = in.nextDouble();
-					
-					comprar(criptoCompra,fiatCompra,montoCompra,mDAO,cDAO,tDAO);
-					
-				case 6: 
-					System.out.println("Saliendo del programa."); 
+
+					comprar(criptoCompra, fiatCompra, montoCompra, mDAO, cDAO, tDAO);
+					break;
+				case 9:
+					System.out.println("Saliendo del programa.");
 					break menu;
-					
+
+				default:
+					System.out.println("Opción incorrecta, intente nuevamente.");
+					break;
 				}
 
 			}
@@ -83,19 +116,24 @@ public class Main {
 		} catch (SQLException e) {
 			System.out.println("Error al conectar: " + e.getMessage());
 			e.printStackTrace();
+		} catch (InputMismatchException e) {
+			System.out.println("Se envió un tipo de dato incorrecto, intente nuevamente.");
 		} finally {
 			in.close();
 		}
 	}
 
 	private static void mostrarMenu() {
-		System.out.println("\n=== Menú Principal ===");
-		System.out.println("[1] Crear Moneda");
-		System.out.println("[2] Imprimir Monedas");
-		System.out.println("[3] Listar Stock");
-		System.out.println("[4] Realizar Swap");
-		System.out.println("[5] Comprar Criptomoneda");
-		System.out.println("[6] Salir");
+		System.out.println("\n=== Menú principal ===");
+		System.out.println("[1] Crear moneda");
+		System.out.println("[2] Imprimir monedas");
+		System.out.println("[3] Generar stock de monedas");
+		System.out.println("[4] Listar stock");
+		System.out.println("[5] Generar cuenta (activo)");
+		System.out.println("[6] Listar cuentas (activos)");
+		System.out.println("[7] Realizar swap");
+		System.out.println("[8] Comprar criptomoneda");
+		System.out.println("[9] Salir");
 	}
 
 	/**
@@ -145,7 +183,11 @@ public class Main {
 					System.out.println("Por favor ingrese S para confirmar o N para cancelar la operación");
 				}
 				if (confirmacion.equalsIgnoreCase("S")) {
-					Moneda m = new Moneda(nomenclatura, valorDolar, nombre, stock);
+					Moneda m = null;
+					if (tipo.equalsIgnoreCase("cripto"))
+						m = new Cripto(nomenclatura, valorDolar, nombre, stock);
+					if (tipo.equalsIgnoreCase("fiat"))
+						m = new Fiat(nomenclatura, valorDolar, nombre, stock);
 					System.out.println("Moneda creada exitosamente.");
 					return m;
 				}
@@ -189,7 +231,6 @@ public class Main {
 	 * @param cantidad        La cantidad a intercambiar.
 	 */
 
-
 	/**
 	 * Método para listar el stock disponible de las monedas. Muestra en pantalla la
 	 * información de cada moneda, permitiendo al usuario elegir si desea ordenar el
@@ -202,8 +243,9 @@ public class Main {
 	public static void listarStock(MonedaDAO mDAO, Scanner in) {
 		List<Moneda> monedas = mDAO.listarMonedas();
 
-		System.out.println("¿Desea ordenar por nomenclatura? (S/N): ");
-		String opcion = in.nextLine().trim();
+		System.out.println(
+				"Ingrese 'S' si quiere ordenar por nomenclatura" + ", de lo contrario, ingrese cualquier valor: ");
+		String opcion = in.nextLine();
 
 		if (opcion.equalsIgnoreCase("S")) {
 			Collections.sort(monedas, new MonedasPorNomenclatura());
@@ -214,6 +256,25 @@ public class Main {
 		System.out.println("Stock disponible: ");
 		for (Moneda moneda : monedas) {
 			System.out.println(moneda.toString() + " - Stock: " + moneda.getStock());
+		}
+	}
+
+	public static void listarCuentas(CuentaDAO cuentaDAO, Scanner in) {
+		List<Cuenta> cuentas = new ArrayList<Cuenta>();
+		cuentas.addAll(cuentaDAO.listarCuentasCripto());
+		cuentas.addAll(cuentaDAO.listarCuentasFiat());
+		System.out.println(
+				"Ingrese 'S' si quiere ordenar por nomenclatura" + ", de lo contrario, ingrese cualquier valor: ");
+		String opcion = in.next();
+
+		if (opcion.equalsIgnoreCase("S")) {
+			Collections.sort(cuentas); // ordena por saldo descendente (usando Comparable)
+		} else {
+			cuentas.sort(new CuentasPorNomenclatura()); // ordena por nomenclatura (usando Comparator)
+		}
+		// Muestra en pantalla la lista de cuentas ordenada
+		for (Cuenta cuenta : cuentas) {
+			System.out.println(cuenta);
 		}
 	}
 
@@ -238,13 +299,9 @@ public class Main {
 				return false;
 			}
 
-			double cantidadCripto = cantidadFiat / ((cripto.getPrecioEnDolar() / fiat.getPrecioEnDolar())); // cantidad
-																											// Fiat /
-																											// valor de
-																											// la cripto
-																											// en esa
-																											// fiat
-
+			double cantidadCripto = cantidadFiat / ((cripto.getPrecioEnDolar() / fiat.getPrecioEnDolar())); 
+			// cantidad Fiat / valor de la cripto en esa fiat
+			
 			if (cantidadCripto > cripto.getStock()) { // verificar stock
 				System.out.println("No hay suficiente stock de la criptomoneda " + criptoNomenclatura + ".");
 				return false;
@@ -294,12 +351,10 @@ public class Main {
 			return false;
 		}
 	}
-	
-	
-	
+
 	public static boolean simularSwap(String criptoConvertirCodigo, double cantidad, String criptoEsperadaCodigo,
 			CuentaDAO cuentaDAO, MonedaDAO monedaDAO) {
-		List<Cuenta> cuentas = cuentaDAO.listarCuentas();
+		List<Cuenta> cuentas = cuentaDAO.listarCuentasCripto();
 
 		CuentaCripto cuentaConvertir = null;
 		CuentaCripto cuentaEsperada = null;
@@ -352,7 +407,8 @@ public class Main {
 		return true;
 	}
 
-	private static double obtenerTasaCambio(String criptoConvertirCodigo, String criptoEsperadaCodigo, MonedaDAO monedaDAO) {
+	private static double obtenerTasaCambio(String criptoConvertirCodigo, String criptoEsperadaCodigo,
+			MonedaDAO monedaDAO) {
 		// Consultar MonedaDAO para obtener la tasa de cambio (ejemplo básico)
 		List<Moneda> monedas = monedaDAO.listarMonedas();
 		double precioCriptoConvertir = 0;
