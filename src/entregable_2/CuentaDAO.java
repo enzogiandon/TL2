@@ -9,5 +9,7 @@ public interface CuentaDAO {
     boolean actualizarCuentas(List<Cuenta> cuentas);
     //Nuevo método para saber cuantas monedas tengo en mi cuenta
     double obtenerCantidadMoneda(String idCuenta, String idMoneda);
-
+    public double obtenerCantidadCripto(String idCripto);
+    public double obtenerCantidadFiat(String idFiat);
+    
 }
