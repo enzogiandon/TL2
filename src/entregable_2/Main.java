@@ -144,8 +144,8 @@ public class Main {
      * @param cuentaEsperada    La cuenta de la criptomoneda esperada.
      * @param cantidad          La cantidad a intercambiar.
      */
-    public static void realizarSwap(CuentaCripto cuentaConvertir, CuentaCripto cuentaEsperada, double cantidad) {
-        if (cuentaConvertir.simularSwap(cuentaConvertir.getId(), cantidad, cuentaEsperada.getId())) {
+    public static void realizarSwap(CuentaCripto cuentaConvertir, CuentaCripto cuentaEsperada, double cantidad, CuentaDAO cuentaDAO, MonedaDAO monedaDAO){
+        if (cuentaConvertir.simularSwap(cuentaConvertir.getId(), cantidad, cuentaEsperada.getId(),cuentaDAO, monedaDAO)){
             System.out.println("Swap realizado exitosamente");
         } else {
             System.out.println("Error al realizar el swap"); 

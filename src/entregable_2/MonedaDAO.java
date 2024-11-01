@@ -8,4 +8,3 @@ public interface MonedaDAO {
 	boolean stockRandomizer(Connection con);
 	Moneda getMoneda(Connection con, String nomenclatura) throws SQLException;
 }
-

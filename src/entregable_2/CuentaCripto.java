@@ -6,7 +6,6 @@ import java.util.List;
 public class CuentaCripto extends Cuenta {
 	protected Cripto cripto;
 	private String direccion;
-    private CuentaDAO cuentaDAO = new CuentaDAOjdbc();
 	
 	public CuentaCripto (String id, double saldo, String direccion) {
 		super(id, saldo);
@@ -34,9 +33,8 @@ public class CuentaCripto extends Cuenta {
 	
 	//ANTES ESTABA EN SERVICE
 	
-	private MonedaDAO monedaDAO = new MonedaDAOjdbc();
-
-    public boolean simularSwap(String criptoConvertirCodigo, double cantidad, String criptoEsperadaCodigo) {
+	// Método simularSwap modificado para aceptar DAOs como parámetros
+    public boolean simularSwap(String criptoConvertirCodigo, double cantidad, String criptoEsperadaCodigo, CuentaDAO cuentaDAO, MonedaDAO monedaDAO) {
         List<Cuenta> cuentas = cuentaDAO.listarCuentas();
 
         CuentaCripto cuentaConvertir = null;
@@ -63,7 +61,7 @@ public class CuentaCripto extends Cuenta {
             return false;
         }
 
-        double tasaCambio = obtenerTasaCambio(criptoConvertirCodigo, criptoEsperadaCodigo);
+        double tasaCambio = obtenerTasaCambio(criptoConvertirCodigo, criptoEsperadaCodigo, monedaDAO);
         double cantidadRecibida = cantidad * tasaCambio;
 
         // Crear el swap y actualizar los activos
@@ -80,13 +78,21 @@ public class CuentaCripto extends Cuenta {
         cuentaDAO.guardarCuenta(cuentaConvertir);
         cuentaDAO.guardarCuenta(cuentaEsperada);
 
+        
+        // Actualizamos los saldos de las cuentas en la lista
+        List<Cuenta> cuentasActualizadas = List.of(cuentaConvertir, cuentaEsperada);
+        if (!cuentaDAO.actualizarCuentas(cuentasActualizadas)) {
+            System.out.println("Error al actualizar los activos en la base de datos.");
+            return false;
+        }
+
         cuentaDAO.registrarTransaccion(swap.getDescripcion());
 
         System.out.println("Swap realizado exitosamente.");
         return true;
     }
 
-    private double obtenerTasaCambio(String criptoConvertirCodigo, String criptoEsperadaCodigo) {
+    private double obtenerTasaCambio(String criptoConvertirCodigo, String criptoEsperadaCodigo, MonedaDAO monedaDAO) {
         // Consultar MonedaDAO para obtener la tasa de cambio (ejemplo básico)
         try {
             List<Moneda> monedas = monedaDAO.listarMonedas(ConexionBD.getConnection());

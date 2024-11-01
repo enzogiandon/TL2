@@ -74,4 +74,3 @@ public class Moneda implements Comparable<Moneda>{
 		return Double.compare(this.precioEnDolar, m.precioEnDolar);
 	}
 }
-
