@@ -1,4 +1,5 @@
 package entregable_2;
+import java.sql.SQLException;
 import java.util.List;
 public interface CuentaDAO {
 	boolean guardarCuenta(Cuenta cuenta);
@@ -10,4 +11,6 @@ public interface CuentaDAO {
     public double obtenerCantidadFiat(String idFiat);
     public boolean actualizarCuentasFiat(List<CuentaFiat> fiats);
     public boolean actualizarCuentasCripto(List<CuentaCripto> criptos);
+	public CuentaFiat getCuentaFiat(String nomenclatura) throws SQLException;
+	public CuentaCripto getCuentaCripto(String nomenclatura) throws SQLException;
 }
