@@ -26,12 +26,11 @@ public class MonedaDAOjdbc implements MonedaDAO {
 	}
 
 	@Override
-	public List<Moneda> listarMonedas(Connection con) {
+	public List<Moneda> listarMonedas() {
 		List<Moneda> monedas = new ArrayList<>();
 		String sql = "SELECT * FROM MONEDA";
 
-		try {
-			PreparedStatement pst = con.prepareStatement(sql);
+		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
 			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
 				Moneda m = new Moneda();
@@ -49,43 +48,41 @@ public class MonedaDAOjdbc implements MonedaDAO {
 		}
 	}
 
-	public Moneda getMoneda(Connection con, String nomenclatura) throws SQLException {
-	    String sql = "SELECT * FROM MONEDA WHERE NOMENCLATURA = ?";
-	    Moneda moneda = null;
+	@Override
+	public Moneda getMoneda(String nomenclatura) throws SQLException {
+		String sql = "SELECT * FROM MONEDA WHERE NOMENCLATURA = ?";
+		Moneda moneda = null;
 
-	    try (PreparedStatement pst = con.prepareStatement(sql)) {
-	        pst.setString(1, nomenclatura);
-	        ResultSet rs = pst.executeQuery();
+		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
+			pst.setString(1, nomenclatura);
+			ResultSet rs = pst.executeQuery();
 
-	        if (rs.next()) {
-	            moneda = new Moneda(
-	                    rs.getString("NOMENCLATURA"),
-	                    rs.getDouble("VALOR_DOLAR"),
-	                    rs.getString("NOMBRE"),
-	                    rs.getDouble("STOCK"),
-	                    rs.getDouble("VOLATILIDAD")
-	            );
-	        }
-	    }
-	    return moneda;
+			if (rs.next()) {
+				moneda = new Moneda(rs.getString("NOMENCLATURA"), rs.getDouble("VALOR_DOLAR"), rs.getString("NOMBRE"),
+						rs.getDouble("STOCK"), rs.getDouble("VOLATILIDAD"));
+			}
+		}
+		return moneda;
 	}
-	
-	public boolean stockRandomizer(Connection con) {
-		List<Moneda> monedas = listarMonedas(con);
-		if (monedas==null || monedas.isEmpty()) {
+
+	@Override
+	public boolean stockRandomizer() {
+		List<Moneda> monedas = listarMonedas();
+		if (monedas == null || monedas.isEmpty()) {
 			System.out.println("No se encontró ninguna moneda");
 			return false;
 		}
 		Random rand = new Random();
 		String sql = "UPDATE MONEDA SET STOCK = ? WHERE NOMENCLATURA = ?";
-		try (PreparedStatement pst = con.prepareStatement(sql)){
-			for (Moneda moneda: monedas) {
+		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
+
+			for (Moneda moneda : monedas) {
 				double stock = rand.nextDouble() * 10000;
 				pst.setDouble(1, stock);
 				pst.setString(2, moneda.getCodigo());
 			}
-		System.out.println("Stock generado");
-		return true;
+			System.out.println("Stock generado");
+			return true;
 		} catch (SQLException e) {
 			System.out.println("Error de SQL: " + e.getMessage());
 			e.printStackTrace();
