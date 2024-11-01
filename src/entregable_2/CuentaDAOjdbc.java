@@ -145,13 +145,12 @@ public class CuentaDAOjdbc implements CuentaDAO {
     }
     
     @Override
-    public double obtenerCantidadFiat(String idCuenta, String idMoneda) {
+    public double obtenerCantidadFiat(String idFiat) {
     	//debería fijarse para cripto
         String sql = "SELECT CANTIDAD FROM cuentas WHERE id = ? AND id_moneda = ?";
         try (Connection con = ConexionBD.getConnection();
              PreparedStatement pst = con.prepareStatement(sql)) {
-            pst.setString(1, idCuenta);
-            pst.setString(2, idMoneda);
+            pst.setString(1, idFiat);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 return rs.getDouble("CANTIDAD");
@@ -161,5 +160,6 @@ public class CuentaDAOjdbc implements CuentaDAO {
         }
         return 0; // Retorna 0 si no se encuentra la cuenta o hay un error
     }
+
     
 }
