@@ -1,7 +1,10 @@
 package entregable_2;
 
-import java.sql.Connection;
-
 public interface TransaccionDAO {
-	boolean guardarTransaccion(Connection con,String descripcion);
+	/**
+	 * 
+	 * @param descripcion Descripcion de la transaccion
+	 * @return	si se actualizó correctamente
+	 */
+	boolean guardarTransaccion(String descripcion);
 }
