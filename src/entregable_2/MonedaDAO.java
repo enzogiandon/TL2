@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface MonedaDAO {
 	boolean guardarMoneda(Moneda moneda) throws SQLException;
-	List<Moneda> listarMonedas(Connection con);
-	boolean stockRandomizer(Connection con);
-	Moneda getMoneda(Connection con, String nomenclatura) throws SQLException;
+	List<Moneda> listarMonedas();
+	boolean stockRandomizer();
+	Moneda getMoneda(String nomenclatura) throws SQLException;
 }
