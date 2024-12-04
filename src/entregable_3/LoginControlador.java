@@ -1,0 +1,34 @@
+package entregable_3;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class LoginControlador {
+	private LoginModelo modelo;
+	private LoginVista vista;
+	
+	public LoginControlador(LoginModelo modelo, LoginVista vista) {
+		this.modelo = modelo;
+		this.vista = vista;
+		//Asigna el controlador al botón de la vista
+		this.vista.getBotonIniciar().addActionListener(new IniciarListener());
+	}
+	
+	//clase interna que implementa la accion de Iniciar Sesión
+	class IniciarListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			try {
+				String email = vista.getEmail();
+				String passwd = vista.getPasswd();
+				
+				//Llamada al modelo para realizar la operación
+				Usuario user = modelo.Iniciar(email,passwd);
+				
+				//Actualiza la vista con el resultado
+				vista.setInicio(user);
+			}catch(NumberFormatException ex) {
+				vista.mostrarMensajeError("Por favor ingrese datos válidos");
+			}
+		}
+	}
+
+}
