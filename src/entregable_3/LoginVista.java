@@ -22,4 +22,23 @@ public class LoginVista extends JFrame{
 		
 		campoResultado.setEditable(false);
 	}
+	
+	//Getters para los campos y botón
+	public String getEmail() {
+		return campoEmail.getText();
+	}
+	public String getPasswd() {
+		return campoPasswd.getText();
+	}
+	
+	//public void setResultado ()
+	
+	public JButton getBotonLogin() {
+		return botonLogin;
+	}
+	
+	public void mostrarMensajeError(String mensaje) {
+		JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+	}
+	
 }
