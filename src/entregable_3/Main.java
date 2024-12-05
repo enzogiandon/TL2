@@ -19,6 +19,12 @@ public class Main {
 		
 		
 		//Login de usuario
+		LoginModelo modeloLog = new LoginModelo();
+		LoginVista vistaLog = new LoginVista();
+		new LoginControlador(modeloLog, vistaLog);
+		
+		//Mostrar la Vista
+		vistaLog.setVisible(true);
 		
 
 		Scanner in = new Scanner(System.in);
