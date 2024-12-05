@@ -1,10 +1,23 @@
 package entregable_3;
 
 public class LoginModelo {
-	
-	//Método que realiza el login de un usuario
-	public boolean iniciar(String email, String passwd) {
-		return true; //esto lo tengo q modificar, ver bien q hace adentro
-	}
+    private Usuario[] usuariosRegistrados;
 
+    public LoginModelo() {
+        // Usuarios de ejemplo
+        usuariosRegistrados = new Usuario[] {
+            new Usuario("test@example.com", "1234"),
+            new Usuario("user@example.com", "pass")
+        };
+    }
+
+    public Usuario iniciar(String email, String passwd) {
+        for (Usuario usuario : usuariosRegistrados) {
+            if (usuario.getEmail().equals(email) && usuario.getPasswd().equals(passwd)) {
+                return usuario; // Usuario autenticado
+            }
+        }
+        return null; // Usuario no encontrado o credenciales incorrectas
+    }
 }
+
