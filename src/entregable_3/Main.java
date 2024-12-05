@@ -16,7 +16,7 @@ import java.util.Scanner;
 
 public class Main {
 	public static void main(String[] args) {
-		
+		Scanner in = new Scanner(System.in);
 		
 		//Login de usuario
 		LoginModelo modeloLog = new LoginModelo();
@@ -26,8 +26,6 @@ public class Main {
 		//Mostrar la Vista
 		vistaLog.setVisible(true);
 		
-
-		Scanner in = new Scanner(System.in);
 		try (Connection con = ConexionBD.getConnection()) {
 			if (con == null) { // Test de conexion
 				System.out.println("No se pudo conectar con la base de datos.");
@@ -126,7 +124,7 @@ public class Main {
 			System.out.println("Se envió un tipo de dato incorrecto, intente nuevamente.");
 		} finally {
 			in.close();
-		}
+		} 
 	}
 
 	private static void mostrarMenu() {
