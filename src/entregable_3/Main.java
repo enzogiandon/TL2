@@ -12,8 +12,14 @@ import java.util.Scanner;
 
 //Por ahora, saqué todo lo de swap, ya que eso es para los grupos de 3 personas
 
+//hay que hacer el login del usuario
+
 public class Main {
 	public static void main(String[] args) {
+		
+		
+		//Login de usuario
+		
 
 		Scanner in = new Scanner(System.in);
 		try (Connection con = ConexionBD.getConnection()) {
