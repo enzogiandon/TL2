@@ -10,8 +10,10 @@ public class LoginControlador {
 		this.modelo = modelo;
 		this.vista = vista;
 		//Asigna el controlador al botón de la vista
-		this.vista.getBotonIniciar().addActionListener(new IniciarListener());
+		this.vista.getBotonLogin().addActionListener(new IniciarListener());
 	}
+	
+	
 	
 	//clase interna que implementa la accion de Iniciar Sesión
 	class IniciarListener implements ActionListener{
@@ -21,10 +23,16 @@ public class LoginControlador {
 				String passwd = vista.getPasswd();
 				
 				//Llamada al modelo para realizar la operación
-				Usuario user = modelo.Iniciar(email,passwd);
+				Usuario user = modelo.iniciar(email,passwd);
 				
-				//Actualiza la vista con el resultado
-				vista.setInicio(user);
+				if (user != null) {
+					//Actualiza la vista con el resultado
+					vista.setResultado(true);
+				}else {
+					vista.setResultado(false); //inicio incorrecto
+					vista.mostrarMensajeError("Credenciales inválidas. Intente nuevamente.");
+				}
+				
 			}catch(NumberFormatException ex) {
 				vista.mostrarMensajeError("Por favor ingrese datos válidos");
 			}
