@@ -31,7 +31,9 @@ public class LoginVista extends JFrame{
 		return campoPasswd.getText();
 	}
 	
-	//public void setResultado ()
+	public void setResultado (boolean resultado) {
+		campoResultado.setText(resultado ? "Inicio exitoso" : "Fallo en inicio");
+	}
 	
 	public JButton getBotonLogin() {
 		return botonLogin;
