@@ -16,16 +16,10 @@ import java.util.Scanner;
 
 public class Main {
 	public static void main(String[] args) {
+		
+		
+		
 		Scanner in = new Scanner(System.in);
-		
-		//Login de usuario
-		LoginModelo modeloLog = new LoginModelo();
-		LoginVista vistaLog = new LoginVista();
-		new LoginControlador(modeloLog, vistaLog);
-		
-		//Mostrar la Vista
-		vistaLog.setVisible(true);
-		
 		try (Connection con = ConexionBD.getConnection()) {
 			if (con == null) { // Test de conexion
 				System.out.println("No se pudo conectar con la base de datos.");
@@ -116,6 +110,7 @@ public class Main {
 				}
 
 			}
+			
 
 		} catch (SQLException e) {
 			System.out.println("Error al conectar: " + e.getMessage());
@@ -125,6 +120,14 @@ public class Main {
 		} finally {
 			in.close();
 		} 
+		
+		// Login de usuario
+        LoginModelo modeloLog = new LoginModelo();
+        LoginVista vistaLog = new LoginVista();
+        new LoginControlador(modeloLog, vistaLog);
+
+        // Mostrar la Vista
+        vistaLog.setVisible(true);
 	}
 
 	private static void mostrarMenu() {
