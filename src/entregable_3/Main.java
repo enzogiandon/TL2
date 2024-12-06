@@ -8,6 +8,17 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import entregable_3.Controlador.LoginControlador;
+import entregable_3.Controlador.RegistroControlador;
+import entregable_3.Modelo.CuentaDAO;
+import entregable_3.Modelo.FactoryDAO;
+import entregable_3.Modelo.LoginModelo;
+import entregable_3.Modelo.MonedaDAO;
+import entregable_3.Modelo.RegistroModelo;
+import entregable_3.Modelo.TransaccionDAO;
+import entregable_3.Vista.LoginVista;
+import entregable_3.Vista.RegistroVista;
+
 // CLASE MAIN para hacer pruebas
 
 //Por ahora, saqué todo lo de swap, ya que eso es para los grupos de 3 personas
@@ -128,6 +139,15 @@ public class Main {
 
         // Mostrar la Vista
         vistaLog.setVisible(true);
+        
+     // Registro de usuario
+        RegistroModelo modeloReg = new RegistroModelo();
+        RegistroVista vistaReg = new RegistroVista();
+        new RegistroControlador(modeloReg, vistaReg);
+
+        // Mostrar la Vista de Registro
+        vistaReg.setVisible(true);
+        
 	}
 
 	private static void mostrarMenu() {
@@ -265,6 +285,8 @@ public class Main {
 			System.out.println(moneda.toString() + " - Stock: " + moneda.getStock());
 		}
 	}
+	
+	//QUE HACE ESTO ACÁ !!!!
 
 	public static void listarCuentas(CuentaDAO cuentaDAO, Scanner in) {
 		List<Cuenta> cuentas = new ArrayList<Cuenta>();
