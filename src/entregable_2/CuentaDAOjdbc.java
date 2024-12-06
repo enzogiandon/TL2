@@ -22,6 +22,7 @@ public class CuentaDAOjdbc implements CuentaDAO {
 			pst.setDouble(2, cuenta.getSaldo());
 			pst.executeUpdate();
 			System.out.println("Cuenta guardada exitosamente");
+			con.close();
 			return true;
 		} catch (SQLException e) {
 			System.out.println("Error de SQL: " + e.getMessage());
@@ -36,6 +37,8 @@ public class CuentaDAOjdbc implements CuentaDAO {
 			pst.setString(1, codigoMoneda);
 			ResultSet rs = pst.executeQuery();
 			rs.next();
+			pst.close();
+			con.close();
 			return rs.getInt(1) > 0;
 		} catch (SQLException e) {
 			System.out.println("Error de SQL: " + e.getMessage());
@@ -56,6 +59,8 @@ public class CuentaDAOjdbc implements CuentaDAO {
 				Cuenta cuenta = new Cuenta(id, CANTIDAD);
 				cuentas.add(cuenta);
 			}
+			con.close();
+			
 		} catch (SQLException e) {
 			System.out.println("Error de SQL: " + e.getMessage());
 			e.printStackTrace();
@@ -64,7 +69,6 @@ public class CuentaDAOjdbc implements CuentaDAO {
 		return cuentas;
 	}
 
-	
 	@Override
 	public List<Cuenta> listarCuentasFiat() {
 		List<Cuenta> cuentas = new ArrayList<>();
@@ -78,6 +82,7 @@ public class CuentaDAOjdbc implements CuentaDAO {
 				Cuenta cuenta = new Cuenta(id, CANTIDAD);
 				cuentas.add(cuenta);
 			}
+			con.close();
 		} catch (SQLException e) {
 			System.out.println("Error de SQL: " + e.getMessage());
 			e.printStackTrace();
@@ -85,8 +90,7 @@ public class CuentaDAOjdbc implements CuentaDAO {
 		}
 		return cuentas;
 	}
-	
-	
+
 	@Override
 
 	public void registrarTransaccion(String descripcion) {
@@ -94,6 +98,8 @@ public class CuentaDAOjdbc implements CuentaDAO {
 		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
 			pst.setString(1, descripcion);
 			pst.executeUpdate();
+			pst.close();
+			con.close();
 		} catch (SQLException e) {
 			System.out.println("Error de SQL: " + e.getMessage());
 		}
@@ -112,6 +118,7 @@ public class CuentaDAOjdbc implements CuentaDAO {
 				}
 				pst.executeBatch();
 				con.commit();
+				con.close();
 				return true;
 			} catch (SQLException e) {
 				con.rollback(); // Revertir cambios en caso de error
@@ -141,6 +148,7 @@ public class CuentaDAOjdbc implements CuentaDAO {
 			} catch (SQLException e) {
 				con.rollback(); // Revertir cambios en caso de error
 				System.out.println("Error de SQL en actualizarCuentas: " + e.getMessage());
+				con.close();
 				return false;
 			}
 		} catch (SQLException e) {
@@ -162,6 +170,7 @@ public class CuentaDAOjdbc implements CuentaDAO {
 			if (rs.next()) {
 				return rs.getDouble("CANTIDAD");
 			}
+			con.close();
 		} catch (SQLException e) {
 			System.out.println("Error de SQL: " + e.getMessage());
 		}
@@ -196,6 +205,7 @@ public class CuentaDAOjdbc implements CuentaDAO {
 			if (rs.next()) {
 				cf = new CuentaFiat(rs.getString("NOMENCLATURA"), rs.getDouble("CANTIDAD"));
 			}
+			con.close();
 		}
 		return cf;
 	}
@@ -212,6 +222,9 @@ public class CuentaDAOjdbc implements CuentaDAO {
 			if (rs.next()) {
 				cc = new CuentaCripto(rs.getString("NOMENCLATURA"), rs.getDouble("CANTIDAD"), "1234");
 			}
+
+			pst.close();
+			con.close();
 		}
 		return cc;
 	}

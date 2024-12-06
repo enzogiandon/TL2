@@ -13,6 +13,8 @@ public class TransaccionDAOjdbc implements TransaccionDAO {
 			pst.setString(1, descripcion);
 			pst.executeUpdate();
 			System.out.println("Se guardó correctamente la descripción de la transacción en la base de datos.");
+			con.close();
+			pst.close();
 			return true;
 		} catch (SQLException e) {
 			System.out.println("Error de SQL al listar monedas: " + e.getMessage());
