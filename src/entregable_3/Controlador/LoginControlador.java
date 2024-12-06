@@ -1,6 +1,10 @@
-package entregable_3;
+package entregable_3.Controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import entregable_3.Usuario;
+import entregable_3.Modelo.LoginModelo;
+import entregable_3.Vista.LoginVista;
 
 public class LoginControlador {
 	private LoginModelo modelo;
