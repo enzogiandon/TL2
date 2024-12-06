@@ -288,6 +288,7 @@ public class Main {
 			}
 
 			Cripto cripto = (Cripto) mDAO.getMoneda(criptoNomenclatura);
+			
 			Fiat fiat = (Fiat) mDAO.getMoneda(fiatNomenclatura);
 
 			if (cripto == null) {
@@ -302,7 +303,7 @@ public class Main {
 			double cantidadCripto = cantidadFiat / ((cripto.getPrecioEnDolar() / fiat.getPrecioEnDolar())); 
 			// cantidad Fiat / valor de la cripto en esa fiat
 			
-			if (cantidadCripto > cripto.getStock()) { // verificar stock
+			if (cantidadCripto < cripto.getStock()) { // verificar stock
 				System.out.println("No hay suficiente stock de la criptomoneda " + criptoNomenclatura + ".");
 				return false;
 			}
