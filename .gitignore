@@ -1,2 +1,4 @@
-
+/.metadata/
+test.db
+*.db
 *.class
