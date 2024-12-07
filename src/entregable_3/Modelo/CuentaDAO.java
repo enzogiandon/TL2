@@ -1,10 +1,6 @@
 package entregable_3.Modelo;
 import java.sql.SQLException;
 import java.util.List;
-
-import entregable_3.Cuenta;
-import entregable_3.CuentaCripto;
-import entregable_3.CuentaFiat;
 public interface CuentaDAO {
 	/**
 	 * 
