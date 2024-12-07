@@ -52,8 +52,9 @@ public class Main {
 					listarStock(in);
 					break;
 				case 5:
-					System.out.println("Ingrese los datos de la moneda a guardar en la nueva cuenta.");
-					Moneda m1 = crearMoneda(in);
+					System.out.println("Ingrese la nomenclatura de la moneda a guardar en la nueva cuenta.");
+					String nomenclatura = in.next();
+					Moneda m1 = mDAO.getMoneda(nomenclatura);
 
 					System.out.println("Ingrese el monto de la nueva cuenta");
 					double montoCuenta = in.nextDouble();
