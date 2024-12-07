@@ -322,11 +322,8 @@ public class Main {
 					"Con %.2f %s puedes comprar %.6f %s. Ingrese 'S' para confirmar u otro valor para cancelar: ",
 					cantidadFiat, fiatNomenclatura, cantidadCripto, criptoNomenclatura);
 			
-			in.nextLine();
-			String confirmacion = in.nextLine().trim();
+			String confirmacion = in.next();
 
-			
-			System.out.println("Valor capturado: [" + confirmacion + "]");
 			if (confirmacion.equalsIgnoreCase("S")) {
 				// Instancio una compra y la guardo
 				Compra compra = new Compra(cantidadCripto, cripto, cantidadFiat, fiat);
@@ -368,18 +365,7 @@ public class Main {
 	public static boolean simularSwap(String criptoConvertirCodigo, double cantidad, String criptoEsperadaCodigo,
 			Scanner in) throws SQLException {
 		CuentaDAO cuentaDAO = FactoryDAO.getCuentaDAO();
-		/**
-		 * List<Cuenta> cuentas = cuentaDAO.listarCuentasCripto();
-		 * 
-		 * 
-		 * CuentaCripto cuentaConvertir = null; CuentaCripto cuentaEsperada = null;
-		 * 
-		 * for (Cuenta cuenta : cuentas) { if (cuenta instanceof CuentaCripto) {
-		 * CuentaCripto cuentaCripto = (CuentaCripto) cuenta; if
-		 * (cuentaCripto.getId().equals(criptoConvertirCodigo)) { cuentaConvertir =
-		 * cuentaCripto; } else if (cuentaCripto.getId().equals(criptoEsperadaCodigo)) {
-		 * cuentaEsperada = cuentaCripto; } } }
-		 */
+		
 
 		CuentaCripto cuentaConvertir = cuentaDAO.getCuentaCripto(criptoConvertirCodigo);
 		CuentaCripto cuentaEsperada = cuentaDAO.getCuentaCripto(criptoEsperadaCodigo);
