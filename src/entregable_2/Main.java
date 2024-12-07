@@ -23,6 +23,7 @@ public class Main {
 			}
 			System.out.println("Conexión establecida");
 
+			CreacionBD.crearTablas();
 
 			
 			con.close();
@@ -42,11 +43,13 @@ public class Main {
 					mDAO.guardarMoneda(m);
 					break;
 				case 2:
+					listarMonedas(in);
 					break;
 				case 3:
 					mDAO.stockRandomizer();
 					break;
 				case 4:
+					listarStock(in);
 					break;
 				case 5:
 					System.out.println("Ingrese los datos de la moneda a guardar en la nueva cuenta.");
