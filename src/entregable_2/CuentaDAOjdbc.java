@@ -212,7 +212,7 @@ public class CuentaDAOjdbc implements CuentaDAO {
 
 	@Override
 	public CuentaCripto getCuentaCripto(String nomenclatura) throws SQLException {
-		String sql = "SELECT * FROM ACTIVO_FIAT WHERE NOMENCLATURA = ?";
+		String sql = "SELECT * FROM ACTIVO_CRIPTO WHERE NOMENCLATURA = ?";
 		CuentaCripto cc = null;
 
 		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
