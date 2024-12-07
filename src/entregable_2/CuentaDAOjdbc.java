@@ -203,7 +203,9 @@ public class CuentaDAOjdbc implements CuentaDAO {
 			ResultSet rs = pst.executeQuery();
 
 			if (rs.next()) {
-				cf = new CuentaFiat(rs.getString("NOMENCLATURA"), rs.getDouble("CANTIDAD"));
+				MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
+				Fiat fiat = (Fiat) mDAO.getMoneda(nomenclatura);
+				cf = new CuentaFiat(rs.getString("NOMENCLATURA"), rs.getDouble("CANTIDAD"),fiat);
 			}
 			con.close();
 		}
@@ -220,7 +222,9 @@ public class CuentaDAOjdbc implements CuentaDAO {
 			ResultSet rs = pst.executeQuery();
 
 			if (rs.next()) {
-				cc = new CuentaCripto(rs.getString("NOMENCLATURA"), rs.getDouble("CANTIDAD"), "1234");
+				MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
+				Cripto cripto = (Cripto) mDAO.getMoneda(nomenclatura);
+				cc = new CuentaCripto(rs.getString("NOMENCLATURA"), rs.getDouble("CANTIDAD"), "1234",cripto);
 			}
 
 			pst.close();
