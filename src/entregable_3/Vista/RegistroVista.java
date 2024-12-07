@@ -15,9 +15,9 @@ public class RegistroVista extends JFrame {
     public RegistroVista() {
         setTitle("-- REGISTRO DE USUARIO --");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(400, 400);
+        setSize(900, 400);
         setLocationRelativeTo(null);
-        setLayout(new GridLayout(6, 2));
+        setLayout(new GridLayout(8, 2));
 
         add(new JLabel("Nombres:"));
         add(campoNombres);
