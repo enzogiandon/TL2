@@ -310,7 +310,6 @@ public class Main {
 					"Con %.2f %s puedes comprar %.6f %s. Ingrese 'S' para confirmar u otro valor para cancelar: ",
 					cantidadFiat, fiatNomenclatura, cantidadCripto, criptoNomenclatura);
 			String confirmacion = in.nextLine();
-			in.close();
 
 			if (confirmacion.equalsIgnoreCase("S")) {
 				// Instancio una compra y la guardo
