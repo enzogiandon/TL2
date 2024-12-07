@@ -216,7 +216,7 @@ public class CuentaDAOjdbc implements CuentaDAO {
 		CuentaCripto cc = null;
 
 		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
-			pst.setString(1, nomenclatura);
+			pst.setString(1, nomenclatura.toUpperCase());
 			ResultSet rs = pst.executeQuery();
 
 			if (rs.next()) {
