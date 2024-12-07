@@ -2,9 +2,6 @@ package entregable_3;
 
 import java.util.List;
 
-import entregable_3.Modelo.CuentaDAO;
-import entregable_3.Modelo.CuentaDAOjdbc;
-
 public class Cripto extends Moneda {
 
     // Constructor con los mismos parámetros que Moneda
