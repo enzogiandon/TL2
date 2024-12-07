@@ -23,7 +23,6 @@ public class Main {
 			}
 			System.out.println("Conexión establecida");
 
-			CreacionBD.crearTablas(con);
 
 			
 			con.close();
@@ -43,13 +42,11 @@ public class Main {
 					mDAO.guardarMoneda(m);
 					break;
 				case 2:
-					listarMonedas(mDAO, in);
 					break;
 				case 3:
 					mDAO.stockRandomizer();
 					break;
 				case 4:
-					listarStock(mDAO, in);
 					break;
 				case 5:
 					System.out.println("Ingrese los datos de la moneda a guardar en la nueva cuenta.");
@@ -69,12 +66,13 @@ public class Main {
 						System.out.println("No se pudo crear la cuenta");
 						break;
 					}
+					CuentaDAO cDAO = FactoryDAO.getCuentaDAO();
 					cDAO.guardarCuenta(c);
 					break;
 
 				case 6:
 
-					listarCuentas(cDAO, in);
+					listarCuentas(in);
 					break;
 
 				case 7:
@@ -86,7 +84,7 @@ public class Main {
 
 					System.out.println("Ingrese la nomenclatura de la moneda que quiere recibir en el swap");
 					String swapRecibo = in.next();
-					simularSwap(swapEnvio, montoSwap, swapRecibo, cDAO, mDAO);
+					simularSwap(swapEnvio, montoSwap, swapRecibo);
 					break;
 
 				case 8:
@@ -207,6 +205,7 @@ public class Main {
 	 * @param in           Scanner para leer datos de teclado.
 	 */
 	public static void listarMonedas(Scanner in) {
+		MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
 		List<Moneda> monedas = mDAO.listarMonedas();
 
 		System.out.println(
@@ -233,6 +232,8 @@ public class Main {
 	 * @param in   El objeto Scanner para leer la entrada del usuario.
 	 */	
 	public static void listarStock(Scanner in) {
+		MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
+		
 		List<Moneda> monedas = mDAO.listarMonedas();
 
 		System.out.println(
@@ -350,6 +351,8 @@ public class Main {
 	}
 
 	public static boolean simularSwap(String criptoConvertirCodigo, double cantidad, String criptoEsperadaCodigo) {
+		CuentaDAO cuentaDAO = FactoryDAO.getCuentaDAO(); 
+		
 		List<Cuenta> cuentas = cuentaDAO.listarCuentasCripto();
 
 		CuentaCripto cuentaConvertir = null;
@@ -376,7 +379,7 @@ public class Main {
 			return false;
 		}
 
-		double tasaCambio = obtenerTasaCambio(criptoConvertirCodigo, criptoEsperadaCodigo, monedaDAO);
+		double tasaCambio = obtenerTasaCambio(criptoConvertirCodigo, criptoEsperadaCodigo);
 		double cantidadRecibida = cantidad * tasaCambio;
 
 		// Crear el swap y actualizar los activos
@@ -397,6 +400,7 @@ public class Main {
 			return false;
 		}
 
+		
 		cuentaDAO.registrarTransaccion(swap.getDescripcion());
 
 		System.out.println("Swap realizado exitosamente.");
@@ -405,6 +409,7 @@ public class Main {
 
 	private static double obtenerTasaCambio(String criptoConvertirCodigo, String criptoEsperadaCodigo) {
 		// Consultar MonedaDAO para obtener la tasa de cambio (ejemplo básico)
+		MonedaDAO monedaDAO = FactoryDAO.getMonedaDAO();
 		List<Moneda> monedas = monedaDAO.listarMonedas();
 		double precioCriptoConvertir = 0;
 		double precioCriptoEsperada = 0;
