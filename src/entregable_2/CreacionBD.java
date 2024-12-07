@@ -15,11 +15,12 @@ public class CreacionBD {
 	 * @throws SQLException
 	 */
 
-	public static void crearTablas(Connection con) throws SQLException {
-		creacionDeTablasEnBD(con);
+	public static void crearTablas() throws SQLException {
+		try (Connection con = ConexionBD.getConnection()) {
+			creacionDeTablasEnBD(con);
+		}
 	}
-	
-	
+
 	private static void creacionDeTablasEnBD(Connection connection) throws SQLException {
 		Statement stmt = null;
 
@@ -34,13 +35,13 @@ public class CreacionBD {
 			stmt.executeUpdate(sql);
 
 			// Tabla activo cripto
-			sql = "CREATE TABLE IF NOT EXISTS ACTIVO_CRIPTO" + "(" + " NOMENCLATURA VARCHAR(10)  PRIMARY KEY     NOT NULL, "
-					+ " CANTIDAD	REAL    NOT NULL " + ")";
+			sql = "CREATE TABLE IF NOT EXISTS ACTIVO_CRIPTO" + "("
+					+ " NOMENCLATURA VARCHAR(10)  PRIMARY KEY     NOT NULL, " + " CANTIDAD	REAL    NOT NULL " + ")";
 			stmt.executeUpdate(sql);
 
 			// Tabla activo fiat
-			sql = "CREATE TABLE IF NOT EXISTS ACTIVO_FIAT" + "(" + " NOMENCLATURA VARCHAR(10)  PRIMARY KEY     NOT NULL, "
-					+ " CANTIDAD	REAL    NOT NULL " + ")";
+			sql = "CREATE TABLE IF NOT EXISTS ACTIVO_FIAT" + "("
+					+ " NOMENCLATURA VARCHAR(10)  PRIMARY KEY     NOT NULL, " + " CANTIDAD	REAL    NOT NULL " + ")";
 			stmt.executeUpdate(sql);
 
 			// Tabla transaccion
@@ -50,7 +51,6 @@ public class CreacionBD {
 
 			System.out.println("Las tablas se crearon exitosamente");
 
-			
 		} catch (SQLException e) {
 			System.out.println("Error al crear las tablas: " + e.getMessage());
 			e.printStackTrace();
