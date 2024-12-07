@@ -5,7 +5,8 @@ import java.awt.*;
 
 public class LoginVista extends JFrame{
 	private JTextField campoEmail = new JTextField(10); //mail
-	private JTextField campoPasswd = new JTextField(10); //paswd
+    private JPasswordField campoPasswd = new JPasswordField(10);//paswd
+
 	private JButton botonLogin = new JButton ("Login");
 	private JTextField campoResultado = new JTextField(10); //acá podría ir el mensaje de inicio correcto
 	
