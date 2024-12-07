@@ -293,7 +293,11 @@ public class Main {
 				System.out.println("Fondos no suficientes en " + fiatNomenclatura.toUpperCase() + " para realizar esta operación.");
 				return false;
 			}
-
+			if (cDAO.getCuentaCripto(criptoNomenclatura) == null){
+				System.out.println("Usted no posee una cuenta de " + criptoNomenclatura + ". Intente creando una.");
+				return false;
+			}
+				
 			
 			Cripto cripto = (Cripto) mDAO.getMoneda(criptoNomenclatura);
 			
