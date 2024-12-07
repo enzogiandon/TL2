@@ -9,7 +9,7 @@ public class ConexionBD {
 	private static final String URL = "jdbc:sqlite:test.db";
 	private static SQLiteDataSource ds = null;
 
-	// Constructor
+	// Constructor privado para evitar crear instancias
 	private ConexionBD() {
 	}
 
