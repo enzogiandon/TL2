@@ -56,6 +56,12 @@ public class Main {
 					String nomenclatura = in.next();
 					Moneda m1 = mDAO.getMoneda(nomenclatura);
 
+					if (m1 == null) {
+						System.out.println("No se encontró esa moneda para poner en una cuenta, intenta creando una nueva.");
+						break;
+					}
+						
+					
 					System.out.println("Ingrese el monto de la nueva cuenta");
 					double montoCuenta = in.nextDouble();
 
@@ -102,7 +108,7 @@ public class Main {
 					System.out.printf("Ingrese el monto en %s que desea comprar de %s: ", fiatCompra, criptoCompra);
 					double montoCompra = in.nextDouble();
 
-					comprar(criptoCompra, fiatCompra, montoCompra);
+					comprar(criptoCompra, fiatCompra, montoCompra,in);
 					break;
 				case 9:
 					System.out.println("Saliendo del programa.");
@@ -276,7 +282,7 @@ public class Main {
 		}
 	}
 
-	public static boolean comprar(String criptoNomenclatura, String fiatNomenclatura, double cantidadFiat) {
+	public static boolean comprar(String criptoNomenclatura, String fiatNomenclatura, double cantidadFiat,Scanner in) {
 		try {
 			MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
 			CuentaDAO cDAO = FactoryDAO.getCuentaDAO();
@@ -310,7 +316,6 @@ public class Main {
 				return false;
 			}
 
-			Scanner in = new Scanner(System.in);
 			System.out.printf(
 					"Con %.2f %s puedes comprar %.6f %s. Ingrese 'S' para confirmar u otro valor para cancelar: ",
 					cantidadFiat, fiatNomenclatura, cantidadCripto, criptoNomenclatura);
