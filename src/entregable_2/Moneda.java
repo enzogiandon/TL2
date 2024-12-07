@@ -19,7 +19,6 @@ public class Moneda implements Comparable<Moneda>{
 		this.nombre = nombre;
 		this.stock = stock;
 	}
-
 	// Constructor con volatilidad
 	public Moneda(String codigo, double precioEnDolar, String nombre, double stock, double volatilidad) {
 		super();
