@@ -8,7 +8,6 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-
 import entregable_3.Controlador.LoginControlador;
 import entregable_3.Controlador.RegistroControlador;
 import entregable_3.Modelo.CuentaDAO;
@@ -19,6 +18,9 @@ import entregable_3.Modelo.RegistroModelo;
 import entregable_3.Modelo.TransaccionDAO;
 import entregable_3.Vista.LoginVista;
 import entregable_3.Vista.RegistroVista;
+import entregable_3.Modelo.CuentaDAOjdbc;
+import entregable_3.Vista.BalanceVista;
+import entregable_3.Controlador.BalanceControlador;
 
 public class Main {
 	public static void main(String[] args) {
@@ -144,6 +146,12 @@ public class Main {
 
         // Mostrar la Vista de Registro
         vistaReg.setVisible(true);
+        
+        CuentaDAOjdbc modelo = new CuentaDAOjdbc();
+        BalanceVista vistaBal = new BalanceVista();
+        new BalanceControlador(modelo, vistaBal);
+
+        vistaBal.setVisible(true);
 	}
 
 	private static void mostrarMenu() {
