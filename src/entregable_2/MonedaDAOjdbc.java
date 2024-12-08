@@ -24,6 +24,9 @@ public class MonedaDAOjdbc implements MonedaDAO {
 			pst.setDouble(5, moneda.getStock());
 			pst.executeUpdate();
 			System.out.println("Se ha guardado exitosamente la moneda en la base de datos.");
+
+			pst.close();
+			con.close();
 			return true;
 		} catch (SQLException e) {
 			System.out.println("Error de SQL: " + e.getMessage());
@@ -48,6 +51,8 @@ public class MonedaDAOjdbc implements MonedaDAO {
 				m.setStock(rs.getDouble(6));
 				monedas.add(m);
 			}
+			pst.close();
+			con.close();
 			return monedas;
 		} catch (SQLException e) {
 			System.out.println("Error de SQL al listar monedas: " + e.getMessage());
@@ -62,13 +67,21 @@ public class MonedaDAOjdbc implements MonedaDAO {
 		Moneda moneda = null;
 
 		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
-			pst.setString(1, nomenclatura);
+			pst.setString(1, nomenclatura.toUpperCase());
 			ResultSet rs = pst.executeQuery();
 
 			if (rs.next()) {
-				moneda = new Moneda(rs.getString("NOMENCLATURA"), rs.getDouble("VALOR_DOLAR"), rs.getString("NOMBRE"),
-						rs.getDouble("STOCK"), rs.getDouble("VOLATILIDAD"));
+				if (rs.getString("TIPO").equals("F")) { // si es fiat
+					moneda = new Fiat(rs.getString("NOMENCLATURA"), rs.getDouble("VALOR_DOLAR"), rs.getString("NOMBRE"),
+							rs.getDouble("STOCK"), rs.getDouble("VOLATILIDAD"));
+				} else if (rs.getString("TIPO").equals("C")) {// si es cripto
+					moneda = new Cripto(rs.getString("NOMENCLATURA"), rs.getDouble("VALOR_DOLAR"),
+							rs.getString("NOMBRE"), rs.getDouble("STOCK"), rs.getDouble("VOLATILIDAD"));
+				}
 			}
+
+			pst.close();
+			con.close();
 		}
 		return moneda;
 	}
@@ -88,8 +101,11 @@ public class MonedaDAOjdbc implements MonedaDAO {
 				double stock = rand.nextDouble() * 100000;
 				pst.setDouble(1, stock);
 				pst.setString(2, moneda.getCodigo());
+				pst.executeUpdate();
 			}
 			System.out.println("Stock generado");
+			pst.close();
+			con.close();
 			return true;
 		} catch (SQLException e) {
 			System.out.println("Error de SQL: " + e.getMessage());
