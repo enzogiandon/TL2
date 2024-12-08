@@ -6,7 +6,9 @@ import java.util.List;
 
 public class TransaccionVista extends JFrame {
 
-    private JList<Integer> transaccionList; // Para mostrar IDs
+    private static final long serialVersionUID = 1L;
+    
+	private JList<Integer> transaccionList; // Para mostrar IDs
     private DefaultListModel<Integer> listModel; // Modelo de la lista
     private JTextArea resumenArea; // Para mostrar el resumen
     private JButton mostrarResumenButton; // Botón para mostrar el resumen

@@ -31,7 +31,24 @@ public class Transaccion {
     	confirmacion = true;
     }
 
-    public String getDescripcion() {
+
+    public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public double getMonto() {
+		return monto;
+	}
+
+	public void setMonto(double monto) {
+		this.monto = monto;
+	}
+
+	public String getDescripcion() {
         resumen = "Monto adquirido: " + monto + ", Fecha: " + fecha + ", Confirmación: " + confirmacion;
         return resumen;
     }
