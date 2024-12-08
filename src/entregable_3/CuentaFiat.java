@@ -6,4 +6,8 @@ public class CuentaFiat extends Cuenta {
 	public CuentaFiat (String id, double saldo) {
 		super(id, saldo);
 	}
+	public CuentaFiat (String id, double saldo,Fiat fiat) {
+		super(id, saldo);
+		this.fiat = fiat;
+	}
 }
