@@ -1,5 +1,5 @@
 package entregable_3.Modelo;
-
+import entregable_3.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
