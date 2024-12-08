@@ -10,7 +10,8 @@ public interface TransaccionDAO {
 	 * @param descripcion Descripcion de la transaccion
 	 * @return	si se actualizó correctamente
 	 */
-	boolean guardarTransaccion(String descripcion);
+	boolean guardarTransaccion(String descripcion, int idUsuario);
 	public List<Transaccion> getTransacciones();
-	public String getDescripcionById(int id);
+	// public String getDescripcionById(int id);
+	String getDescripcionPorId(int id);
 }
