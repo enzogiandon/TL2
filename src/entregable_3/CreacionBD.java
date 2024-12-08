@@ -41,6 +41,27 @@ public class CreacionBD {
 					+ ")";
 			stmt.executeUpdate(sql);
 			
+			//Tabla Persona
+			sql = "CREATE TABLE  IF NOT EXISTS PERSONA "
+					+ "("
+					+ " ID       INTEGER   PRIMARY KEY AUTOINCREMENT NOT NULL , "
+					+ " NOMBRES       VARCHAR(50)    NOT NULL, "
+					+ " APELLIDOS       VARCHAR(50)    NOT NULL "
+					+ ")";
+			stmt.executeUpdate(sql);
+			
+			//Tabla Usuario
+			sql = "CREATE TABLE  IF NOT EXISTS USUARIO " 
+					+ "(" 
+					+ " ID       INTEGER   PRIMARY KEY AUTOINCREMENT NOT NULL , "
+					+ " ID_PERSONA       INTEGER   NOT NULL, "
+					+ " EMAIL       VARCHAR(50)    NOT NULL, "
+					+ " PASSWORD       VARCHAR(50)    NOT NULL, "
+					+ " ACEPTA_TERMINOS       BOOLEAN    NOT NULL, "
+					+ " FOREIGN KEY(ID_PERSONA) REFERENCES PERSONA(ID)"
+					+ ")";
+			stmt.executeUpdate(sql);
+			
 			// Tabla activo cripto			
 			sql = "CREATE TABLE  IF NOT EXISTS ACTIVO_CRIPTO"
 					+ "("
@@ -70,28 +91,9 @@ public class CreacionBD {
 					+ "("
 					+ " ID     INTEGER   PRIMARY KEY AUTOINCREMENT NOT NULL , "
 					+ " RESUMEN VARCHAR(1000)   NOT NULL, "
-					+ " FECHA_HORA		DATETIME  NOT NULL "
+					+ " FECHA_HORA		DATETIME  NOT NULL, "
 					+ " ID_USUARIO INTEGER    NOT NULL, "
 					+ " FOREIGN KEY(ID_USUARIO) REFERENCES USUARIO(ID)"
-					+ ")";
-			stmt.executeUpdate(sql);
-
-			//Tabla Persona
-			sql = "CREATE TABLE  IF NOT EXISTS PERSONA "
-					+ "("
-					+ " ID       INTEGER   PRIMARY KEY AUTOINCREMENT NOT NULL , "
-					+ " NOMBRES       VARCHAR(50)    NOT NULL, "
-					+ " APELLIDOS       VARCHAR(50)    NOT NULL "
-					+ ")";
-			stmt.executeUpdate(sql);
-			
-			//Tabla Usuario
-			sql = "CREATE TABLE  IF NOT EXISTS USUARIO " + "(" + " ID       INTEGER   PRIMARY KEY AUTOINCREMENT NOT NULL , "
-					+ " ID_PERSONA       INTEGER   NOT NULL, "
-					+ " EMAIL       VARCHAR(50)    NOT NULL, "
-					+ " PASSWORD       VARCHAR(50)    NOT NULL, "
-					+ " ACEPTA_TERMINOS       BOOLEAN    NOT NULL, "
-					+ " FOREIGN KEY(ID_PERSONA) REFERENCES PERSONA(ID)"
 					+ ")";
 			stmt.executeUpdate(sql);
 
