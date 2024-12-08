@@ -20,6 +20,7 @@ public class TransaccionControlador {
 
 		this.vista.getMostrarResumenButton().addActionListener(new ActionListener() {
 			@Override
+			// Accion del boton de mostrar resumen
 			public void actionPerformed(ActionEvent e) {
 				mostrarResumen();
 			}
