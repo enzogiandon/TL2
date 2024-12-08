@@ -1,5 +1,5 @@
 package entregable_3.Modelo;
-
+import entregable_3.*;
 
 import java.sql.*;
 import java.util.ArrayList;
