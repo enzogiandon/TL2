@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import entregable_3.Controlador.LoginControlador;
 import entregable_3.Controlador.RegistroControlador;
+import entregable_3.Controlador.TransaccionControlador;
 import entregable_3.Modelo.CuentaDAO;
 import entregable_3.Modelo.FactoryDAO;
 import entregable_3.Modelo.LoginModelo;
@@ -18,6 +19,7 @@ import entregable_3.Modelo.RegistroModelo;
 import entregable_3.Modelo.TransaccionDAO;
 import entregable_3.Vista.LoginVista;
 import entregable_3.Vista.RegistroVista;
+import entregable_3.Vista.TransaccionVista;
 
 // CLASE MAIN para hacer pruebas
 
@@ -39,99 +41,14 @@ public class Main {
 			}
 			System.out.println("Conexión establecida");
 
+
 			CreacionBD.crearTablas(con);
-
-			int opcion;
-
-			menu: while (true) {
-				mostrarMenu();
-
-				opcion = in.nextInt();
-				in.nextLine();
-				MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
-				CuentaDAO cDAO = FactoryDAO.getCuentaDAO();
-				TransaccionDAO tDAO = FactoryDAO.getTransaccionDAO();
-
-				switch (opcion) {
-
-				case 1:
-					Moneda m = crearMoneda(in);
-					mDAO.guardarMoneda(m);
-					break;
-				case 2:
-					listarMonedas(mDAO, in);
-					break;
-				case 3:
-					mDAO.stockRandomizer();
-					break;
-				case 4:
-					listarStock(mDAO, in);
-					break;
-
-				case 5:
-					System.out.println("Ingrese los datos de la moneda a guardar en la nueva cuenta.");
-					Moneda m1 = crearMoneda(in);
-
-					System.out.println("Ingrese el monto de la nueva cuenta");
-					double montoCuenta = in.nextDouble();
-
-					Cuenta c = null;
-					if (m1 instanceof Fiat) {
-						c = new CuentaFiat(m1.getCodigo(), montoCuenta);
-					} else if (m1 instanceof Cripto) {
-						System.out.println("Ingrese la direccion de la cuenta cripto");
-						String dir = in.next();
-						c = new CuentaCripto(m1.getCodigo(), montoCuenta, dir);
-					} else {
-						System.out.println("No se pudo crear la cuenta");
-						break;
-					}
-					cDAO.guardarCuenta(c);
-					break;
-
-				case 6:
-
-					listarCuentas(cDAO, in);
-					break;
-
-				case 7:
-					System.out.println("ACA ANTES ESTABA EL SWAP");
-					break;
-
-				case 8:
-					System.out.println("Ingrese la nomenclatura de la Cripto que quiere comprar: ");
-					String criptoCompra = in.nextLine();
-
-					System.out.println(
-							"Ingrese la nomenclatura de la Fiat que usará para comprar " + criptoCompra + ": ");
-					String fiatCompra = in.nextLine();
-
-					System.out.printf("Ingrese el monto en %s que desea comprar de %s: ", fiatCompra, criptoCompra);
-					double montoCompra = in.nextDouble();
-
-					comprar(criptoCompra, fiatCompra, montoCompra, mDAO, cDAO, tDAO);
-					break;
-				case 9:
-					System.out.println("Saliendo del programa.");
-					break menu;
-
-				default:
-					System.out.println("Opción incorrecta, intente nuevamente.");
-					break;
-				}
-
+			} catch (SQLException e) {
+				System.out.println("Error de sql: " + e.getMessage());
+				return;
 			}
 			
-
-		} catch (SQLException e) {
-			System.out.println("Error al conectar: " + e.getMessage());
-			e.printStackTrace();
-		} catch (InputMismatchException e) {
-			System.out.println("Se envió un tipo de dato incorrecto, intente nuevamente.");
-		} finally {
-			in.close();
-		} 
-		
+		/**
 		// Login de usuario
         LoginModelo modeloLog = new LoginModelo();
         LoginVista vistaLog = new LoginVista();
@@ -148,7 +65,27 @@ public class Main {
         // Mostrar la Vista de Registro
         vistaReg.setVisible(true);
         
+        */
+			
+			
+			
+        // Transaccion (habria que probarlo con una compra o algo xd)
+        TransaccionDAO tDAO = FactoryDAO.getTransaccionDAO(); //modelo
+        tDAO.guardarTransaccion("test", 1);
+        
+        TransaccionVista tVista = new TransaccionVista();
+        
+        new TransaccionControlador(tDAO,tVista);
+        
+        tVista.setVisible(true);
+        
+        
+        
+        	
+        	
+        
 	}
+		
 
 	private static void mostrarMenu() {
 		System.out.println("\n=== Menú principal ===");
@@ -346,7 +283,7 @@ public class Main {
 			if (confirmacion.equalsIgnoreCase("S")) {
 				// Instancio una compra y la guardo
 				Compra compra = new Compra(cantidadCripto, cripto, cantidadFiat, fiat);
-				tDAO.guardarTransaccion(compra.getDescripcion());
+				//tDAO.guardarTransaccion(compra.getDescripcion());
 
 				// actualizo los fondos y lo guardo en BD
 				fondosFiat -= cantidadFiat;
