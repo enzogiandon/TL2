@@ -1,46 +1,58 @@
 package entregable_3.Vista;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class TransaccionVista extends JFrame {
-    private JTextArea textArea;
-    private JTextField idInputField;
-    private JButton descripcionButton;
+
+    private JList<Integer> transaccionList; // Para mostrar IDs
+    private DefaultListModel<Integer> listModel; // Modelo de la lista
+    private JTextArea resumenArea; // Para mostrar el resumen
+    private JButton mostrarResumenButton; // Botón para mostrar el resumen
 
     public TransaccionVista() {
-        setTitle("Vista de Transacciones");
+        // Configuración de la ventana
+        setTitle("Transacciones");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
 
-        textArea = new JTextArea(10, 30);
-        textArea.setEditable(false);
+        // Inicializar componentes
+        listModel = new DefaultListModel<>();
+        transaccionList = new JList<>(listModel);
+        resumenArea = new JTextArea();
+        mostrarResumenButton = new JButton("Mostrar Resumen");
 
-        idInputField = new JTextField(10);
-        descripcionButton = new JButton("Ver Descripción");
+        // Panel izquierdo: lista de transacciones
+        JPanel leftPanel = new JPanel(new BorderLayout());
+        leftPanel.add(new JScrollPane(transaccionList), BorderLayout.CENTER);
+        add(leftPanel, BorderLayout.WEST);
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-        panel.add(new JScrollPane(textArea), BorderLayout.CENTER);
-
-        JPanel bottomPanel = new JPanel();
-        bottomPanel.add(new JLabel("ID:"));
-        bottomPanel.add(idInputField);
-        bottomPanel.add(descripcionButton);
-
-        add(panel, BorderLayout.CENTER);
-        add(bottomPanel, BorderLayout.SOUTH);
+        // Panel derecho: área de resumen y botón
+        JPanel rightPanel = new JPanel(new BorderLayout());
+        resumenArea.setEditable(false);
+        rightPanel.add(new JScrollPane(resumenArea), BorderLayout.CENTER);
+        rightPanel.add(mostrarResumenButton, BorderLayout.SOUTH);
+        add(rightPanel, BorderLayout.CENTER);
     }
 
-    public JTextArea getTextArea() {
-        return textArea;
+    public void actualizarListaTransacciones(List<Integer> transaccionIds) {
+        listModel.clear();
+        for (Integer id : transaccionIds) {
+            listModel.addElement(id);
+        }
     }
 
-    public JTextField getIdInputField() {
-        return idInputField;
+    public int obtenerIdSeleccionado() {
+        return transaccionList.getSelectedValue();
     }
 
-    public JButton getDescripcionButton() {
-        return descripcionButton;
+    public void mostrarResumen(String resumen) {
+        resumenArea.setText(resumen);
+    }
+
+    public JButton getMostrarResumenButton() {
+        return mostrarResumenButton;
     }
 }
-
