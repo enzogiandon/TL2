@@ -20,12 +20,12 @@ public class LoginModelo {
             pstmt.setString(2, passwd);
 
             // Ejecutar consulta
-            ResultSet rs = pstmt.executeQuery();
+            try(ResultSet rs = pstmt.executeQuery();){
 
             if (rs.next()) {
                 // Usuario encontrado, devolver objeto Usuario
                 return new Usuario(rs.getString("EMAIL"), rs.getString("PASSWORD"));
-            }
+            }}
         } catch (SQLException e) {
             System.out.println("Error al buscar usuario: " + e.getMessage());
             e.printStackTrace();
