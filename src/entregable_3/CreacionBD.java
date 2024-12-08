@@ -26,29 +26,56 @@ public class CreacionBD {
 
 		try {
 			stmt = connection.createStatement();
-
+			
 			// Tabla moneda
-			String sql = "CREATE TABLE IF NOT EXISTS MONEDA " + "(" + " TIPO       VARCHAR(1)    NOT NULL, "
-					+ " NOMBRE       VARCHAR(50)    NOT NULL, " + " NOMENCLATURA VARCHAR(10)  PRIMARY KEY   NOT NULL, "
-					+ " VALOR_DOLAR	REAL     NOT NULL, " + " VOLATILIDAD	REAL     NULL, " + " STOCK	REAL     NULL "
+			String sql = "CREATE TABLE  IF NOT EXISTS MONEDA "
+					+ "("
+					+ " ID       INTEGER   PRIMARY KEY AUTOINCREMENT NOT NULL , "
+					+ " TIPO       VARCHAR(1)    NOT NULL, "
+					+ " NOMBRE       VARCHAR(50)    NOT NULL, "
+					+ " NOMENCLATURA VARCHAR(10)  NOT NULL, "
+					+ " VALOR_DOLAR	REAL     NOT NULL, "
+					+ " VOLATILIDAD	REAL     NULL, "
+					+ " STOCK	REAL     NULL, "
+					+ " NOMBRE_ICONO       VARCHAR(50)    NOT NULL "
+					+ ")";
+			stmt.executeUpdate(sql);
+			
+			// Tabla activo cripto			
+			sql = "CREATE TABLE  IF NOT EXISTS ACTIVO_CRIPTO"
+					+ "("
+					+ " ID       INTEGER   PRIMARY KEY AUTOINCREMENT NOT NULL , "
+					+ " ID_USUARIO INTEGER    NOT NULL, "
+					+ " ID_MONEDA INTEGER    NOT NULL, "
+					+ " CANTIDAD	REAL    NOT NULL, "
+					+ " FOREIGN KEY(ID_USUARIO) REFERENCES USUARIO(ID),"
+					+ " FOREIGN KEY(ID_MONEDA) REFERENCES MONEDA(ID) "
+					+ ")";
+			stmt.executeUpdate(sql);
+			
+			// Tabla activo fiat
+			sql = "CREATE TABLE  IF NOT EXISTS ACTIVO_FIAT"
+					+ "("
+					+ " ID       INTEGER   PRIMARY KEY AUTOINCREMENT NOT NULL , "
+					+ " ID_USUARIO INTEGER    NOT NULL, "
+					+ " ID_MONEDA INTEGER    NOT NULL, "
+					+ " CANTIDAD	REAL    NOT NULL, "
+					+ " FOREIGN KEY(ID_USUARIO) REFERENCES USUARIO(ID),"
+					+ " FOREIGN KEY(ID_MONEDA) REFERENCES MONEDA(ID)"
+					+ ")";
+			stmt.executeUpdate(sql);
+			
+			// Tabla transaccion
+			sql = "CREATE TABLE  IF NOT EXISTS TRANSACCION"
+					+ "("
+					+ " ID     INTEGER   PRIMARY KEY AUTOINCREMENT NOT NULL , "
+					+ " RESUMEN VARCHAR(1000)   NOT NULL, "
+					+ " FECHA_HORA		DATETIME  NOT NULL "
+					+ " ID_USUARIO INTEGER    NOT NULL, "
+					+ " FOREIGN KEY(ID_USUARIO) REFERENCES USUARIO(ID)"
 					+ ")";
 			stmt.executeUpdate(sql);
 
-			// Tabla activo cripto
-			sql = "CREATE TABLE IF NOT EXISTS ACTIVO_CRIPTO" + "("
-					+ " NOMENCLATURA VARCHAR(10)  PRIMARY KEY     NOT NULL, " + " CANTIDAD	REAL    NOT NULL " + ")";
-			stmt.executeUpdate(sql);
-
-			// Tabla activo fiat
-			sql = "CREATE TABLE IF NOT EXISTS ACTIVO_FIAT" + "("
-					+ " NOMENCLATURA VARCHAR(10)  PRIMARY KEY     NOT NULL, " + " CANTIDAD	REAL    NOT NULL " + ")";
-			stmt.executeUpdate(sql);
-
-			// Tabla transaccion
-			sql = "CREATE TABLE IF NOT EXISTS TRANSACCION" + "(" + " RESUMEN VARCHAR(1000)   NOT NULL, "
-					+ " FECHA_HORA		DATETIME  NOT NULL " + ")";
-			stmt.executeUpdate(sql);
-			
 			//Tabla Persona
 			sql = "CREATE TABLE  IF NOT EXISTS PERSONA "
 					+ "("
