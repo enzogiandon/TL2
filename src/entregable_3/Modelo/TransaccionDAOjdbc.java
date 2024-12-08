@@ -55,7 +55,7 @@ public class TransaccionDAOjdbc implements TransaccionDAO {
 	}
 
 	@Override
-	public String getDescripcionById(int id) {
+	public String getDescripcionPorId(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
