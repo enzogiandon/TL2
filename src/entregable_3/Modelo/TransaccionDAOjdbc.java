@@ -31,6 +31,24 @@ public class TransaccionDAOjdbc implements TransaccionDAO {
 	}
 
 	@Override
+	public String getDescripcionPorId(int id){
+		String sql = "SELECT RESUMEN FROM TRANSACCION WHERE ID = ?";
+		try (Connection con = ConexionBD.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
+			pstmt.setInt(1, id);
+			try (ResultSet rs = pstmt.executeQuery()) {
+				if (rs.next())
+					return rs.getString("RESUMEN");
+				else
+					return ("Transaccion no encontrada");
+			}
+		} catch (SQLException e) {
+			System.out.println("Error de SQL: ");
+			e.printStackTrace();
+			return "Error de acceso.";
+		}
+	}
+
+	@Override
 	public List<Transaccion> getTransacciones() {
 		String sql = "SELECT ID, RESUMEN, FECHA_HORA FROM TRANSACCION";
 		List<Transaccion> transacciones = new ArrayList<>();
@@ -52,11 +70,5 @@ public class TransaccionDAOjdbc implements TransaccionDAO {
 		}
 
 		return transacciones;
-	}
-
-	@Override
-	public String getDescripcionPorId(int id) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
