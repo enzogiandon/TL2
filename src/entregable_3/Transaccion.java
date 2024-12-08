@@ -3,24 +3,36 @@ package entregable_3;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public abstract class Transaccion {
+public class Transaccion {
+	protected int id;
     protected double monto;
     protected LocalDate fecha;
     protected double comisiones;
     protected LocalTime tiempoElegido;
     protected boolean confirmacion;
+    protected String resumen;
 
     public Transaccion(double monto) {
+    	this.id= (int) (Math.random() * 1000 + 1);
         this.monto = monto;
         this.fecha = LocalDate.now();
         this.tiempoElegido = LocalTime.now();
         this.confirmacion = false; // Pendiente de confirmación
     }
-
+    
+    public Transaccion(int id, String resumen, LocalDate fecha) {
+    	this.id = id;
+    	this.resumen = resumen;
+    	this.fecha = fecha;
+    }
+    
     // Método para confirmar la transacción
-    public abstract void confirmar();
+    public void confirmar() {
+    	confirmacion = true;
+    }
 
     public String getDescripcion() {
-        return "Monto adquirido: " + monto + ", Fecha: " + fecha + ", Confirmación: " + confirmacion;
+        resumen = "Monto adquirido: " + monto + ", Fecha: " + fecha + ", Confirmación: " + confirmacion;
+        return resumen;
     }
 }
