@@ -1,4 +1,10 @@
 package entregable_3.Modelo;
+import entregable_3.ConexionBD;
+import entregable_3.Cripto;
+import entregable_3.Cuenta;
+import entregable_3.CuentaCripto;
+import entregable_3.CuentaFiat;
+import entregable_3.Fiat;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,5 +1,6 @@
 package entregable_3;
 
+import entregable_3.Modelo.*;
 import java.util.List;
 
 public class Cripto extends Moneda {
