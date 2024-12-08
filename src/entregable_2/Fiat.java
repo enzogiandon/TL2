@@ -10,3 +10,4 @@ public class Fiat extends Moneda {
 		super(codigo,precioEnDolar,nombre,stock,volatilidad);
 	}
 }
+

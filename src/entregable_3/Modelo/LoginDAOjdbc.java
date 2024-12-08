@@ -8,7 +8,9 @@ import java.sql.SQLException;
 import entregable_3.ConexionBD;
 import entregable_3.Usuario;
 
-public class LoginDAOjdbc {
+public class LoginDAOjdbc implements LoginDAO{
+	
+	@Override
 	public Usuario iniciar(String email, String passwd) {
     	String sql = "SELECT u.ID, u.EMAIL, u.PASSWORD FROM USUARIO u WHERE u.EMAIL = ? AND u.PASSWORD = ?";
         try (Connection con = ConexionBD.getConnection();

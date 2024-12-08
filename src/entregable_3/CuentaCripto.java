@@ -1,6 +1,5 @@
 package entregable_3;
 
-
 public class CuentaCripto extends Cuenta {
 	protected Cripto cripto;
 	private String direccion;
