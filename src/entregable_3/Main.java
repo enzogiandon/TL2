@@ -139,13 +139,6 @@ public class Main {
         //new TransaccionControlador(tVista);
         
         //tVista.setVisible(true);
-            
-        //Balance
-        CuentaDAOjdbc modeloBal = new CuentaDAOjdbc();
-        BalanceVista vistaBal = new BalanceVista();
-        new BalanceControlador(modeloBal, vistaBal);
-        //Mostrar la Vista de Balance
-        vistaBal.setVisible(true);
         
 
      // Cotización de Criptomonedas
