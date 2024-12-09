@@ -24,8 +24,9 @@ public class Compra extends Transaccion {
 	
 	@Override 
 	public String getDescripcion() {
-		return super.getDescripcion() + ", Tipo: Compra" + ", Cripto adquirida: " + cripto.getCodigo() + ", Fiat enviado: " + fiat.getCodigo() + ", Cantidad del fiat enviado: " + cantidadFiat;
-	}
+		String resumen = super.getDescripcion() +   ", Tipo: Compra" + ", Cripto adquirida: " + cripto.getCodigo() + ", Fiat enviado: " + fiat.getCodigo() + ", Cantidad del fiat enviado: " + cantidadFiat;;
+		return resumen;
+		}
 	@Override
 	public void confirmar() {
 		this.confirmacion = true;
