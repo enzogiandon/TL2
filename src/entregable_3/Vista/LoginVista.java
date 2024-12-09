@@ -22,9 +22,9 @@ public class LoginVista extends JFrame{
 		
 		setTitle ("-- LOGIN DE USUARIO --");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(400,150);
+		setSize(600,400);
 		setLocationRelativeTo(null);
-		setLayout(new GridLayout(3, 5));
+		setLayout(new GridLayout(6, 5));
 		
 		add (new JLabel("email:")); add (campoEmail); add (new JLabel("password:")); add (campoPasswd);
 		add(new JLabel("")); add(new JLabel("")); add(new JLabel("")); add(botonLogin);
