@@ -13,11 +13,12 @@ import java.util.List;
 public class TransaccionDAOjdbc implements TransaccionDAO {
 
 	@Override
-	public boolean guardarTransaccion(String descripcion, int idUsuario) {
-		String sql = "INSERT INTO TRANSACCION (RESUMEN, FECHA_HORA,ID_USUARIO) VALUES (?, CURRENT_TIMESTAMP, ?)";
+	public boolean guardarTransaccion(int id,String descripcion, int idUsuario) {
+		String sql = "INSERT INTO TRANSACCION (ID, RESUMEN, FECHA_HORA,ID_USUARIO) VALUES (?, ?, CURRENT_TIMESTAMP, ?)";
 		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
-			pst.setString(1, descripcion);
-			pst.setInt(2, idUsuario);
+			pst.setInt(1,id);
+			pst.setString(2, descripcion);
+			pst.setInt(3, idUsuario);
 			pst.executeUpdate();
 			System.out.println("Se guardó correctamente la descripción de la transacción en la base de datos.");
 			con.close();
@@ -31,27 +32,9 @@ public class TransaccionDAOjdbc implements TransaccionDAO {
 	}
 
 	@Override
-	public String getDescripcionPorId(int id){
-		String sql = "SELECT RESUMEN FROM TRANSACCION WHERE ID = ?";
-		try (Connection con = ConexionBD.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
-			pstmt.setInt(1, id);
-			try (ResultSet rs = pstmt.executeQuery()) {
-				if (rs.next())
-					return rs.getString("RESUMEN");
-				else
-					return ("Transaccion no encontrada");
-			}
-		} catch (SQLException e) {
-			System.out.println("Error de SQL: ");
-			e.printStackTrace();
-			return "Error de acceso.";
-		}
-	}
-
-	@Override
-	public List<Transaccion> getTransacciones() {
-		String sql = "SELECT ID, RESUMEN, FECHA_HORA FROM TRANSACCION";
-		List<Transaccion> transacciones = new ArrayList<>();
+	public List<TransaccionBD> getTransacciones() {
+		String sql = "SELECT ID, RESUMEN, FECHA_HORA, ID_USUARIO FROM TRANSACCION";
+		List<TransaccionBD> transacciones = new ArrayList<>();
 
 		try (Connection con = ConexionBD.getConnection();
 				PreparedStatement ps = con.prepareStatement(sql);
@@ -61,8 +44,9 @@ public class TransaccionDAOjdbc implements TransaccionDAO {
 				int id = rs.getInt("ID");
 				String resumen = rs.getString("RESUMEN");
 				Timestamp fechaHora = rs.getTimestamp("FECHA_HORA");
+				int idUsuario = rs.getInt("ID_USUARIO");
 
-				transacciones.add(new Transaccion(id, resumen, fechaHora.toLocalDateTime().toLocalDate()));
+				transacciones.add(new TransaccionBD(id, resumen, fechaHora.toLocalDateTime().toLocalDate(),idUsuario));
 			}
 		} catch (SQLException e) {
 			System.out.println("Error de SQL: ");

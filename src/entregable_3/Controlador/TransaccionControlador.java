@@ -1,12 +1,10 @@
 package entregable_3.Controlador;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import entregable_3.*;
 import entregable_3.Vista.*;
@@ -15,32 +13,52 @@ import entregable_3.Modelo.*;
 public class TransaccionControlador {
 	private TransaccionDAO modelo;
 	private TransaccionVista vista;
+	private List<TransaccionBD> transacciones;  // variable obtener las transacciones y no acceder muchas veces a la BD
 
-	public TransaccionControlador(TransaccionDAO modelo, TransaccionVista vista) {
-		this.modelo = modelo;
+	public TransaccionControlador(TransaccionVista vista) {
 		this.vista = vista;
+		
+		//Inicializo el DAO
+		this.modelo = FactoryDAO.getTransaccionDAO();
+		
+		// Obtener transacciones
+		transacciones = modelo.getTransacciones();
+		 
 
-	
-		List<Transaccion> transacciones = modelo.getTransacciones();
-
-		cargarTransacciones(transacciones);	
+		// Cargo la lista en la vista
+		cargarTransacciones();
+		
+		
+		// Muestro el resumen si lo encuentro
+		this.vista.getTransaccionList().addListSelectionListener(new ListSelectionListener(){
+			@Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) { // Solo actuar cuando se confirme la selección
+                    mostrarResumen();
+                }
+            }
+			
+		});
 		
 		
 		
+		}
+		
+		/*
 		this.vista.getMostrarResumenButton().addActionListener(new ActionListener() {
 			@Override
 			// Accion del boton de mostrar resumen
 			public void actionPerformed(ActionEvent e) {
 				mostrarResumen();
 			}
-		});
+		});*/
 
-	}
 	
-	private void cargarTransacciones(List<Transaccion> transacciones) {
+	
+	private void cargarTransacciones() {
 		try {
 			List<Integer> ids = new ArrayList<>();
-			for (Transaccion t: transacciones)
+			for (TransaccionBD t: transacciones)
 				ids.add(t.getId());
 			vista.actualizarListaTransacciones(ids);
 			
@@ -56,10 +74,13 @@ public class TransaccionControlador {
 				JOptionPane.showMessageDialog(vista, "Por favor selecciona una transaccion.");
 				return;
 			}
-			// Muestro la descripcion
-			String resumen = modelo.getDescripcionPorId(idSeleccionado);
-			vista.mostrarResumen(resumen);
-
+			// Busco la descripcion segun id seleccionado
+			for (TransaccionBD t: transacciones) {
+				if (t.getId() == idSeleccionado) {
+					vista.mostrarResumen(t.getResumen());
+				}
+					
+			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(vista, "Error al mostrar el resumen");
 			System.out.println("Error: " + e.getMessage());

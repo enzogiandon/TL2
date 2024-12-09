@@ -78,14 +78,15 @@ public class Main {
         
         Compra compra = new Compra(1,bitcoin,1,dolar);
         
-        // La guardo
-        tDAO.guardarTransaccion(compra.getDescripcion(), 1);
+        // La guardo con un id random
+        int idRandom =  (int) Math.ceil(Math.random()*10000);
+        tDAO.guardarTransaccion(idRandom,compra.getDescripcion(), 1);
 
 
         // La muestro
         TransaccionVista tVista = new TransaccionVista();
         
-        new TransaccionControlador(tDAO,tVista);
+        new TransaccionControlador(tVista);
         
         tVista.setVisible(true);
         
