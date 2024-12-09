@@ -1,12 +1,5 @@
 package entregable_3;
 
-import entregable_3.Controlador.LoginControlador;
-import entregable_3.Controlador.RegistroControlador;
-import entregable_3.Modelo.LoginModelo;
-import entregable_3.Modelo.RegistroModelo;
-import entregable_3.Vista.LoginVista;
-import entregable_3.Vista.RegistroVista;
-
 public class Persona {
     private int id; // Corresponde a la columna ID
     private String nombres; // Corresponde a la columna NOMBRES
