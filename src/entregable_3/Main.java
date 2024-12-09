@@ -8,6 +8,10 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import entregable_3.Modelo.CotizacionModelo;
+import entregable_3.Vista.CotizacionVista;
+import entregable_3.Controlador.CotizacionControlador;
+
 import entregable_3.Controlador.LoginControlador;
 import entregable_3.Controlador.RegistroControlador;
 import entregable_3.Modelo.CuentaDAO;
@@ -147,11 +151,26 @@ public class Main {
         // Mostrar la Vista de Registro
         vistaReg.setVisible(true);
         
-        CuentaDAOjdbc modelo = new CuentaDAOjdbc();
+        
+        //Balance
+        CuentaDAOjdbc modeloBal = new CuentaDAOjdbc();
         BalanceVista vistaBal = new BalanceVista();
-        new BalanceControlador(modelo, vistaBal);
-
+        new BalanceControlador(modeloBal, vistaBal);
+        //Mostrar la Vista de Balance
         vistaBal.setVisible(true);
+        
+     // Crear las instancias del Modelo, Vista y Controlador
+     // Cotización de Criptomonedas
+     // Cotización de Criptomonedas
+        CotizacionModelo modeloCot = new CotizacionModelo();
+        CotizacionVista vistaCot = new CotizacionVista();
+        new CotizacionControlador(modeloCot, vistaCot);
+        
+        // Mostrar la Vista de Cotización
+        vistaCot.mostrarVentana();
+
+        
+        
 	}
 
 	private static void mostrarMenu() {
