@@ -26,6 +26,8 @@ public class Transaccion {
     	this.fecha = fecha;
     }
     
+    public Transaccion() {}
+    
     // Método para confirmar la transacción
     public void confirmar() {
     	confirmacion = true;

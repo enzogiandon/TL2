@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 import entregable_3.Modelo.*;
 import entregable_3.Vista.*;
-import entregable_3.*;
+import entregable_3.Controlador.*;
 
 public class Main {
 	public static void main(String[] args) {
@@ -25,7 +25,7 @@ public class Main {
 			System.out.println("Conexión establecida");
 
 
-			CreacionBD.crearTablas(con);
+			CreacionBD.crearTablas();
 			} catch (SQLException e) {
 				System.out.println("Error de sql: " + e.getMessage());
 				System.exit(2);;
@@ -51,7 +51,7 @@ public class Main {
         */
 			
 			
-			
+			/*
         // Transaccion (habria que probarlo con una compra o algo xd)
         TransaccionDAO tDAO = FactoryDAO.getTransaccionDAO(); //modelo
         
@@ -89,7 +89,26 @@ public class Main {
         
         // Mostrar la Vista de Cotización
         vistaCot.mostrarVentana();
+*/
+		
+		
+		
+		
+		
+        Cripto bitcoin = new Cripto("BTC",123,"Bitcoin",100);
+        Fiat dolar = new Fiat("USD",1,"Dolar",10000);
+        
+        CuentaDAO cDAO = FactoryDAO.getCuentaDAO();
+		CuentaFiat cf = new CuentaFiat("123",2000,dolar);
 
+		cDAO.guardarCuenta(cf);
+		
+		
+        CompraVista cVista= new CompraVista();
+		new CompraControlador(cVista,bitcoin);
+		cVista.setVisible(true);
+		
+		
         
         
 	}
