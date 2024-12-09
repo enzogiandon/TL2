@@ -71,9 +71,18 @@ public class Main {
 			
         // Transaccion (habria que probarlo con una compra o algo xd)
         TransaccionDAO tDAO = FactoryDAO.getTransaccionDAO(); //modelo
-        tDAO.guardarTransaccion("test", 1);
-        tDAO.guardarTransaccion("testing",2);
         
+        // Me hago una compra imaginaria
+        Cripto bitcoin = new Cripto("BTC",123,"Bitcoin",100);
+        Fiat dolar = new Fiat("USD",1,"Dolar",10000);
+        
+        Compra compra = new Compra(1,bitcoin,1,dolar);
+        
+        // La guardo
+        tDAO.guardarTransaccion(compra.getDescripcion(), 1);
+
+
+        // La muestro
         TransaccionVista tVista = new TransaccionVista();
         
         new TransaccionControlador(tDAO,tVista);
