@@ -12,8 +12,7 @@ public class LoginControlador {
 	private RegistroVista vistaReg;
 	private RegistroModelo modeloReg;
 	
-	public LoginControlador(LoginModelo modelo, LoginVista vista) {	
-        
+	public LoginControlador(LoginModelo modelo, LoginVista vista) {
 		this.modelo = modelo;
 		this.vista = vista;
 		
@@ -21,6 +20,8 @@ public class LoginControlador {
         vistaReg = new RegistroVista();
         new RegistroControlador(modeloReg, vistaReg);
 
+       
+		
 		//Asigna el controlador al botón de la vista
 		this.vista.getBotonLogin().addActionListener(new IniciarListener());
 		
