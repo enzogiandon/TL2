@@ -1,6 +1,8 @@
 package entregable_3.Modelo;
 
 import java.util.List;
+
+import entregable_3.Compra;
 import entregable_3.TransaccionBD;
 
 public interface TransaccionDAO {
