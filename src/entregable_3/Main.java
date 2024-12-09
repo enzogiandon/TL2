@@ -37,7 +37,7 @@ public class Main {
 			if (con == null) { // Test de conexion
 				System.out.println("No se pudo conectar con la base de datos.");
 				in.close();
-				System.exit(0);
+				System.exit(1);
 			}
 			System.out.println("Conexión establecida");
 
@@ -45,7 +45,7 @@ public class Main {
 			CreacionBD.crearTablas(con);
 			} catch (SQLException e) {
 				System.out.println("Error de sql: " + e.getMessage());
-				return;
+				System.exit(2);;
 			}
 			
 		/**
