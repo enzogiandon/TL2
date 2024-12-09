@@ -8,23 +8,9 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-import entregable_3.Modelo.CotizacionModelo;
-import entregable_3.Vista.CotizacionVista;
-import entregable_3.Controlador.CotizacionControlador;
-
-import entregable_3.Controlador.LoginControlador;
-import entregable_3.Controlador.RegistroControlador;
-import entregable_3.Modelo.CuentaDAO;
-import entregable_3.Modelo.FactoryDAO;
-import entregable_3.Modelo.LoginModelo;
-import entregable_3.Modelo.MonedaDAO;
-import entregable_3.Modelo.RegistroModelo;
-import entregable_3.Modelo.TransaccionDAO;
-import entregable_3.Vista.LoginVista;
-import entregable_3.Vista.RegistroVista;
-import entregable_3.Modelo.CuentaDAOjdbc;
-import entregable_3.Vista.BalanceVista;
-import entregable_3.Controlador.BalanceControlador;
+import entregable_3.Modelo.*;
+import entregable_3.Vista.*;
+import entregable_3.Controlador.*;
 
 public class Main {
 	public static void main(String[] args) {
@@ -112,8 +98,8 @@ public class Main {
 
 					System.out.printf("Ingrese el monto en %s que desea comprar de %s: ", fiatCompra, criptoCompra);
 					double montoCompra = in.nextDouble();
-
-					comprar(criptoCompra, fiatCompra, montoCompra, in);
+					Compra comp = null; //?? no se si esto va
+					comp.comprar(criptoCompra, fiatCompra, montoCompra, in);
 					break;
 				case 9:
 					System.out.println("Saliendo del programa.");
@@ -135,7 +121,9 @@ public class Main {
 			in.close();
 		}
 		
+		
 		// Login de usuario
+		
         LoginModelo modeloLog = new LoginModelo();
         LoginVista vistaLog = new LoginVista();
         new LoginControlador(modeloLog, vistaLog);
@@ -150,6 +138,15 @@ public class Main {
 
         // Mostrar la Vista de Registro
         vistaReg.setVisible(true);
+        
+     // Transaccion (habria que probarlo con una compra o algo xd)
+
+        // La muestro
+        TransaccionVista tVista = new TransaccionVista();
+        
+        new TransaccionControlador(tVista);
+        
+        tVista.setVisible(true);
         
         
         //Balance
@@ -324,88 +321,7 @@ public class Main {
 		}
 	}
 
-	public static boolean comprar(String criptoNomenclatura, String fiatNomenclatura, double cantidadFiat, Scanner in) {
-		try {
-			MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
-			CuentaDAO cDAO = FactoryDAO.getCuentaDAO();
-			TransaccionDAO tDAO = FactoryDAO.getTransaccionDAO();
-
-			double fondosFiat = cDAO.obtenerCantidadFiat(fiatNomenclatura);
-			if (cantidadFiat > fondosFiat) {
-				System.out.println("Fondos no suficientes en " + fiatNomenclatura.toUpperCase()
-						+ " para realizar esta operación.");
-				return false;
-			}
-			if (cDAO.getCuentaCripto(criptoNomenclatura) == null) {
-				System.out.println("Usted no posee una cuenta de " + criptoNomenclatura + ". Intente creando una.");
-				return false;
-			}
-
-			Cripto cripto = (Cripto) mDAO.getMoneda(criptoNomenclatura);
-
-			Fiat fiat = (Fiat) mDAO.getMoneda(fiatNomenclatura);
-
-			if (cripto == null) {
-				System.out.println("La moneda cripto elegida no existe.");
-				return false;
-			}
-			if (fiat == null) {
-				System.out.println("La moneda fiat elegida no existe.");
-				return false;
-			}
-
-			double cantidadCripto = cantidadFiat / ((cripto.getPrecioEnDolar() / fiat.getPrecioEnDolar()));
-			// cantidad Fiat / valor de la cripto en esa fiat
-
-			if (cantidadCripto > cripto.getStock()) { // verificar stock
-				System.out.println("No hay suficiente stock de la criptomoneda " + criptoNomenclatura + ".");
-				return false;
-			}
-
-			System.out.printf(
-					"Con %.2f %s puedes comprar %.6f %s. Ingrese 'S' para confirmar u otro valor para cancelar: ",
-					cantidadFiat, fiatNomenclatura, cantidadCripto, criptoNomenclatura);
-			
-			String confirmacion = in.next();
-
-			if (confirmacion.equalsIgnoreCase("S")) {
-				// Instancio una compra y la guardo
-				Compra compra = new Compra(cantidadCripto, cripto, cantidadFiat, fiat);
-				tDAO.guardarTransaccion(compra.getDescripcion());
-
-				// actualizo los fondos y lo guardo en BD
-				fondosFiat -= cantidadFiat;
-				double fondosCripto = cDAO.obtenerCantidadCripto(criptoNomenclatura);
-				fondosCripto += cantidadCripto;
-
-				CuentaCripto cc = new CuentaCripto(criptoNomenclatura, fondosCripto, "1234");
-				CuentaFiat cf = new CuentaFiat(fiatNomenclatura, fondosFiat);
-
-				// añado a lista y actualizo la BD
-				List<CuentaFiat> listaFiat = List.of(cf);
-				cDAO.actualizarCuentasFiat(listaFiat);
-
-				List<CuentaCripto> listaCripto = List.of(cc);
-				cDAO.actualizarCuentasCripto(listaCripto);
-
-				compra.confirmar();
-
-				return true;
-			} else {
-				System.out.println("Operación cancelada.");
-				return false;
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		} catch (ClassCastException e) {
-			System.out.println("No se encontró una cripto con esa nomenclatura, intente nuevamente.");
-			e.printStackTrace();
-			return false;
-		}
-	}
-
+	
 
 	private static double obtenerTasaCambio(String criptoConvertirCodigo, String criptoEsperadaCodigo)
 			throws SQLException {
