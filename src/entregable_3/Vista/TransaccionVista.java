@@ -35,7 +35,6 @@ public class TransaccionVista extends JFrame {
         JPanel rightPanel = new JPanel(new BorderLayout());
         resumenArea.setEditable(false);
         rightPanel.add(new JScrollPane(resumenArea), BorderLayout.CENTER);
-        rightPanel.add(mostrarResumenButton, BorderLayout.SOUTH);
         add(rightPanel, BorderLayout.CENTER);
     }
 
@@ -56,5 +55,9 @@ public class TransaccionVista extends JFrame {
 
     public JButton getMostrarResumenButton() {
         return mostrarResumenButton;
+    }
+    
+    public JList<Integer> getTransaccionList(){
+    	return transaccionList;
     }
 }
