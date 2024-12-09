@@ -11,7 +11,9 @@ public class LoginControlador {
 	private LoginVista vista;
 	private RegistroVista vistaReg;
 	private RegistroModelo modeloReg;
-	
+    private CuentaDAOjdbc modeloBal;
+    private BalanceVista vistaBal;
+    
 	public LoginControlador(LoginModelo modelo, LoginVista vista) {
 		this.modelo = modelo;
 		this.vista = vista;
@@ -19,8 +21,6 @@ public class LoginControlador {
 		modeloReg = new RegistroModelo();
         vistaReg = new RegistroVista();
         new RegistroControlador(modeloReg, vistaReg);
-
-       
 		
 		//Asigna el controlador al botón de la vista
 		this.vista.getBotonLogin().addActionListener(new IniciarListener());
@@ -47,7 +47,14 @@ public class LoginControlador {
 					//Actualiza la vista con el resultado
 					vista.setResultado(true);
 					vista.dispose(); // Cierra la ventana de login
-					//new PrincipalVista(user).setVisible(true); // Abre la vista principal
+					
+					//Balance
+			        modeloBal = new CuentaDAOjdbc();
+			        vistaBal = new BalanceVista();
+			        new BalanceControlador(modeloBal, vistaBal);
+			        //Mostrar la Vista de Balance
+			        vistaBal.setVisible(true);
+					
 				}else {
 					vista.setResultado(false); //inicio incorrecto
 					vista.mostrarMensajeError("Credenciales inválidas. Intente nuevamente.");
