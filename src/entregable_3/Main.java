@@ -57,7 +57,7 @@ public class Main {
         // Mostrar la Vista
         vistaLog.setVisible(true);
         
-     // Registro de usuario
+    	// Registro de usuario
         RegistroModelo modeloReg = new RegistroModelo();
         RegistroVista vistaReg = new RegistroVista();
         new RegistroControlador(modeloReg, vistaReg);
@@ -89,12 +89,6 @@ public class Main {
         new TransaccionControlador(tVista);
         
         tVista.setVisible(true);
-        
-        
-        
-        	
-        	
-        
 	}
 		
 
