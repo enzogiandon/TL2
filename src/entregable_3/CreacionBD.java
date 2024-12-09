@@ -78,7 +78,7 @@ public class CreacionBD {
 					+ "("
 					+ " ID     INTEGER   PRIMARY KEY AUTOINCREMENT NOT NULL , "
 					+ " RESUMEN VARCHAR(1000)   NOT NULL, "
-					+ " FECHA_HORA		DATETIME  NOT NULL "
+					+ " FECHA_HORA		DATETIME  NOT NULL, "
 					+ " ID_USUARIO INTEGER    NOT NULL, "
 					+ " FOREIGN KEY(ID_USUARIO) REFERENCES USUARIO(ID)"
 					+ ")";
