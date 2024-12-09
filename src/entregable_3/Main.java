@@ -99,7 +99,7 @@ public class Main {
 					System.out.printf("Ingrese el monto en %s que desea comprar de %s: ", fiatCompra, criptoCompra);
 					double montoCompra = in.nextDouble();
 					Compra comp = null; //?? no se si esto va
-					comp.comprar(criptoCompra, fiatCompra, montoCompra, in);
+					//comp.comprar(criptoCompra, fiatCompra, montoCompra, in);
 					break;
 				case 9:
 					System.out.println("Saliendo del programa.");
@@ -120,7 +120,14 @@ public class Main {
 		} finally {
 			in.close();
 		}
-		
+		// Registro de usuario
+        //RegistroModelo modeloReg = new RegistroModelo();
+        //RegistroVista vistaReg = new RegistroVista();
+        //new RegistroControlador(modeloReg, vistaReg);
+
+        // Mostrar la Vista de Registro
+        //vistaReg.setVisible(true);
+
 		
 		// Login de usuario
 		
@@ -131,22 +138,15 @@ public class Main {
         // Mostrar la Vista
         vistaLog.setVisible(true);
         
-     // Registro de usuario
-        RegistroModelo modeloReg = new RegistroModelo();
-        RegistroVista vistaReg = new RegistroVista();
-        new RegistroControlador(modeloReg, vistaReg);
-
-        // Mostrar la Vista de Registro
-        vistaReg.setVisible(true);
         
      // Transaccion (habria que probarlo con una compra o algo xd)
 
         // La muestro
-        TransaccionVista tVista = new TransaccionVista();
+       // TransaccionVista tVista = new TransaccionVista();
         
-        new TransaccionControlador(tVista);
+        //new TransaccionControlador(tVista);
         
-        tVista.setVisible(true);
+        //tVista.setVisible(true);
         
         
         //Balance
