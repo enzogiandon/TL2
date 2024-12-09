@@ -15,34 +15,20 @@ public class CreacionBD {
 	 * @throws SQLException
 	 */
 
-	public static void crearTablas(Connection con) throws SQLException {
-		creacionDeTablasEnBD(con);
+	public static void crearTablas() throws SQLException {
+		try (Connection con = ConexionBD.getConnection()) {
+			creacionDeTablasEnBD(con);
+		}
 	}
-	
-	
+
 	private static void creacionDeTablasEnBD(Connection connection) throws SQLException {
 		Statement stmt = null;
 
 		try {
-			
 			stmt = connection.createStatement();
-			String sql = "CREATE TABLE  IF NOT EXISTS PERSONA "
-					+ "("
-					+ " ID       INTEGER   PRIMARY KEY AUTOINCREMENT NOT NULL , "
-					+ " NOMBRES       VARCHAR(50)    NOT NULL, "
-					+ " APELLIDOS       VARCHAR(50)    NOT NULL "
-					+ ")";
-			stmt.executeUpdate(sql);
-			sql = "CREATE TABLE  IF NOT EXISTS USUARIO " + "(" + " ID       INTEGER   PRIMARY KEY AUTOINCREMENT NOT NULL , "
-					+ " ID_PERSONA       INTEGER   NOT NULL, "
-					+ " EMAIL       VARCHAR(50)    NOT NULL, "
-					+ " PASSWORD       VARCHAR(50)    NOT NULL, "
-					+ " ACEPTA_TERMINOS       BOOLEAN    NOT NULL, "
-					+ " FOREIGN KEY(ID_PERSONA) REFERENCES PERSONA(ID)"
-					+ ")";
-			stmt.executeUpdate(sql);
-					
-			sql = "CREATE TABLE  IF NOT EXISTS MONEDA "
+			
+			// Tabla moneda
+			String sql = "CREATE TABLE  IF NOT EXISTS MONEDA "
 					+ "("
 					+ " ID       INTEGER   PRIMARY KEY AUTOINCREMENT NOT NULL , "
 					+ " TIPO       VARCHAR(1)    NOT NULL, "
@@ -54,6 +40,29 @@ public class CreacionBD {
 					+ " NOMBRE_ICONO       VARCHAR(50)    NOT NULL "
 					+ ")";
 			stmt.executeUpdate(sql);
+			
+			//Tabla Persona
+			sql = "CREATE TABLE  IF NOT EXISTS PERSONA "
+					+ "("
+					+ " ID       INTEGER   PRIMARY KEY AUTOINCREMENT NOT NULL , "
+					+ " NOMBRES       VARCHAR(50)    NOT NULL, "
+					+ " APELLIDOS       VARCHAR(50)    NOT NULL "
+					+ ")";
+			stmt.executeUpdate(sql);
+			
+			//Tabla Usuario
+			sql = "CREATE TABLE  IF NOT EXISTS USUARIO " 
+					+ "(" 
+					+ " ID       INTEGER   PRIMARY KEY AUTOINCREMENT NOT NULL , "
+					+ " ID_PERSONA       INTEGER   NOT NULL, "
+					+ " EMAIL       VARCHAR(50)    NOT NULL, "
+					+ " PASSWORD       VARCHAR(50)    NOT NULL, "
+					+ " ACEPTA_TERMINOS       BOOLEAN    NOT NULL, "
+					+ " FOREIGN KEY(ID_PERSONA) REFERENCES PERSONA(ID)"
+					+ ")";
+			stmt.executeUpdate(sql);
+			
+			// Tabla activo cripto			
 			sql = "CREATE TABLE  IF NOT EXISTS ACTIVO_CRIPTO"
 					+ "("
 					+ " ID       INTEGER   PRIMARY KEY AUTOINCREMENT NOT NULL , "
@@ -64,6 +73,8 @@ public class CreacionBD {
 					+ " FOREIGN KEY(ID_MONEDA) REFERENCES MONEDA(ID) "
 					+ ")";
 			stmt.executeUpdate(sql);
+			
+			// Tabla activo fiat
 			sql = "CREATE TABLE  IF NOT EXISTS ACTIVO_FIAT"
 					+ "("
 					+ " ID       INTEGER   PRIMARY KEY AUTOINCREMENT NOT NULL , "
@@ -74,6 +85,8 @@ public class CreacionBD {
 					+ " FOREIGN KEY(ID_MONEDA) REFERENCES MONEDA(ID)"
 					+ ")";
 			stmt.executeUpdate(sql);
+			
+			// Tabla transaccion
 			sql = "CREATE TABLE  IF NOT EXISTS TRANSACCION"
 					+ "("
 					+ " ID     INTEGER   PRIMARY KEY AUTOINCREMENT NOT NULL , "
@@ -83,9 +96,9 @@ public class CreacionBD {
 					+ " FOREIGN KEY(ID_USUARIO) REFERENCES USUARIO(ID)"
 					+ ")";
 			stmt.executeUpdate(sql);
-			
-			stmt.close(); //FIJATE SI ESTO ESTÁ BIEN
-			
+
+			System.out.println("Las tablas se crearon exitosamente");
+
 		} catch (SQLException e) {
 			System.out.println("Error al crear las tablas: " + e.getMessage());
 			e.printStackTrace();

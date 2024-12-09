@@ -1,4 +1,4 @@
-package entregable_3; //esto podríamos cambiarlo por package entregable_3
+package entregable_3.Modelo; 
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -38,6 +38,30 @@ public class ConsultarPrecioCripto {
        double precioDOGE = json.getJSONObject("dogecoin").getDouble("usd");
        System.out.println("DOGE: $" + precioDOGE);
    }
+   
+   /**
+    * Método estático para obtener los datos de precios de las criptomonedas desde la API.
+    * 
+    * @return String con el cuerpo de la respuesta JSON, o null si ocurre un error.
+    */
+   public static String obtenerDatosCripto() {
+       HttpClient cliente = HttpClient.newHttpClient();
+       HttpRequest solicitud = HttpRequest.newBuilder()
+               .uri(URI.create(URL_API))
+               .GET()
+               .build();
+       try {
+           HttpResponse<String> respuesta = cliente.send(solicitud, HttpResponse.BodyHandlers.ofString());
+           if (respuesta.statusCode() == 200) {
+               return respuesta.body(); // Devuelve el JSON como String
+           } else {
+               System.out.println("Error al obtener datos: " + respuesta.statusCode());
+               return null;
+           }
+       } catch (IOException | InterruptedException e) {
+           e.printStackTrace();
+           return null;
+       }
+   }
 }
-	   
    
