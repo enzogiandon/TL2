@@ -120,15 +120,7 @@ public class Main {
 		} finally {
 			in.close();
 		}
-		// Registro de usuario
-        //RegistroModelo modeloReg = new RegistroModelo();
-        //RegistroVista vistaReg = new RegistroVista();
-        //new RegistroControlador(modeloReg, vistaReg);
-
-        // Mostrar la Vista de Registro
-        //vistaReg.setVisible(true);
-
-		
+	
 		// Login de usuario
 		
         LoginModelo modeloLog = new LoginModelo();
@@ -147,8 +139,7 @@ public class Main {
         //new TransaccionControlador(tVista);
         
         //tVista.setVisible(true);
-        
-        
+            
         //Balance
         CuentaDAOjdbc modeloBal = new CuentaDAOjdbc();
         BalanceVista vistaBal = new BalanceVista();
@@ -156,8 +147,7 @@ public class Main {
         //Mostrar la Vista de Balance
         vistaBal.setVisible(true);
         
-     // Crear las instancias del Modelo, Vista y Controlador
-     // Cotización de Criptomonedas
+
      // Cotización de Criptomonedas
         CotizacionModelo modeloCot = new CotizacionModelo();
         CotizacionVista vistaCot = new CotizacionVista();
