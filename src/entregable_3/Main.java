@@ -72,6 +72,7 @@ public class Main {
         // Transaccion (habria que probarlo con una compra o algo xd)
         TransaccionDAO tDAO = FactoryDAO.getTransaccionDAO(); //modelo
         tDAO.guardarTransaccion("test", 1);
+        tDAO.guardarTransaccion("testing",2);
         
         TransaccionVista tVista = new TransaccionVista();
         
