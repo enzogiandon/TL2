@@ -11,18 +11,19 @@ public class CuentaDAOjdbc implements CuentaDAO {
 	public boolean guardarCuenta(Cuenta cuenta) {
 		String sql;
 		if (cuenta instanceof CuentaCripto)
-			// Usamos UPSERT con ON CONFLICT
-			sql = "INSERT INTO ACTIVO_CRIPTO (NOMENCLATURA, CANTIDAD) VALUES (?, ?) "
-					+ "ON CONFLICT(NOMENCLATURA) DO UPDATE SET CANTIDAD = excluded.CANTIDAD";
+			// Usamos UPDATE con ON CONFLICT
+			sql = "INSERT INTO ACTIVO_CRIPTO (ID, ID_USUARIO, ID_MONEDA, CANTIDAD) VALUES (?,?, ?, ?) "
+					+ "ON CONFLICT(ID_MONEDA) DO UPDATE SET CANTIDAD = excluded.CANTIDAD";
 		else if (cuenta instanceof CuentaFiat)
-			sql = "INSERT INTO ACTIVO_FIAT (NOMENCLATURA, CANTIDAD) VALUES (?, ?) "
-					+ "ON CONFLICT(NOMENCLATURA) DO UPDATE SET CANTIDAD = excluded.CANTIDAD";
+			sql = "INSERT INTO ACTIVO_FIAT (ID, ID_USUARIO, ID_MONEDA, CANTIDAD) VALUES (?,?, ?, ?) "
+					+ "ON CONFLICT(ID_MONEDA) DO UPDATE SET CANTIDAD = excluded.CANTIDAD";
 		else {
 			System.out.println("No se pudo guardar la cuenta.");
 			return false;
 		}
 		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
-			pst.setString(1, cuenta.getId());
+			pst.setInt(1, cuenta.getId());
+			pst.setInt(2, );
 			pst.setDouble(2, cuenta.getSaldo());
 			pst.executeUpdate();
 			System.out.println("Cuenta guardada exitosamente");
@@ -53,7 +54,7 @@ public class CuentaDAOjdbc implements CuentaDAO {
 	@Override
 	public List<Cuenta> listarCuentasCripto() {
 		List<Cuenta> cuentas = new ArrayList<>();
-		String sql = "SELECT NOMENCLATURA, CANTIDAD FROM ACTIVO_CRIPTO";
+		String sql = "SELECT CANTIDAD FROM ACTIVO_CRIPTO";
 		try (Connection con = ConexionBD.getConnection();
 				Statement st = con.createStatement();
 				ResultSet rs = st.executeQuery(sql)) {
@@ -76,7 +77,7 @@ public class CuentaDAOjdbc implements CuentaDAO {
 	@Override
 	public List<Cuenta> listarCuentasFiat() {
 		List<Cuenta> cuentas = new ArrayList<>();
-		String sql = "SELECT NOMENCLATURA, CANTIDAD FROM ACTIVO_FIAT";
+		String sql = "SELECT CANTIDAD FROM ACTIVO_FIAT";
 		try (Connection con = ConexionBD.getConnection();
 				Statement st = con.createStatement();
 				ResultSet rs = st.executeQuery(sql)) {
