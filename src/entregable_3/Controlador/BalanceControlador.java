@@ -1,8 +1,11 @@
 package entregable_3.Controlador;
 
-import entregable_3.Modelo.CuentaDAOjdbc;
-import entregable_3.Vista.BalanceVista;
+
 import entregable_3.Cuenta;
+import entregable_3.Modelo.*;
+import entregable_3.Vista.*;
+import entregable_3.Usuario;
+import entregable_3.Cuenta.*;
 
 import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
@@ -14,17 +17,46 @@ import java.util.List;
 public class BalanceControlador {
     private CuentaDAOjdbc modelo;
     private BalanceVista vista;
+    private CotizacionModelo modeloCot;
+    private CotizacionVista vistaCot;
+    
 
     public BalanceControlador(CuentaDAOjdbc modelo, BalanceVista vista) {
         this.modelo = modelo;
         this.vista = vista;
-        initController();
+        modeloCot = new CotizacionModelo();
+        vistaCot = new CotizacionVista();
+        new CotizacionControlador(modeloCot, vistaCot);
+        cargarDatosEnVista();
+        this.vista.addExportListener(new ExportListener());
+        
+      //Asigna el controlador al botón de la vista
+        this.vista.getBotonCotizar().addActionListener(new IniciarListener());
+        
     }
 
-    private void initController() {
-        cargarDatosEnVista();
-        vista.addExportListener(new ExportListener());
-    }
+  //clase interna que implementa la accion de Iniciar Sesión
+  	class IniciarListener implements ActionListener{
+  		public void actionPerformed(ActionEvent e) {
+  			try {
+  				
+  					vista.dispose(); // Cierra la ventana de Balance
+  					
+  			        //Cotizacion 
+  			        modeloCot = new CotizacionModelo();
+  			        vistaCot = new CotizacionVista();
+  			        new CotizacionControlador(modeloCot,vistaCot);
+  			        
+  			        //Mostrar la Vista de Controlador
+  			        vistaCot.mostrarVentana(); //internamente la pone en true
+  				
+  			}catch(NumberFormatException ex) {
+  				//excepcion
+  			}
+  				
+  			
+  		}
+  	}
 
     private void cargarDatosEnVista() {
         // Obtener datos del modelo
