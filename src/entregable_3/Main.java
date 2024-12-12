@@ -130,27 +130,6 @@ public class Main {
         // Mostrar la Vista
         vistaLog.setVisible(true);
         
-        
-     // Transaccion (habria que probarlo con una compra o algo xd)
-
-        // La muestro
-       // TransaccionVista tVista = new TransaccionVista();
-        
-        //new TransaccionControlador(tVista);
-        
-        //tVista.setVisible(true);
-        
-
-     // Cotización de Criptomonedas
-        CotizacionModelo modeloCot = new CotizacionModelo();
-        CotizacionVista vistaCot = new CotizacionVista();
-        new CotizacionControlador(modeloCot, vistaCot);
-        
-        // Mostrar la Vista de Cotización
-        vistaCot.mostrarVentana();
-
-        
-        
 	}
 
 	private static void mostrarMenu() {
