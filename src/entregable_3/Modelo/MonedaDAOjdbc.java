@@ -74,21 +74,38 @@ public class MonedaDAOjdbc implements MonedaDAO {
 			pst.setString(1, nomenclatura.toUpperCase());
 			ResultSet rs = pst.executeQuery();
 
-			if (rs.next()) {
-				if (rs.getString("TIPO").equals("F")) { // si es fiat
-					moneda = new Fiat(rs.getString("NOMENCLATURA"), rs.getDouble("VALOR_DOLAR"), rs.getString("NOMBRE"),
-							rs.getDouble("STOCK"), rs.getDouble("VOLATILIDAD"));
-				} else if (rs.getString("TIPO").equals("C")) {// si es cripto
-					moneda = new Cripto(rs.getString("NOMENCLATURA"), rs.getDouble("VALOR_DOLAR"),
-							rs.getString("NOMBRE"), rs.getDouble("STOCK"), rs.getDouble("VOLATILIDAD"));
-				}
-			}
-
+			if (rs.next())
+				moneda = crearMoneda(rs);
+			
 			pst.close();
 			con.close();
 		}
 		return moneda;
 	}
+	
+	private Moneda crearMoneda(ResultSet rs) throws SQLException {
+		String tipo = rs.getString("TIPO");
+		if (!tipo.equals("F") && !tipo.equals("C"))
+			return null;
+		
+		int id = rs.getInt("ID");
+	    String nomenclatura = rs.getString("NOMENCLATURA");
+	    double valorDolar = rs.getDouble("VALOR_DOLAR");
+	    String nombre = rs.getString("NOMBRE");
+	    double stock = rs.getDouble("STOCK");
+	    double volatilidad = rs.getDouble("VOLATILIDAD");
+
+	    switch (tipo) {
+	        case "F":
+	            return new Fiat(id,nomenclatura, valorDolar, nombre, stock, volatilidad);
+	        case "C":
+	            return new Cripto(id,nomenclatura, valorDolar, nombre, stock, volatilidad);
+	        default:
+	            throw new IllegalArgumentException("Tipo desconocido: " + tipo);
+	    }
+	}
+
+	
 
 	@Override
 	public int stockRandomizer() {
