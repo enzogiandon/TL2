@@ -60,4 +60,8 @@ public class BalanceVista extends JFrame {
     public void addExportListener(ActionListener listener) {
         btnExportar.addActionListener(listener);
     }
+    
+    public JButton getBotonCotizar() {
+    	return botonCotizacion;
+    }
 }
