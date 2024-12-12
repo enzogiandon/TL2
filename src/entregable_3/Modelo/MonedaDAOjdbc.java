@@ -9,7 +9,7 @@ public class MonedaDAOjdbc implements MonedaDAO {
 
 	@Override
 	public boolean guardarMoneda(Moneda moneda) {
-		String sql = "INSERT INTO MONEDA (TIPO, NOMBRE, NOMENCLATURA, VALOR_DOLAR, STOCK) VALUES (?,?,?,?,?)";
+		String sql = "INSERT INTO MONEDA (TIPO, ID, NOMBRE, NOMENCLATURA, VALOR_DOLAR, VOLATILIDAD, STOCK) VALUES (?,?,?,?,?,?,?)";
 		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
 			if (moneda instanceof Fiat)
 				pst.setString(1, String.valueOf('F'));
@@ -18,13 +18,15 @@ public class MonedaDAOjdbc implements MonedaDAO {
 			else
 				return false;
 
-			pst.setString(2, moneda.getNombre());
-			pst.setString(3, moneda.getCodigo());
-			pst.setDouble(4, moneda.getPrecioEnDolar());
-			pst.setDouble(5, moneda.getStock());
+			pst.setInt(2, moneda.getId());
+			pst.setString(3, moneda.getNombre());
+			pst.setString(4, moneda.getCodigo());
+			pst.setDouble(5, moneda.getPrecioEnDolar());
+			pst.setDouble(6,moneda.getVolatilidad());
+			pst.setDouble(7, moneda.getStock());
 			pst.executeUpdate();
 			System.out.println("Se ha guardado exitosamente la moneda en la base de datos.");
-
+			
 			pst.close();
 			con.close();
 			return true;
@@ -45,10 +47,12 @@ public class MonedaDAOjdbc implements MonedaDAO {
 			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
 				Moneda m = new Moneda();
-				m.setNombre(rs.getString(2));
-				m.setCodigo(rs.getString(3));
-				m.setPrecioEnDolar(rs.getDouble(4));
-				m.setStock(rs.getDouble(6));
+				m.setId(rs.getInt(1));
+				m.setNombre(rs.getString(3));
+				m.setCodigo(rs.getString(4));
+				m.setPrecioEnDolar(rs.getDouble(5));
+				m.setVolatilidad(6);
+				m.setStock(rs.getDouble(7));
 				monedas.add(m);
 			}
 			pst.close();
