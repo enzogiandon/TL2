@@ -102,7 +102,7 @@ public class Compra extends Transaccion {
 				confirmar();
 
 				//falta la implementación del usuario
-				tDAO.guardarTransaccion(this.id,this.getDescripcion(),iUsuario);
+				tDAO.guardarTransaccion(this.id,this.getDescripcion(),idUsuario);
 
 				// actualizo los fondos y lo guardo en BD
 				fondosFiat -= cantidadFiat;
