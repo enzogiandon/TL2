@@ -10,10 +10,13 @@ public class BalanceVista extends JFrame {
     private JButton btnExportar;
     private JLabel lblBalanceTotal;
     private JButton botonCotizacion;
+    private JButton botonMovimientos;
 
     public BalanceVista() {
     	botonCotizacion = new JButton ("Cotizaciones"); //Boton de cotizaciones
+    	botonMovimientos = new JButton ("Movimientos");
     	add(botonCotizacion);
+    	add(botonMovimientos);
         setTitle("Balance y Mis Cuentas");
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,6 +48,10 @@ public class BalanceVista extends JFrame {
         //agrego boton para cotizaciones
         botonCotizacion = new JButton("Cotizaciones");
         panelInferior.add(botonCotizacion, BorderLayout.NORTH);
+        
+        //agrego boton para movimientos
+        botonMovimientos = new JButton("Movimientos");
+        panelInferior.add(botonMovimientos, BorderLayout.SOUTH);
 
         add(panelInferior, BorderLayout.SOUTH);
     }
