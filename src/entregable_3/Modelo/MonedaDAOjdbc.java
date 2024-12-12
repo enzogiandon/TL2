@@ -87,30 +87,19 @@ public class MonedaDAOjdbc implements MonedaDAO {
 	}
 
 	@Override
-	public boolean stockRandomizer() {
-		List<Moneda> monedas = listarMonedas();
-		if (monedas == null || monedas.isEmpty()) {
-			System.out.println("No se encontró ninguna moneda");
-			return false;
-		}
-		Random rand = new Random();
-		String sql = "UPDATE MONEDA SET STOCK = ? WHERE NOMENCLATURA = ?";
+	public int stockRandomizer() {
+		String sql = "UPDATE MONEDA SET STOCK = FLOOR(1 + (RAND() * 1000))";
 		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
-
-			for (Moneda moneda : monedas) {
-				double stock = rand.nextDouble() * 100000;
-				pst.setDouble(1, stock);
-				pst.setString(2, moneda.getCodigo());
-				pst.executeUpdate();
-			}
+			
+			int generado = pst.executeUpdate();
 			System.out.println("Stock generado");
 			pst.close();
 			con.close();
-			return true;
+			return generado;
 		} catch (SQLException e) {
 			System.out.println("Error de SQL: " + e.getMessage());
 			e.printStackTrace();
-			return false;
+			return 0;
 		}
 	}
 }
