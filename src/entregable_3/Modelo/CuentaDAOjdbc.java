@@ -38,7 +38,6 @@ public class CuentaDAOjdbc implements CuentaDAO {
 	}
 
 	private List<Cuenta> listarCuentas(String sql, int idUsuario) {
-
 		List<Cuenta> lista = new ArrayList<Cuenta>();
 		try (Connection con = ConexionBD.getConnection();
 				PreparedStatement pst = con.prepareStatement(sql);
@@ -70,6 +69,7 @@ public class CuentaDAOjdbc implements CuentaDAO {
 		return lista;
 	}
 
+	// @formatter:off
 	@Override
 	public List<Cuenta> listarCuentasCripto(int idUsuario) {
 		String sql = "SELECT ACTIVO.ID_ACTIVO,"+
@@ -99,87 +99,55 @@ public class CuentaDAOjdbc implements CuentaDAO {
                 "WHERE ACTIVO.ID_USUARIO = ?";
 		return listarCuentas(sql,idUsuario);
 	}
+	// @formatter:on
 
-	@Override
+	private boolean actualizarCuentas(String sql, List<Cuenta> cuentas) {
 
-	public void registrarTransaccion(String descripcion) {
-		String sql = "INSERT INTO TRANSACCION (descripcion) VALUES (?)";
-		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
-			pst.setString(1, descripcion);
-			pst.executeUpdate();
-			pst.close();
-			con.close();
+		try (Connection con = ConexionBD.getConnection()) {
+			try (PreparedStatement pst = con.prepareStatement(sql)) {
+				con.setAutoCommit(false); // Para asegurar transacción atómica PREGUNTAR AL CHAT
+				for (Cuenta cuenta : cuentas) {
+					pst.setDouble(1, cuenta.getSaldo());
+					pst.setInt(2, cuenta.getId());
+					pst.addBatch();
+				}
+				pst.executeBatch();
+				con.commit();
+				return true;
+			} catch (SQLException e) {
+				con.rollback(); // Revertir cambios en caso de error
+				System.out.println("Error de SQL en actualizarCuentas: " + e.getMessage());
+				con.close();
+				return false;
+			}
 		} catch (SQLException e) {
-			System.out.println("Error de SQL: " + e.getMessage());
+			System.out.println("Error de conexión: " + e.getMessage());
+			return false;
 		}
 	}
 
 	@Override
 	public boolean actualizarCuentasCripto(List<CuentaCripto> criptos) {
-		String sql = "UPDATE ACTIVO_CRIPTO SET CANTIDAD = ? WHERE ID = ?";
-		try (Connection con = ConexionBD.getConnection()) {
-			try (PreparedStatement pst = con.prepareStatement(sql)) {
-				con.setAutoCommit(false);
-				for (CuentaCripto cripto : criptos) {
-					pst.setDouble(1, cripto.getSaldo());
-					pst.setInt(2, cripto.getId());
-					pst.addBatch();
-				}
-				pst.executeBatch();
-				con.commit();
-				con.close();
-				return true;
-			} catch (SQLException e) {
-				con.rollback(); // Revertir cambios en caso de error
-				System.out.println("Error de SQL en actualizarCuentas: " + e.getMessage());
-				return false;
-			}
-		} catch (SQLException e) {
-			System.out.println("Error de conexión: " + e.getMessage());
-			return false;
-		}
+		List<Cuenta> cuentas = new ArrayList<>();
+		cuentas.addAll(criptos);
+
+		String sql = "UPDATE ACTIVO_FIAT SET CANTIDAD = ? WHERE NOMENCLATURA = ?";
+		return actualizarCuentas(sql, cuentas);
 	}
 
-	
-	private boolean actualizarCuentas(List<Cuenta>) {}
 	@Override
 	public boolean actualizarCuentasFiat(List<CuentaFiat> fiats) {
 		List<Cuenta> cuentas = new ArrayList<>();
 		cuentas.addAll(fiats);
-		
+
 		String sql = "UPDATE ACTIVO_FIAT SET CANTIDAD = ? WHERE NOMENCLATURA = ?";
-		try (Connection con = ConexionBD.getConnection()) {
-			try (PreparedStatement pst = con.prepareStatement(sql)) {
-				con.setAutoCommit(false); // Para asegurar transacción atómica PREGUNTAR AL CHAT
-				for (CuentaFiat fiat : fiats) {
-					pst.setDouble(1, fiat.getSaldo());
-					pst.setString(2, fiat.getId().toUpperCase());
-					pst.addBatch();
-				}
-				pst.executeBatch();
-				con.commit();
-				return true;
-			} catch (SQLException e) {
-				con.rollback(); // Revertir cambios en caso de error
-				System.out.println("Error de SQL en actualizarCuentas: " + e.getMessage());
-				con.close();
-				return false;
-			}
-		} catch (SQLException e) {
-			System.out.println("Error de conexión: " + e.getMessage());
-			return false;
-		}
+		return actualizarCuentas(sql, cuentas);
 	}
 
-	// dos métodos, uno para cripto y otro para fiat, vamos a tener que cambiar
-	// despues el CuentaDAO, y chequear que lo haga Compra en comprar()
-
-	@Override
-	public double obtenerCantidadCripto(String idCripto) {
-		// debería fijarse para cripto
-		String sql = "SELECT CANTIDAD FROM ACTIVO_CRIPTO WHERE NOMENCLATURA = ?";
+	private double obtenerCantidadMoneda(String sql, String nomMoneda, int idUsuario) {
 		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
-			pst.setString(1, idCripto.toUpperCase());
+			pst.setString(1, nomMoneda.toUpperCase());
+			pst.setInt(2, idUsuario);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
 				double valor = rs.getDouble("CANTIDAD");
@@ -189,38 +157,36 @@ public class CuentaDAOjdbc implements CuentaDAO {
 		} catch (SQLException e) {
 			System.out.println("Error de SQL: " + e.getMessage());
 		}
-		return 0; // Retorna 0 si no se encuentra la cuenta o hay un error
+		return 0;
 	}
 
 	@Override
-	public double obtenerCantidadFiat(String idFiat) {
-		// debería fijarse para cripto
-		String sql = "SELECT CANTIDAD FROM ACTIVO_FIAT WHERE NOMENCLATURA = ?";
-		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
-			pst.setString(1, idFiat.toUpperCase());
-			ResultSet rs = pst.executeQuery();
-			if (rs.next()) {
-				double valor = rs.getDouble("CANTIDAD");
-				con.close();
-				return valor;
-			}
-		} catch (SQLException e) {
-			System.out.println("Error de SQL: " + e.getMessage());
-		}
-		return 0; // Retorna 0 si no se encuentra la cuenta o hay un error
+	public double obtenerCantidadCripto(String nomCripto, int idUsuario) {
+		String sql = "SELECT CANTIDAD FROM ACTIVO_CRIPTO WHERE NOMENCLATURA = ? AND ID_USUARIO = ?";
+		return obtenerCantidadMoneda(sql, nomCripto, idUsuario);
 	}
 
 	@Override
-	public CuentaFiat getCuentaFiat(String nomenclatura) throws SQLException {
-		String sql = "SELECT * FROM ACTIVO_FIAT WHERE NOMENCLATURA = ?";
+	public double obtenerCantidadFiat(String nomFiat, int idUsuario) {
+		String sql = "SELECT CANTIDAD FROM ACTIVO_FIAT WHERE NOMENCLATURA = ? AND ID_USUARIO = ?";
+		return obtenerCantidadMoneda(sql, nomFiat, idUsuario);
+	}
+
+	
+	
+	@Override
+	public CuentaFiat getCuentaFiat(String nomenclatura, int idUsuario) throws SQLException {
+		String sql = "SELECT * FROM ACTIVO_FIAT WHERE NOMENCLATURA = ? AND ID_USUARIO = =";
 		CuentaFiat cf = null;
 
 		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
 			pst.setString(1, nomenclatura.toUpperCase());
+			pst.setInt(2, idUsuario);
+			
 			ResultSet rs = pst.executeQuery();
 
+			MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
 			if (rs.next()) {
-				MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
 				Fiat fiat = (Fiat) mDAO.getMoneda(nomenclatura);
 				cf = new CuentaFiat(rs.getString("NOMENCLATURA"), rs.getDouble("CANTIDAD"), fiat);
 			}
