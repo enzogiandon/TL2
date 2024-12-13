@@ -175,8 +175,8 @@ public class CuentaDAOjdbc implements CuentaDAO {
 	
 	
 	@Override
-	public CuentaFiat getCuentaFiat(String nomenclatura, int idUsuario) throws SQLException {
-		String sql = "SELECT * FROM ACTIVO_FIAT WHERE NOMENCLATURA = ? AND ID_USUARIO = =";
+	public CuentaFiat getCuentaFiat(String nomenclatura, int idUsuario) {
+		String sql = "SELECT * FROM ACTIVO_FIAT WHERE NOMENCLATURA = ? AND ID_USUARIO = ?";
 		CuentaFiat cf = null;
 
 		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
@@ -184,34 +184,50 @@ public class CuentaDAOjdbc implements CuentaDAO {
 			pst.setInt(2, idUsuario);
 			
 			ResultSet rs = pst.executeQuery();
-
 			MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
+			
 			if (rs.next()) {
 				Fiat fiat = (Fiat) mDAO.getMoneda(nomenclatura);
-				cf = new CuentaFiat(rs.getString("NOMENCLATURA"), rs.getDouble("CANTIDAD"), fiat);
+				cf = new CuentaFiat(
+						rs.getInt("ID"),
+						rs.getInt("ID_USUARIO"), 
+						rs.getDouble("CANTIDAD"),
+						fiat);
 			}
+			pst.close();
 			con.close();
+		} catch (SQLException e) {
+			System.out.println("Error de SQL: " + e.getMessage());
 		}
+		
 		return cf;
 	}
 
 	@Override
-	public CuentaCripto getCuentaCripto(String nomenclatura) throws SQLException {
-		String sql = "SELECT * FROM ACTIVO_CRIPTO WHERE NOMENCLATURA = ?";
+	public CuentaCripto getCuentaCripto(String nomenclatura, int idUsuario) {
+		String sql = "SELECT * FROM ACTIVO_FIAT WHERE NOMENCLATURA = ? AND ID_USUARIO = ?";
 		CuentaCripto cc = null;
 
 		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
 			pst.setString(1, nomenclatura.toUpperCase());
+			pst.setInt(2, idUsuario);
+			
 			ResultSet rs = pst.executeQuery();
-
+			MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
+			
 			if (rs.next()) {
-				MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
 				Cripto cripto = (Cripto) mDAO.getMoneda(nomenclatura);
-				cc = new CuentaCripto(rs.getString("NOMENCLATURA"), rs.getDouble("CANTIDAD"), "1234", cripto);
+				cc = new CuentaCripto(
+						rs.getInt("ID"),
+						rs.getInt("ID_USUARIO"), 
+						rs.getDouble("CANTIDAD"),
+						cripto);
 			}
 
 			pst.close();
 			con.close();
+		} catch (SQLException e) {
+			System.out.println("Error de SQL: " + e.getMessage());
 		}
 		return cc;
 	}
