@@ -9,7 +9,7 @@ public class MonedaDAOjdbc implements MonedaDAO {
 
 	@Override
 	public boolean guardarMoneda(Moneda moneda) {
-		String sql = "INSERT INTO MONEDA (TIPO, ID, NOMBRE, NOMENCLATURA, VALOR_DOLAR, VOLATILIDAD, STOCK) VALUES (?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO MONEDA (TIPO, ID, NOMBRE, NOMENCLATURA, VALOR_DOLAR, VOLATILIDAD, STOCK, NOMBRE_ICONO) VALUES (?,?,?,?,?,?,?,?)";
 		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
 			if (moneda instanceof Fiat)
 				pst.setString(1, String.valueOf('F'));
@@ -24,8 +24,12 @@ public class MonedaDAOjdbc implements MonedaDAO {
 			pst.setDouble(5, moneda.getPrecioEnDolar());
 			pst.setDouble(6,moneda.getVolatilidad());
 			pst.setDouble(7, moneda.getStock());
+			
+			// PROVISORIO, CAMBIAR
+			pst.setString(8, moneda.getCodigo());
+			
 			pst.executeUpdate();
-			System.out.println("Se ha guardado exitosamente la moneda en la base de datos.");
+			System.out.println("Se ha guardado exitosamente la moneda " + moneda.getCodigo() + " en la base de datos.");
 			
 			pst.close();
 			con.close();
