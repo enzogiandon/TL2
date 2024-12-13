@@ -3,8 +3,6 @@ package entregable_3;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -77,18 +75,12 @@ public class Main {
 		 * 
 		 * // Mostrar la Vista de Cotización vistaCot.mostrarVentana();
 		 */
+		testMoneda();
+		//testCuenta();
 
-		/*
-		 * CuentaDAO cDAO = FactoryDAO.getCuentaDAO(); CuentaFiat cf = new
-		 * CuentaFiat("123",2000,dolar);
-		 * 
-		 * cDAO.guardarCuenta(cf);
-		 * 
-		 * 
-		 * CompraVista cVista= new CompraVista(); new CompraControlador(cVista,bitcoin);
-		 * cVista.setVisible(true);
-		 */
+	}
 
+	public static void testMoneda(){
 		int id;
 
 		id = (int) (Math.random() * 10000) + 1;
@@ -99,28 +91,37 @@ public class Main {
 
 		MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
 
-		try {
-			mDAO.guardarMoneda(dolar);
-			mDAO.guardarMoneda(bitcoin);
-			// mDAO.stockRandomizer();
+		mDAO.guardarMoneda(dolar);
+		mDAO.guardarMoneda(bitcoin);
+		mDAO.stockRandomizer();
 
-			List<Moneda> lista = new ArrayList<Moneda>();
+		List<Moneda> lista = new ArrayList<Moneda>();
 
-			lista = mDAO.listarMonedas();
+		lista = mDAO.listarMonedas();
 
-			System.out.println("Lista de monedas:");
-			for (Moneda moneda : lista) {
-				System.out.print(moneda.toString());
-			}
-
-			Moneda m = mDAO.getMoneda("USD");
-			if (m != null)
-				System.out.println("Otra moneda: " + m.toString());
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		System.out.println("Lista de monedas:");
+		for (Moneda moneda : lista) {
+			System.out.print(moneda.toString());
 		}
 
+		Moneda m = mDAO.getMoneda("USD");
+		if (m != null)
+			System.out.println("Otra moneda: " + m.toString());
+
+	}
+
+	public static void testCuenta() {
+		CuentaDAO cDAO = FactoryDAO.getCuentaDAO();
+		MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
+		
+		Fiat f = (Fiat) mDAO.getMoneda("USD");		
+		CuentaFiat cf = new CuentaFiat(123,1,1000,f);
+
+		cDAO.guardarCuenta(cf);
+
+		Cripto c = (Cripto) mDAO.getMoneda("BTC");
+		CuentaCripto cc = new CuentaCripto(1234,1,100,c);
+
+		cDAO.guardarCuenta(cc);
 	}
 }

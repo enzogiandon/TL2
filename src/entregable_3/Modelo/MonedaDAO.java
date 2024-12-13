@@ -5,8 +5,8 @@ import java.sql.*;
 import java.util.List;
 
 public interface MonedaDAO {
-	boolean guardarMoneda(Moneda moneda) throws SQLException;
+	boolean guardarMoneda(Moneda moneda);
 	List<Moneda> listarMonedas();
 	int stockRandomizer(); // retorna la cantidad de filas actualizadas
-	Moneda getMoneda(String nomenclatura) throws SQLException;
+	Moneda getMoneda(String nomenclatura);
 }
