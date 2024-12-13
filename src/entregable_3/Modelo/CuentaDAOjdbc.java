@@ -23,8 +23,9 @@ public class CuentaDAOjdbc implements CuentaDAO {
 		}
 		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
 			pst.setInt(1, cuenta.getId());
-			pst.setInt(2, );
-			pst.setDouble(2, cuenta.getSaldo());
+			pst.setInt(2, cuenta.getIdUsuario());
+			pst.setInt(3, cuenta.getMoneda().getId());
+			pst.setDouble(4, cuenta.getSaldo());
 			pst.executeUpdate();
 			System.out.println("Cuenta guardada exitosamente");
 			con.close();
@@ -35,21 +36,6 @@ public class CuentaDAOjdbc implements CuentaDAO {
 		}
 	}
 
-	@Override
-	public boolean existeMoneda(String codigoMoneda) {
-		String sql = "SELECT COUNT(*) FROM MONEDAS WHERE NOMENCLATURA = ?";
-		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
-			pst.setString(1, codigoMoneda);
-			ResultSet rs = pst.executeQuery();
-			rs.next();
-			pst.close();
-			con.close();
-			return rs.getInt(1) > 0;
-		} catch (SQLException e) {
-			System.out.println("Error de SQL: " + e.getMessage());
-			return false;
-		}
-	}
 
 	@Override
 	public List<Cuenta> listarCuentasCripto() {
