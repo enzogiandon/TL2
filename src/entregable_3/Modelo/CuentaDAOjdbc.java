@@ -82,7 +82,7 @@ public class CuentaDAOjdbc implements CuentaDAO {
                 "FROM ACTIVO_CRIPTO AS ACTIVO " +
                 "JOIN MONEDA ON ACTIVO.ID_MONEDA = MONEDA.ID" + 
                 "WHERE ACTIVO.ID_USUARIO = ?";
-		return listarCuentas(idUsuario);
+		return listarCuentas(sql,idUsuario);
 	}
 
 	@Override
@@ -116,13 +116,13 @@ public class CuentaDAOjdbc implements CuentaDAO {
 
 	@Override
 	public boolean actualizarCuentasCripto(List<CuentaCripto> criptos) {
-		String sql = "UPDATE ACTIVO_CRIPTO SET CANTIDAD = ? WHERE NOMENCLATURA = ?";
+		String sql = "UPDATE ACTIVO_CRIPTO SET CANTIDAD = ? WHERE ID = ?";
 		try (Connection con = ConexionBD.getConnection()) {
 			try (PreparedStatement pst = con.prepareStatement(sql)) {
-				con.setAutoCommit(false); // Para asegurar transacción atómica PREGUNTAR AL CHAT
+				con.setAutoCommit(false);
 				for (CuentaCripto cripto : criptos) {
 					pst.setDouble(1, cripto.getSaldo());
-					pst.setString(2, cripto.getId().toUpperCase());
+					pst.setInt(2, cripto.getId());
 					pst.addBatch();
 				}
 				pst.executeBatch();
@@ -140,8 +140,13 @@ public class CuentaDAOjdbc implements CuentaDAO {
 		}
 	}
 
+	
+	private boolean actualizarCuentas(List<Cuenta>) {}
 	@Override
 	public boolean actualizarCuentasFiat(List<CuentaFiat> fiats) {
+		List<Cuenta> cuentas = new ArrayList<>();
+		cuentas.addAll(fiats);
+		
 		String sql = "UPDATE ACTIVO_FIAT SET CANTIDAD = ? WHERE NOMENCLATURA = ?";
 		try (Connection con = ConexionBD.getConnection()) {
 			try (PreparedStatement pst = con.prepareStatement(sql)) {
