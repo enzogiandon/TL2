@@ -4,15 +4,17 @@ import javax.swing.*;
 import java.awt.*;
 import entregable_3.Modelo.CotizacionModelo;
 
-public class CotizacionVista {
+public class CotizacionVista extends JFrame {
     
     private JFrame frame;
     private JTextArea areaTexto;
+    private JButton botonCompra;
 
     public CotizacionVista() {
         // Configuración de la ventana principal
         frame = new JFrame("Cotización de Criptomonedas");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(400, 300);
         frame.setLayout(new BorderLayout());
         
@@ -26,6 +28,11 @@ public class CotizacionVista {
         JButton botonActualizar = new JButton("Actualizar Precios");
         botonActualizar.addActionListener(e -> mostrarCotizaciones());
         frame.add(botonActualizar, BorderLayout.SOUTH);
+        
+        //Crear un botón para la accion de comprar alguna cripto
+        JButton botonCompra = new JButton("Comprar");
+        botonCompra.addActionListener(null);
+        frame.add(botonCompra, BorderLayout.NORTH);
     }
 
     public void mostrarVentana() {
@@ -42,4 +49,9 @@ public class CotizacionVista {
             areaTexto.setText("Error al obtener cotizaciones.");
         }
     }
+    
+    public JButton getBotonComprar() {
+    	return botonCompra;
+    }
+    
 }
