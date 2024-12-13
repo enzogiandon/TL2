@@ -105,7 +105,7 @@ public class CuentaDAOjdbc implements CuentaDAO {
 
 		try (Connection con = ConexionBD.getConnection()) {
 			try (PreparedStatement pst = con.prepareStatement(sql)) {
-				con.setAutoCommit(false); // Para asegurar transacción atómica PREGUNTAR AL CHAT
+				con.setAutoCommit(false);
 				for (Cuenta cuenta : cuentas) {
 					pst.setDouble(1, cuenta.getSaldo());
 					pst.setInt(2, cuenta.getId());
@@ -172,8 +172,6 @@ public class CuentaDAOjdbc implements CuentaDAO {
 		return obtenerCantidadMoneda(sql, nomFiat, idUsuario);
 	}
 
-	
-	
 	@Override
 	public CuentaFiat getCuentaFiat(String nomenclatura, int idUsuario) {
 		String sql = "SELECT * FROM ACTIVO_FIAT WHERE NOMENCLATURA = ? AND ID_USUARIO = ?";
@@ -182,10 +180,11 @@ public class CuentaDAOjdbc implements CuentaDAO {
 		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
 			pst.setString(1, nomenclatura.toUpperCase());
 			pst.setInt(2, idUsuario);
-			
+
 			ResultSet rs = pst.executeQuery();
 			MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
-			
+
+			// @formatter:off
 			if (rs.next()) {
 				Fiat fiat = (Fiat) mDAO.getMoneda(nomenclatura);
 				cf = new CuentaFiat(
@@ -194,12 +193,14 @@ public class CuentaDAOjdbc implements CuentaDAO {
 						rs.getDouble("CANTIDAD"),
 						fiat);
 			}
+
+			// @formatter:on
 			pst.close();
 			con.close();
 		} catch (SQLException e) {
 			System.out.println("Error de SQL: " + e.getMessage());
 		}
-		
+
 		return cf;
 	}
 
@@ -211,10 +212,11 @@ public class CuentaDAOjdbc implements CuentaDAO {
 		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
 			pst.setString(1, nomenclatura.toUpperCase());
 			pst.setInt(2, idUsuario);
-			
+
 			ResultSet rs = pst.executeQuery();
 			MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
-			
+
+			// @formatter:off
 			if (rs.next()) {
 				Cripto cripto = (Cripto) mDAO.getMoneda(nomenclatura);
 				cc = new CuentaCripto(
@@ -223,6 +225,8 @@ public class CuentaDAOjdbc implements CuentaDAO {
 						rs.getDouble("CANTIDAD"),
 						cripto);
 			}
+
+			// @formatter:on
 
 			pst.close();
 			con.close();
