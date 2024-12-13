@@ -15,8 +15,8 @@ public interface CuentaDAO {
 	boolean guardarCuenta(Cuenta cuenta);
 	boolean existeMoneda (String idMoneda);
 	 //Métodos para listar activos
-	List<Cuenta> listarCuentasCripto();
-	List<Cuenta> listarCuentasFiat();
+	List<Cuenta> listarCuentasCripto(int idUsuario);
+	List<Cuenta> listarCuentasFiat(int idUsuario);
 	void registrarTransaccion(String descripcion); // Método para registrar una transacción
 	// Nuevo método para actualizar cuentas
     public double obtenerCantidadCripto(String idCripto);

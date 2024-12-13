@@ -1,4 +1,5 @@
 package entregable_3.Modelo;
+
 import entregable_3.*;
 
 import java.sql.*;
@@ -36,50 +37,67 @@ public class CuentaDAOjdbc implements CuentaDAO {
 		}
 	}
 
+	private List<Cuenta> listarCuentas(String sql, int idUsuario) {
 
-	@Override
-	public List<Cuenta> listarCuentasCripto() {
-		List<Cuenta> cuentas = new ArrayList<>();
-		String sql = "SELECT CANTIDAD FROM ACTIVO_CRIPTO";
+		List<Cuenta> lista = new ArrayList<Cuenta>();
 		try (Connection con = ConexionBD.getConnection();
-				Statement st = con.createStatement();
-				ResultSet rs = st.executeQuery(sql)) {
-			while (rs.next()) {
-				String id = rs.getString("NOMENCLATURA");
-				double CANTIDAD = rs.getDouble("CANTIDAD");
-				Cuenta cuenta = new Cuenta(id, CANTIDAD);
-				cuentas.add(cuenta);
-			}
-			con.close();
+				PreparedStatement pst = con.prepareStatement(sql);
+				ResultSet rs = pst.executeQuery()) {
 
+			while (rs.next()) {
+				// @formatter:off
+				Moneda moneda = new Moneda(
+	                    rs.getInt("MONEDA.ID"),
+	                    rs.getString("MONEDA.NOMENCLATURA"),
+	                    rs.getDouble("MONEDA.VALOR_DOLAR"),
+	                    rs.getString("MONEDA.NOMBRE"),
+	                    rs.getDouble("MONEDA.STOCK"),
+	                    rs.getDouble("MONEDA.VOLATILIDAD")
+				);
+				Cuenta cuenta = new Cuenta(
+						rs.getInt("ACTIVO.ID"),
+						rs.getInt("ACTIVO.ID_USUARIO"),
+						rs.getDouble("ACTIVO.CANTIDAD"),
+						moneda
+						);
+				// @formatter:on
+				lista.add(cuenta);
+			}
 		} catch (SQLException e) {
 			System.out.println("Error de SQL: " + e.getMessage());
-			e.printStackTrace();
-			return null;
 		}
-		return cuentas;
+
+		return lista;
 	}
 
 	@Override
-	public List<Cuenta> listarCuentasFiat() {
-		List<Cuenta> cuentas = new ArrayList<>();
-		String sql = "SELECT CANTIDAD FROM ACTIVO_FIAT";
-		try (Connection con = ConexionBD.getConnection();
-				Statement st = con.createStatement();
-				ResultSet rs = st.executeQuery(sql)) {
-			while (rs.next()) {
-				String id = rs.getString("NOMENCLATURA");
-				double CANTIDAD = rs.getDouble("CANTIDAD");
-				Cuenta cuenta = new Cuenta(id, CANTIDAD);
-				cuentas.add(cuenta);
-			}
-			con.close();
-		} catch (SQLException e) {
-			System.out.println("Error de SQL: " + e.getMessage());
-			e.printStackTrace();
-			return null;
-		}
-		return cuentas;
+	public List<Cuenta> listarCuentasCripto(int idUsuario) {
+		String sql = "SELECT ACTIVO.ID_ACTIVO,"+
+                "ACTIVO.ID_USUARIO, " +
+                "ACTIVO.ID_MONEDA, " +
+                "ACTIVO.CANTIDAD, " +
+                "MONEDA.NOMBRE, " +
+                "MONEDA.NOMENCLATURA, " +
+                "MONEDA.VALOR_DOLAR " +
+                "FROM ACTIVO_CRIPTO AS ACTIVO " +
+                "JOIN MONEDA ON ACTIVO.ID_MONEDA = MONEDA.ID" + 
+                "WHERE ACTIVO.ID_USUARIO = ?";
+		return listarCuentas(idUsuario);
+	}
+
+	@Override
+	public List<Cuenta> listarCuentasFiat(int idUsuario) {
+		String sql = "SELECT ACTIVO.ID_ACTIVO,"+
+                "ACTIVO.ID_USUARIO, " +
+                "ACTIVO.ID_MONEDA, " +
+                "ACTIVO.CANTIDAD, " +
+                "MONEDA.NOMBRE, " +
+                "MONEDA.NOMENCLATURA, " +
+                "MONEDA.VALOR_DOLAR " +
+                "FROM ACTIVO_FIAT AS ACTIVO " +
+                "JOIN MONEDA ON ACTIVO.ID_MONEDA = MONEDA.ID" + 
+                "WHERE ACTIVO.ID_USUARIO = ?";
+		return listarCuentas(sql,idUsuario);
 	}
 
 	@Override
