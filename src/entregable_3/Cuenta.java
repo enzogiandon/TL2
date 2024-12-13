@@ -19,11 +19,6 @@ public class Cuenta implements Comparable<Cuenta> {
 		this.moneda = moneda;
 	}
 
-	// para una instancia de cuenta con sus datos básicos sacados de la BD.
-	public Cuenta(int id, int idUsuario double saldo, ) {
-		this.id = id;
-		this.saldo = saldo;
-	}
 	
 	public Cuenta() {
 
