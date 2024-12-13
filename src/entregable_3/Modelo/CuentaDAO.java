@@ -3,26 +3,25 @@ package entregable_3.Modelo;
 import entregable_3.Cuenta;
 import entregable_3.CuentaFiat;
 import entregable_3.CuentaCripto;
-
-import java.sql.SQLException;
 import java.util.List;
 public interface CuentaDAO {
-	/**
-	 * 
-	 * 	@param cuenta
-	 * @return
-	 */
-	boolean guardarCuenta(Cuenta cuenta);
-	boolean existeMoneda (String idMoneda);
-	 //Métodos para listar activos
-	List<Cuenta> listarCuentasCripto(int idUsuario);
-	List<Cuenta> listarCuentasFiat(int idUsuario);
-	void registrarTransaccion(String descripcion); // Método para registrar una transacción
-	// Nuevo método para actualizar cuentas
-    public double obtenerCantidadCripto(String idCripto);
-    public double obtenerCantidadFiat(String idFiat);
+	
+	// Guardar una cuenta en la BD
+	public boolean guardarCuenta(Cuenta cuenta);
+	 
+	// Métodos para listar activos de un usuario
+	public List<Cuenta> listarCuentasCripto(int idUsuario);
+	public List<Cuenta> listarCuentasFiat(int idUsuario);
+	
+	// Métodos para obtener saldo de una moneda para un usuario
+    public double obtenerCantidadCripto(String idCripto, int idUsuario);
+    public double obtenerCantidadFiat(String idFiat, int idUsuario);
+    
+    // Métodos para actualizar cuentas
     public boolean actualizarCuentasFiat(List<CuentaFiat> fiats);
     public boolean actualizarCuentasCripto(List<CuentaCripto> criptos);
-	public CuentaFiat getCuentaFiat(String nomenclatura) throws SQLException;
-	public CuentaCripto getCuentaCripto(String nomenclatura) throws SQLException;
+    
+    // Getters de una cuenta en especifico segun la nomenclatura y un id
+	public CuentaFiat getCuentaFiat(String nomenclatura, int idUsuario);
+	public CuentaCripto getCuentaCripto(String nomenclatura, int idUsuario);
 }
