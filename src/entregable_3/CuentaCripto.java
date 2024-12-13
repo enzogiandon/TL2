@@ -11,6 +11,9 @@ public class CuentaCripto extends Cuenta {
 		this.direccion = direccion;
 	}
 
+	public CuentaCripto(int id, int idUsuario, double saldo, Cripto cripto) {
+		super(id, idUsuario, saldo,cripto);
+	}
 	// Getters y Setters
 	public String getDireccion() {
 		return direccion;
