@@ -6,16 +6,21 @@ public class Usuario {
 	private String email;
 	private String passwd;
 
-	
 	public Usuario(int id, int idPersona, String email, String passwd) {
+		super();
 		this.idPersona = idPersona;
 		this.email = email;
 		this.passwd = passwd;
 	}
 
 	public Usuario(String email, String passwd) {
+		super();
 		this.email = email;
 		this.passwd = passwd;
+	}
+
+	public Usuario() {
+		super();
 	}
 
 	public int getId() {
@@ -29,10 +34,10 @@ public class Usuario {
 	public void setIdPersona(int idPersona) {
 		this.idPersona = idPersona;
 	}
+
 	public int getIdPersona() {
 		return idPersona;
 	}
-	
 
 	public String getEmail() {
 		return email;
