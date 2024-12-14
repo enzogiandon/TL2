@@ -13,7 +13,7 @@ public class LoginControlador {
 	private RegistroModelo modeloReg;
     private CuentaDAOjdbc modeloBal;
     private BalanceVista vistaBal;
-    private Usuario user;
+    private Usuario user; //para el balance se lo tengo que pasar al id
     
 	public LoginControlador(LoginModelo modelo, LoginVista vista) {
 		this.modelo = modelo;
@@ -25,13 +25,11 @@ public class LoginControlador {
 		
 		//Asigna el controlador al botón de la vista
 		this.vista.getBotonLogin().addActionListener(new IniciarListener());
-		
 		this.vista.getBotonRegistro().addActionListener(e -> {
             vista.dispose(); // Cierra la ventana de login
             vistaReg.setVisible(true); // Abre la ventana de registro
         });
 	}
-	
 	
 	
 	//clase interna que implementa la accion de Iniciar Sesión
@@ -52,6 +50,7 @@ public class LoginControlador {
 					//Balance
 			        modeloBal = new CuentaDAOjdbc();
 			        vistaBal = new BalanceVista();
+			        System.out.println("ID:"+ user.getId());
 			        new BalanceControlador(modeloBal, vistaBal, user.getId());
 			        //Mostrar la Vista de Balance
 			        vistaBal.setVisible(true);
