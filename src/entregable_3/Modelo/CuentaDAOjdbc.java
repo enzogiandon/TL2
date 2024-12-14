@@ -204,13 +204,24 @@ public class CuentaDAOjdbc implements CuentaDAO {
 
 	@Override
 	public double obtenerCantidadCripto(String nomCripto, int idUsuario) {
-		String sql = "SELECT CANTIDAD FROM ACTIVO_CRIPTO WHERE NOMENCLATURA = ? AND ID_USUARIO = ?";
+		// @formatter:off
+		String sql = "SELECT CANTIDAD "
+				+ "FROM ACTIVO_CRIPTO "
+				+ "JOIN MONEDA ON ACTIVO_CRIPTO.ID_MONEDA "
+				+ "WHERE MONEDA.NOMENCLATURA = ? AND ID_USUARIO = ?";
+		// @formatter:on
 		return obtenerCantidadMoneda(sql, nomCripto, idUsuario);
 	}
 
 	@Override
 	public double obtenerCantidadFiat(String nomFiat, int idUsuario) {
-		String sql = "SELECT CANTIDAD FROM ACTIVO_FIAT WHERE NOMENCLATURA = ? AND ID_USUARIO = ?";
+
+		// @formatter:off
+		String sql = "SELECT CANTIDAD "
+					+ "FROM ACTIVO_FIAT "
+					+ "JOIN MONEDA ON ACTIVO_FIAT.ID_MONEDA "
+					+ "WHERE MONEDA.NOMENCLATURA = ? AND ID_USUARIO = ?";
+		// @formatter:off
 		return obtenerCantidadMoneda(sql, nomFiat, idUsuario);
 	}
 
@@ -218,18 +229,18 @@ public class CuentaDAOjdbc implements CuentaDAO {
 	public CuentaFiat getCuentaFiat(String nomenclatura, int idUsuario) {
 		// @formatter:off
 	    String sql = "SELECT " +
-	                 "ACTIVO_CRIPTO.ID AS ID, " +
-	                 "ACTIVO_CRIPTO.ID_USUARIO AS ID_USUARIO, " +
-	                 "ACTIVO_CRIPTO.CANTIDAD AS CANTIDAD, " +
+	                 "ACTIVO_FIAT.ID AS ID, " +
+	                 "ACTIVO_FIAT.ID_USUARIO AS ID_USUARIO, " +
+	                 "ACTIVO_FIAT.CANTIDAD AS CANTIDAD, " +
 	                 "MONEDA.ID AS ID_MONEDA, " +
 	                 "MONEDA.NOMENCLATURA AS NOMENCLATURA, " +
 	                 "MONEDA.NOMBRE AS NOMBRE, " +
 	                 "MONEDA.VALOR_DOLAR AS VALOR_DOLAR, " +
 	                 "MONEDA.STOCK AS STOCK, " +
 	                 "MONEDA.VOLATILIDAD AS VOLATILIDAD " +
-	                 "FROM ACTIVO_CRIPTO " +
+	                 "FROM ACTIVO_FIAT " +
 	                 "JOIN MONEDA ON ACTIVO_FIAT.ID_MONEDA = MONEDA.ID " +
-	                 "WHERE MONEDA.NOMENCLATURA = ? AND ACTIVO_CRIPTO.ID_USUARIO = ?";
+	                 "WHERE MONEDA.NOMENCLATURA = ? AND ACTIVO_FIAT.ID_USUARIO = ?";
 	    // @formatter:on
 
 		CuentaFiat cf = null;

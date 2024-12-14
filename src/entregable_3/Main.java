@@ -76,7 +76,7 @@ public class Main {
 		 * // Mostrar la Vista de Cotización vistaCot.mostrarVentana();
 		 */
 		//testMoneda();
-		testCuenta();
+		//testCuenta();
 
 	}
 
@@ -140,15 +140,15 @@ public class Main {
 		
 		double cantUSD, cantBTC;
 		
-		
 		//revisar de aca en adelante
+		
 		cantUSD = cDAO.obtenerCantidadFiat("USD", 2);
-		cantBTC = cDAO.obtenerCantidadFiat("BTC", 2);
-		System.out.printf("Tengo %.2f USD y %.2f BTC. ",cantUSD,cantBTC);
+		cantBTC = cDAO.obtenerCantidadCripto("BTC", 2);
+		System.out.printf("Tengo %.2f USD y %.2f BTC. \n\n",cantUSD,cantBTC);
 	
-		cDAO.getCuentaFiat("USD",2).toString();
+		System.out.println(cDAO.getCuentaFiat("USD",2).toString());
 
-		cDAO.getCuentaCripto("BTC",2).toString();
+		System.out.println(cDAO.getCuentaCripto("BTC",2).toString());
 	
 	}
 }
