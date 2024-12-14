@@ -216,29 +216,50 @@ public class CuentaDAOjdbc implements CuentaDAO {
 
 	@Override
 	public CuentaFiat getCuentaFiat(String nomenclatura, int idUsuario) {
-		String sql = "SELECT * FROM ACTIVO_FIAT WHERE NOMENCLATURA = ? AND ID_USUARIO = ?";
+		// @formatter:off
+	    String sql = "SELECT " +
+	                 "ACTIVO_CRIPTO.ID AS ID, " +
+	                 "ACTIVO_CRIPTO.ID_USUARIO AS ID_USUARIO, " +
+	                 "ACTIVO_CRIPTO.CANTIDAD AS CANTIDAD, " +
+	                 "MONEDA.ID AS ID_MONEDA, " +
+	                 "MONEDA.NOMENCLATURA AS NOMENCLATURA, " +
+	                 "MONEDA.NOMBRE AS NOMBRE, " +
+	                 "MONEDA.VALOR_DOLAR AS VALOR_DOLAR, " +
+	                 "MONEDA.STOCK AS STOCK, " +
+	                 "MONEDA.VOLATILIDAD AS VOLATILIDAD " +
+	                 "FROM ACTIVO_CRIPTO " +
+	                 "JOIN MONEDA ON ACTIVO_FIAT.ID_MONEDA = MONEDA.ID " +
+	                 "WHERE MONEDA.NOMENCLATURA = ? AND ACTIVO_CRIPTO.ID_USUARIO = ?";
+	    // @formatter:on
+
 		CuentaFiat cf = null;
 
 		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
+
 			pst.setString(1, nomenclatura.toUpperCase());
 			pst.setInt(2, idUsuario);
 
-			ResultSet rs = pst.executeQuery();
-			MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
+			try (ResultSet rs = pst.executeQuery()) {
+				// @formatter:off
+	            if (rs.next()) {
+	                Fiat fiat = new Fiat(
+	                    rs.getInt("ID_MONEDA"),
+	                    rs.getString("NOMENCLATURA"),
+	                    rs.getDouble("VALOR_DOLAR"),
+	                    rs.getString("NOMBRE"),
+	                    rs.getDouble("STOCK"),
+	                    rs.getDouble("VOLATILIDAD")
+	                );
 
-			// @formatter:off
-			if (rs.next()) {
-				Fiat fiat = (Fiat) mDAO.getMoneda(nomenclatura);
-				cf = new CuentaFiat(
-						rs.getInt("ID"),
-						rs.getInt("ID_USUARIO"), 
-						rs.getDouble("CANTIDAD"),
-						fiat);
+	                cf = new CuentaFiat(
+	                    rs.getInt("ID"), 
+	                    rs.getInt("ID_USUARIO"), 
+	                    rs.getDouble("CANTIDAD"), 
+	                    fiat
+	                );
+	            }
+	            // @formatter:on
 			}
-
-			// @formatter:on
-			pst.close();
-			con.close();
 		} catch (SQLException e) {
 			System.out.println("Error de SQL: " + e.getMessage());
 		}
@@ -248,33 +269,54 @@ public class CuentaDAOjdbc implements CuentaDAO {
 
 	@Override
 	public CuentaCripto getCuentaCripto(String nomenclatura, int idUsuario) {
-		String sql = "SELECT * FROM ACTIVO_FIAT WHERE NOMENCLATURA = ? AND ID_USUARIO = ?";
+		// @formatter:off
+	    String sql = "SELECT " +
+	                 "ACTIVO_CRIPTO.ID AS ID, " +
+	                 "ACTIVO_CRIPTO.ID_USUARIO AS ID_USUARIO, " +
+	                 "ACTIVO_CRIPTO.CANTIDAD AS CANTIDAD, " +
+	                 "MONEDA.ID AS ID_MONEDA, " +
+	                 "MONEDA.NOMENCLATURA AS NOMENCLATURA, " +
+	                 "MONEDA.NOMBRE AS NOMBRE, " +
+	                 "MONEDA.VALOR_DOLAR AS VALOR_DOLAR, " +
+	                 "MONEDA.STOCK AS STOCK, " +
+	                 "MONEDA.VOLATILIDAD AS VOLATILIDAD " +
+	                 "FROM ACTIVO_CRIPTO " +
+	                 "JOIN MONEDA ON ACTIVO_CRIPTO.ID_MONEDA = MONEDA.ID " +
+	                 "WHERE MONEDA.NOMENCLATURA = ? AND ACTIVO_CRIPTO.ID_USUARIO = ?";
+	    // @formatter:on
+
 		CuentaCripto cc = null;
 
 		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
+
 			pst.setString(1, nomenclatura.toUpperCase());
 			pst.setInt(2, idUsuario);
 
-			ResultSet rs = pst.executeQuery();
-			MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
+			try (ResultSet rs = pst.executeQuery()) {
+				// @formatter:off
+	            if (rs.next()) {
+	                Cripto cripto = new Cripto(
+	                    rs.getInt("ID_MONEDA"),
+	                    rs.getString("NOMENCLATURA"),
+	                    rs.getDouble("VALOR_DOLAR"),
+	                    rs.getString("NOMBRE"),
+	                    rs.getDouble("STOCK"),
+	                    rs.getDouble("VOLATILIDAD")
+	                );
 
-			// @formatter:off
-			if (rs.next()) {
-				Cripto cripto = (Cripto) mDAO.getMoneda(nomenclatura);
-				cc = new CuentaCripto(
-						rs.getInt("ID"),
-						rs.getInt("ID_USUARIO"), 
-						rs.getDouble("CANTIDAD"),
-						cripto);
+	                cc = new CuentaCripto(
+	                    rs.getInt("ID"), 
+	                    rs.getInt("ID_USUARIO"), 
+	                    rs.getDouble("CANTIDAD"), 
+	                    cripto
+	                );
+	            }
+	            // @formatter:on
 			}
-
-			// @formatter:on
-
-			pst.close();
-			con.close();
 		} catch (SQLException e) {
 			System.out.println("Error de SQL: " + e.getMessage());
 		}
+
 		return cc;
 	}
 

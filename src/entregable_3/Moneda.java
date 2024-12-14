@@ -87,9 +87,10 @@ public class Moneda implements Comparable<Moneda> {
 
 	@Override
 	public String toString() {
-		return "Moneda [codigo=" + codigo + ", precioEnDolar=" + precioEnDolar + ", nombre=" + nombre + ", stock="
-				+ stock + "]";
+		return "Moneda [id=" + id + ", codigo=" + codigo + ", precioEnDolar=" + precioEnDolar + ", nombre=" + nombre
+				+ ", stock=" + stock + ", volatilidad=" + volatilidad + "]";
 	}
+
 
 	@Override
 	public int compareTo(Moneda m) {

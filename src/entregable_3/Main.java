@@ -95,15 +95,15 @@ public class Main {
 		mDAO.guardarMoneda(bitcoin);
 		mDAO.stockRandomizer();
 
-		/*List<Moneda> lista = new ArrayList<Moneda>();
+		List<Moneda> lista = new ArrayList<Moneda>();
 
 		lista = mDAO.listarMonedas();
 
 		System.out.println("Lista de monedas:");
 		for (Moneda moneda : lista) {
-			System.out.print(moneda.toString());
+			System.out.println(moneda.toString());
 		}
-*/
+		
 		Moneda m = mDAO.getMoneda("USD");
 		if (m != null)
 			System.out.println("Otra moneda: " + m.toString());
@@ -115,13 +115,40 @@ public class Main {
 		MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
 		
 		Fiat f = (Fiat) mDAO.getMoneda("USD");		
-		CuentaFiat cf = new CuentaFiat(123,1,1000,f);
+		CuentaFiat cf = new CuentaFiat(64234,2,1000,f);
 
 		cDAO.guardarCuenta(cf);
 
 		Cripto c = (Cripto) mDAO.getMoneda("BTC");
-		CuentaCripto cc = new CuentaCripto(1234,1,100,c);
+		CuentaCripto cc = new CuentaCripto(4325,2,100,c);
 
 		cDAO.guardarCuenta(cc);
+		
+		List<CuentaCripto> listac = cDAO.listarCuentasCripto(2);
+
+		System.out.println("Lista de cuentas Cripto:");
+		for (CuentaCripto cuenta : listac) {
+			System.out.println(cuenta.toString());
+		}
+		
+		List<CuentaFiat> listaf = cDAO.listarCuentasFiat(2);
+
+		System.out.println("Lista de cuentas Fiat:");
+		for (CuentaFiat cuenta : listaf) {
+			System.out.println(cuenta.toString());
+		}
+		
+		double cantUSD, cantBTC;
+		
+		
+		//revisar de aca en adelante
+		cantUSD = cDAO.obtenerCantidadFiat("USD", 2);
+		cantBTC = cDAO.obtenerCantidadFiat("BTC", 2);
+		System.out.printf("Tengo %.2f USD y %.2f BTC. ",cantUSD,cantBTC);
+	
+		cDAO.getCuentaFiat("USD",2).toString();
+
+		cDAO.getCuentaCripto("BTC",2).toString();
+	
 	}
 }

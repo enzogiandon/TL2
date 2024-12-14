@@ -64,7 +64,7 @@ public class Cuenta implements Comparable<Cuenta> {
 
 	@Override
 	public String toString() {
-		return ("ID: " + id + ". Saldo: " + saldo);
+		return ("ID: " + id + ". ID Usuario: "+ idUsuario +". Saldo: " + saldo + ". Moneda: " + moneda.toString());
 	}
 
 }

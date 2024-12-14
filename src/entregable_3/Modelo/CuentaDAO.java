@@ -14,8 +14,8 @@ public interface CuentaDAO {
 	public List<CuentaFiat> listarCuentasFiat(int idUsuario);
 	
 	// Métodos para obtener saldo de una moneda para un usuario
-    public double obtenerCantidadCripto(String idCripto, int idUsuario);
-    public double obtenerCantidadFiat(String idFiat, int idUsuario);
+    public double obtenerCantidadCripto(String nomCripto, int idUsuario);
+    public double obtenerCantidadFiat(String nomFiat, int idUsuario);
     
     // Métodos para actualizar cuentas
     public boolean actualizarCuentasFiat(List<CuentaFiat> fiats);
