@@ -128,6 +128,32 @@ public class Main {
 		System.out.println(cDAO.getCuentaCripto("BTC", 2).toString());
 	}
 
+
+	
+	public static void testTransacciones() {
+		TransaccionDAO tDAO = FactoryDAO.getTransaccionDAO();
+		
+		// Me hago una compra imaginaria
+		int id;
+		id = (int) (Math.random() * 10000) + 1;
+		Cripto bitcoin = new Cripto(id, "BTC", 123, "Bitcoin", 100);
+		id = (int) (Math.random() * 10000) + 1;
+		Fiat dolar = new Fiat(id, "USD", 1, "Dolar", 10000);
+		
+		// La guardo con un id random
+		int idRandom = (int) Math.ceil(Math.random() * 10000);
+		Compra compra = new Compra(idRandom,1,1, bitcoin, 1, dolar);
+		
+		tDAO.guardarTransaccion(compra);
+		
+		// La muestro 
+		TransaccionVista tVista = new TransaccionVista();		
+		
+		new TransaccionControlador(tVista,1);
+		tVista.setVisible(true);
+	}
+	
+	
 	public static void testCompra() {
 		int idDolar = (int) (Math.random() * 10000) + 1;
 		Fiat dolar = new Fiat(idDolar, "USD", 1, "Dolar", 10000);
