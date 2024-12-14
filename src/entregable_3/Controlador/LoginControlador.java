@@ -13,6 +13,7 @@ public class LoginControlador {
 	private RegistroModelo modeloReg;
     private CuentaDAOjdbc modeloBal;
     private BalanceVista vistaBal;
+    private Usuario user;
     
 	public LoginControlador(LoginModelo modelo, LoginVista vista) {
 		this.modelo = modelo;
@@ -41,7 +42,7 @@ public class LoginControlador {
 				String passwd = vista.getPasswd();
 				
 				//Llamada al modelo para realizar la operación
-				Usuario user = modelo.iniciar(email,passwd);
+				user = modelo.iniciar(email,passwd);
 				
 				if (user != null) {
 					//Actualiza la vista con el resultado
@@ -51,7 +52,7 @@ public class LoginControlador {
 					//Balance
 			        modeloBal = new CuentaDAOjdbc();
 			        vistaBal = new BalanceVista();
-			        new BalanceControlador(modeloBal, vistaBal);
+			        new BalanceControlador(modeloBal, vistaBal, user.getId());
 			        //Mostrar la Vista de Balance
 			        vistaBal.setVisible(true);
 					
@@ -65,5 +66,6 @@ public class LoginControlador {
 			}
 		}
 	}
-
+	
+	
 }
