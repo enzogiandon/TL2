@@ -23,7 +23,6 @@ public class CuentaCripto extends Cuenta {
 		this.direccion = direccion;
 	}
 
-
 	// Implementación de guardarDefi(Cripto)
 	public void guardarDefi(Cripto cripto) {
 		// hay que implementar
