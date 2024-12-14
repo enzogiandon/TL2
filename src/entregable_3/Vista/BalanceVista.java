@@ -9,8 +9,14 @@ public class BalanceVista extends JFrame {
     private JTable tableCuentas;
     private JButton btnExportar;
     private JLabel lblBalanceTotal;
+    private JButton botonCotizacion;
+    private JButton botonMovimientos;
 
     public BalanceVista() {
+    	botonCotizacion = new JButton ("Cotizaciones"); //Boton de cotizaciones
+    	botonMovimientos = new JButton ("Movimientos");
+    	add(botonCotizacion);
+    	add(botonMovimientos);
         setTitle("Balance y Mis Cuentas");
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,6 +45,13 @@ public class BalanceVista extends JFrame {
 
         btnExportar = new JButton("Exportar a CSV");
         panelInferior.add(btnExportar, BorderLayout.EAST);
+        //agrego boton para cotizaciones
+        botonCotizacion = new JButton("Cotizaciones");
+        panelInferior.add(botonCotizacion, BorderLayout.NORTH);
+        
+        //agrego boton para movimientos
+        botonMovimientos = new JButton("Movimientos");
+        panelInferior.add(botonMovimientos, BorderLayout.SOUTH);
 
         add(panelInferior, BorderLayout.SOUTH);
     }
@@ -53,5 +66,9 @@ public class BalanceVista extends JFrame {
 
     public void addExportListener(ActionListener listener) {
         btnExportar.addActionListener(listener);
+    }
+    
+    public JButton getBotonCotizar() {
+    	return botonCotizacion;
     }
 }

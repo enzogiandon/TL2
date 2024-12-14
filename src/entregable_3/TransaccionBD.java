@@ -8,8 +8,9 @@ public class TransaccionBD {
 	private String resumen;
 	private LocalDate fecha;
 	private int idUsuario;
-	
-	public TransaccionBD() {}
+
+	public TransaccionBD() {
+	}
 
 	public TransaccionBD(int id, String resumen) {
 		this.id = id;
@@ -54,10 +55,4 @@ public class TransaccionBD {
 	public void setIdUsuario(int idUsuario) {
 		this.idUsuario = idUsuario;
 	}
-	
-	
-	
-	
-
-	
 }

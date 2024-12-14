@@ -3,18 +3,33 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import entregable_3.Usuario;
-import entregable_3.Modelo.LoginModelo;
-import entregable_3.Vista.LoginVista;
+import entregable_3.Modelo.*;
+import entregable_3.Vista.*;
 
 public class LoginControlador {
 	private LoginModelo modelo;
 	private LoginVista vista;
-	
+	private RegistroVista vistaReg;
+	private RegistroModelo modeloReg;
+    private CuentaDAOjdbc modeloBal;
+    private BalanceVista vistaBal;
+    private Usuario user;
+    
 	public LoginControlador(LoginModelo modelo, LoginVista vista) {
 		this.modelo = modelo;
 		this.vista = vista;
+		
+		modeloReg = new RegistroModelo();
+        vistaReg = new RegistroVista();
+        new RegistroControlador(modeloReg, vistaReg);
+		
 		//Asigna el controlador al botón de la vista
 		this.vista.getBotonLogin().addActionListener(new IniciarListener());
+		
+		this.vista.getBotonRegistro().addActionListener(e -> {
+            vista.dispose(); // Cierra la ventana de login
+            vistaReg.setVisible(true); // Abre la ventana de registro
+        });
 	}
 	
 	
@@ -27,11 +42,20 @@ public class LoginControlador {
 				String passwd = vista.getPasswd();
 				
 				//Llamada al modelo para realizar la operación
-				Usuario user = modelo.iniciar(email,passwd);
+				user = modelo.iniciar(email,passwd);
 				
 				if (user != null) {
 					//Actualiza la vista con el resultado
 					vista.setResultado(true);
+					vista.dispose(); // Cierra la ventana de login
+					
+					//Balance
+			        modeloBal = new CuentaDAOjdbc();
+			        vistaBal = new BalanceVista();
+			        new BalanceControlador(modeloBal, vistaBal, user.getId());
+			        //Mostrar la Vista de Balance
+			        vistaBal.setVisible(true);
+					
 				}else {
 					vista.setResultado(false); //inicio incorrecto
 					vista.mostrarMensajeError("Credenciales inválidas. Intente nuevamente.");
@@ -42,5 +66,6 @@ public class LoginControlador {
 			}
 		}
 	}
-
+	
+	
 }

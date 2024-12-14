@@ -91,7 +91,6 @@ public class Moneda implements Comparable<Moneda> {
 				+ ", stock=" + stock + ", volatilidad=" + volatilidad + "]";
 	}
 
-
 	@Override
 	public int compareTo(Moneda m) {
 		return Double.compare(this.precioEnDolar, m.precioEnDolar);

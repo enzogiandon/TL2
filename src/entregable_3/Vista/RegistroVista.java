@@ -4,15 +4,22 @@ import javax.swing.*;
 import java.awt.*;
 
 public class RegistroVista extends JFrame {
-    private JTextField campoNombres = new JTextField(10);
-    private JTextField campoApellidos = new JTextField(10);
-    private JTextField campoEmail = new JTextField(10);
-    private JPasswordField campoPassword = new JPasswordField(10);
-    private JCheckBox checkboxTerminos = new JCheckBox("Acepto los términos y condiciones");
-    private JButton botonRegistrar = new JButton("Registrar");
-    private JTextField campoResultado = new JTextField(20);
+    private JTextField campoNombres;
+    private JTextField campoApellidos;
+    private JTextField campoEmail;
+    private JPasswordField campoPassword;
+    private JCheckBox checkboxTerminos;
+    private JButton botonRegistrar;
+    private JTextField campoResultado;
 
     public RegistroVista() {
+    	campoNombres = new JTextField(10);
+        campoApellidos = new JTextField(10);
+        campoEmail = new JTextField(10);
+        campoPassword = new JPasswordField(10);
+        checkboxTerminos = new JCheckBox("Acepto los términos y condiciones");
+        botonRegistrar = new JButton("Registrar");
+        campoResultado = new JTextField(20);
         setTitle("-- REGISTRO DE USUARIO --");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(900, 400);

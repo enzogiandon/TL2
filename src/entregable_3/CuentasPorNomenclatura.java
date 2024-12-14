@@ -5,6 +5,9 @@ import java.util.Comparator;
 public class CuentasPorNomenclatura implements Comparator<Cuenta>{
 	@Override
 	public int compare(Cuenta c1, Cuenta c2) {
-		return c1.getId().compareTo(c2.getId());
+		Integer valorc1 = c1.getId();
+		Integer valorc2 = c2.getId();
+		int valor = valorc1.compareTo(valorc2);
+		return valor;
 	}
 }

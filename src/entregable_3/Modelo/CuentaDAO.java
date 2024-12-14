@@ -3,7 +3,10 @@ package entregable_3.Modelo;
 import entregable_3.Cuenta;
 import entregable_3.CuentaFiat;
 import entregable_3.CuentaCripto;
+
 import java.util.List;
+
+
 public interface CuentaDAO {
 	
 	// Guardar una cuenta en la BD

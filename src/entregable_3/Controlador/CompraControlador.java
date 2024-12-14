@@ -53,19 +53,13 @@ public class CompraControlador {
 
 	private void convertir() {
 
-		try {
-			Fiat fiatSeleccionada = (Fiat) mDAO.getMoneda(vista.getFiatSeleccionada());
-			double cantidadFiat = vista.getCantidadFiat();
+		Fiat fiatSeleccionada = (Fiat) mDAO.getMoneda(vista.getFiatSeleccionada());
+		double cantidadFiat = vista.getCantidadFiat();
 
-			double cantidadCripto = cantidadFiat
-					/ ((criptoSeleccionada.getPrecioEnDolar() / fiatSeleccionada.getPrecioEnDolar()));
+		double cantidadCripto = cantidadFiat
+				/ ((criptoSeleccionada.getPrecioEnDolar() / fiatSeleccionada.getPrecioEnDolar()));
 
-			vista.setEquivalente(String.format("%.f %s", cantidadCripto, criptoSeleccionada.getCodigo()));
-			
-			
-		} catch (SQLException e) {
-			System.out.println("Error de SQL: " + e.getMessage());
-		}
+		vista.setEquivalente(String.format("%.f %s", cantidadCripto, criptoSeleccionada.getCodigo()));
 
 	}
 }
