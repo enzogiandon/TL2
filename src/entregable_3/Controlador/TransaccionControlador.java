@@ -15,14 +15,14 @@ public class TransaccionControlador {
 	private TransaccionVista vista;
 	private List<TransaccionBD> transacciones;  // variable obtener las transacciones y no acceder muchas veces a la BD
 
-	public TransaccionControlador(TransaccionVista vista) {
+	public TransaccionControlador(TransaccionVista vista,int idUsuario) {
 		this.vista = vista;
 		
 		//Inicializo el DAO
 		this.modelo = FactoryDAO.getTransaccionDAO();
 		
 		// Obtener transacciones
-		transacciones = modelo.getTransacciones();
+		transacciones = modelo.getTransacciones(idUsuario);
 		 
 
 		// Cargo la lista en la vista
