@@ -1,6 +1,7 @@
 package entregable_3.Controlador;
 
-
+import entregable_3.CuentaFiat;
+import entregable_3.CuentaCripto;
 import entregable_3.Cuenta;
 import entregable_3.Modelo.*;
 import entregable_3.Vista.*;
@@ -15,15 +16,17 @@ import java.io.IOException;
 import java.util.List;
 
 public class BalanceControlador {
-    private CuentaDAOjdbc modelo;
+    private CuentaDAO modelo;
     private BalanceVista vista;
     private CotizacionModelo modeloCot;
     private CotizacionVista vistaCot;
+    private int id;
     
 
-    public BalanceControlador(CuentaDAOjdbc modelo, BalanceVista vista) {
+    public BalanceControlador(CuentaDAO modelo, BalanceVista vista, int id) {
         this.modelo = modelo;
         this.vista = vista;
+        this.id = id;
         modeloCot = new CotizacionModelo();
         vistaCot = new CotizacionVista();
         new CotizacionControlador(modeloCot, vistaCot);
@@ -60,8 +63,11 @@ public class BalanceControlador {
 
     private void cargarDatosEnVista() {
         // Obtener datos del modelo
-        List<Cuenta> cuentasCripto = modelo.listarCuentasCripto();
-        List<Cuenta> cuentasFiat = modelo.listarCuentasFiat();
+    	System.out.println("ID USUARIO: " + id);
+        List<CuentaCripto> cuentasCripto = modelo.listarCuentasCripto(id); //ESTOS NUMEROS NO VAN
+        List<CuentaFiat> cuentasFiat = modelo.listarCuentasFiat(id); //ESTOS NOMEROS NO VAN
+        System.out.println("Cuentas Cripto: " + cuentasCripto.size());
+        System.out.println("Cuentas Fiat: " + cuentasFiat.size());
 
         // Combinar datos en una tabla
         Object[][] data = new Object[cuentasCripto.size() + cuentasFiat.size()][3];
@@ -91,8 +97,9 @@ public class BalanceControlador {
     private class ExportListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            List<Cuenta> cuentasCripto = modelo.listarCuentasCripto();
-            List<Cuenta> cuentasFiat = modelo.listarCuentasFiat();
+        	
+            List<CuentaCripto> cuentasCripto = modelo.listarCuentasCripto(id); //ESTOS NUMEROS NO VAN!!
+            List<CuentaFiat> cuentasFiat = modelo.listarCuentasFiat(id);
 
             try (FileWriter writer = new FileWriter("cuentas.csv")) {
                 writer.write("Tipo,ID,Saldo\n");
