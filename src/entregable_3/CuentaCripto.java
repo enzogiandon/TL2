@@ -1,22 +1,19 @@
 package entregable_3;
 
 public class CuentaCripto extends Cuenta {
-	protected Cripto cripto;
 	private String direccion;
 
 	public CuentaCripto() {
 	}
 
-	public CuentaCripto(String id, double saldo, String direccion) {
-		super(id, saldo);
+	public CuentaCripto(int id, int idUsuario, double saldo, String direccion, Cripto cripto) {
+		super(id, idUsuario, saldo,cripto);
 		this.direccion = direccion;
-	}
-	public CuentaCripto(String id, double saldo, String direccion,Cripto cripto) {
-		super(id, saldo);
-		this.direccion = direccion;
-		this.cripto = cripto;
 	}
 
+	public CuentaCripto(int id, int idUsuario, double saldo, Cripto cripto) {
+		super(id, idUsuario, saldo,cripto);
+	}
 	// Getters y Setters
 	public String getDireccion() {
 		return direccion;
@@ -25,14 +22,7 @@ public class CuentaCripto extends Cuenta {
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
-	
-	public Cripto getCripto() {
-		return cripto;
-	}
-	public void setCripto(Cripto cripto){
-		this.cripto = cripto;
-	}
-	
+
 
 	// Implementación de guardarDefi(Cripto)
 	public void guardarDefi(Cripto cripto) {
