@@ -1,15 +1,15 @@
 package entregable_3.Modelo;
+
 import entregable_3.*;
 import java.sql.*;
 import java.util.List;
-import java.util.Random;
 import java.util.ArrayList;
 
 public class MonedaDAOjdbc implements MonedaDAO {
 
 	@Override
 	public boolean guardarMoneda(Moneda moneda) {
-		String sql = "INSERT INTO MONEDA (TIPO, NOMBRE, NOMENCLATURA, VALOR_DOLAR, STOCK) VALUES (?,?,?,?,?)";
+		String sql = "INSERT INTO MONEDA (TIPO, ID, NOMBRE, NOMENCLATURA, VALOR_DOLAR, VOLATILIDAD, STOCK, NOMBRE_ICONO) VALUES (?,?,?,?,?,?,?,?)";
 		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
 			if (moneda instanceof Fiat)
 				pst.setString(1, String.valueOf('F'));
@@ -18,12 +18,18 @@ public class MonedaDAOjdbc implements MonedaDAO {
 			else
 				return false;
 
-			pst.setString(2, moneda.getNombre());
-			pst.setString(3, moneda.getCodigo());
-			pst.setDouble(4, moneda.getPrecioEnDolar());
-			pst.setDouble(5, moneda.getStock());
+			pst.setInt(2, moneda.getId());
+			pst.setString(3, moneda.getNombre());
+			pst.setString(4, moneda.getCodigo());
+			pst.setDouble(5, moneda.getPrecioEnDolar());
+			pst.setDouble(6, moneda.getVolatilidad());
+			pst.setDouble(7, moneda.getStock());
+
+			// PROVISORIO, CAMBIAR
+			pst.setString(8, moneda.getCodigo());
+
 			pst.executeUpdate();
-			System.out.println("Se ha guardado exitosamente la moneda en la base de datos.");
+			System.out.println("Se ha guardado exitosamente la moneda " + moneda.getCodigo() + " en la base de datos.");
 
 			pst.close();
 			con.close();
@@ -45,10 +51,12 @@ public class MonedaDAOjdbc implements MonedaDAO {
 			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
 				Moneda m = new Moneda();
-				m.setNombre(rs.getString(2));
-				m.setCodigo(rs.getString(3));
-				m.setPrecioEnDolar(rs.getDouble(4));
-				m.setStock(rs.getDouble(6));
+				m.setId(rs.getInt(1));
+				m.setNombre(rs.getString(3));
+				m.setCodigo(rs.getString(4));
+				m.setPrecioEnDolar(rs.getDouble(5));
+				m.setVolatilidad(6);
+				m.setStock(rs.getDouble(7));
 				monedas.add(m);
 			}
 			pst.close();
@@ -62,7 +70,7 @@ public class MonedaDAOjdbc implements MonedaDAO {
 	}
 
 	@Override
-	public Moneda getMoneda(String nomenclatura) throws SQLException {
+	public Moneda getMoneda(String nomenclatura) {
 		String sql = "SELECT * FROM MONEDA WHERE NOMENCLATURA = ?";
 		Moneda moneda = null;
 
@@ -70,47 +78,53 @@ public class MonedaDAOjdbc implements MonedaDAO {
 			pst.setString(1, nomenclatura.toUpperCase());
 			ResultSet rs = pst.executeQuery();
 
-			if (rs.next()) {
-				if (rs.getString("TIPO").equals("F")) { // si es fiat
-					moneda = new Fiat(rs.getString("NOMENCLATURA"), rs.getDouble("VALOR_DOLAR"), rs.getString("NOMBRE"),
-							rs.getDouble("STOCK"), rs.getDouble("VOLATILIDAD"));
-				} else if (rs.getString("TIPO").equals("C")) {// si es cripto
-					moneda = new Cripto(rs.getString("NOMENCLATURA"), rs.getDouble("VALOR_DOLAR"),
-							rs.getString("NOMBRE"), rs.getDouble("STOCK"), rs.getDouble("VOLATILIDAD"));
-				}
-			}
+			if (rs.next())
+				moneda = crearMoneda(rs);
 
 			pst.close();
 			con.close();
+
+		} catch (SQLException e) {
+			System.out.println("Error de SQL: " + e.getMessage());
 		}
 		return moneda;
 	}
 
-	@Override
-	public boolean stockRandomizer() {
-		List<Moneda> monedas = listarMonedas();
-		if (monedas == null || monedas.isEmpty()) {
-			System.out.println("No se encontró ninguna moneda");
-			return false;
+	private Moneda crearMoneda(ResultSet rs) throws SQLException {
+		String tipo = rs.getString("TIPO");
+		if (!tipo.equals("F") && !tipo.equals("C"))
+			return null;
+
+		int id = rs.getInt("ID");
+		String nomenclatura = rs.getString("NOMENCLATURA");
+		double valorDolar = rs.getDouble("VALOR_DOLAR");
+		String nombre = rs.getString("NOMBRE");
+		double stock = rs.getDouble("STOCK");
+		double volatilidad = rs.getDouble("VOLATILIDAD");
+
+		switch (tipo) {
+		case "F":
+			return new Fiat(id, nomenclatura, valorDolar, nombre, stock, volatilidad);
+		case "C":
+			return new Cripto(id, nomenclatura, valorDolar, nombre, stock, volatilidad);
+		default:
+			throw new IllegalArgumentException("Tipo desconocido: " + tipo);
 		}
-		Random rand = new Random();
-		String sql = "UPDATE MONEDA SET STOCK = ? WHERE NOMENCLATURA = ?";
+	}
+
+	@Override
+	public int stockRandomizer() {
+		String sql = "UPDATE MONEDA SET STOCK = ABS(RANDOM()) % 10000 + 1";
 		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
 
-			for (Moneda moneda : monedas) {
-				double stock = rand.nextDouble() * 100000;
-				pst.setDouble(1, stock);
-				pst.setString(2, moneda.getCodigo());
-				pst.executeUpdate();
-			}
+			int generado = pst.executeUpdate();
 			System.out.println("Stock generado");
 			pst.close();
 			con.close();
-			return true;
+			return generado;
 		} catch (SQLException e) {
 			System.out.println("Error de SQL: " + e.getMessage());
-			e.printStackTrace();
-			return false;
+			return 0;
 		}
 	}
 }
