@@ -4,36 +4,42 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Transaccion {
-	protected int id;
-    protected double monto;
-    protected LocalDate fecha;
-    protected double comisiones;
-    protected LocalTime tiempoElegido;
-    protected boolean confirmacion;
-    protected String resumen;
+	private int id;
+	private int idUsuario;
+	private double monto;
+	private LocalDate fecha;
+	private double comisiones;
+	private LocalTime hora;
+	private boolean confirmacion;
+	private String resumen;
 
-    public Transaccion(double monto) {
-    	this.id= (int) (Math.random() * 1000 + 1);
-        this.monto = monto;
-        this.fecha = LocalDate.now();
-        this.tiempoElegido = LocalTime.now();
-        this.confirmacion = false; // Pendiente de confirmación
-    }
-    
-    public Transaccion(int id, String resumen, LocalDate fecha) {
-    	this.id = id;
-    	this.resumen = resumen;
-    	this.fecha = fecha;
-    }
-    
-    // Método para confirmar la transacción
-    public void confirmar() {
-    	confirmacion = true;
-    }
+	public Transaccion(int id, int idUsuario,double monto) {
+		this.id = (int) (Math.random() * 1000 + 1);
+		this.idUsuario = idUsuario;
+		this.monto = monto;
+		this.fecha = LocalDate.now();
+		this.hora = LocalTime.now();
+		this.confirmacion = false; // Pendiente de confirmación
+	}
 
+	public Transaccion() {
+	}
 
-    public int getId() {
+	// Método para confirmar la transacción
+	public void confirmar() {
+		confirmacion = true;
+	}
+
+	public int getId() {
 		return id;
+	}
+
+	public int getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(int idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 
 	public void setId(int id) {
@@ -49,7 +55,7 @@ public class Transaccion {
 	}
 
 	public String getDescripcion() {
-        resumen = "Monto adquirido: " + monto + ", Fecha: " + fecha + ", Confirmación: " + confirmacion;
-        return resumen;
-    }
+		resumen = "Monto adquirido: " + monto + ", Fecha: " + fecha + ", Hora: " +  hora + ", Confirmación: " + confirmacion;
+		return resumen;
+	}
 }
