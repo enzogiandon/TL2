@@ -1,12 +1,12 @@
 package entregable_3.Modelo;
+
+import entregable_3.Moneda;
 import java.sql.*;
 import java.util.List;
 
-import entregable_3.Moneda;
-
 public interface MonedaDAO {
-	boolean guardarMoneda(Moneda moneda) throws SQLException;
+	boolean guardarMoneda(Moneda moneda);
 	List<Moneda> listarMonedas();
-	boolean stockRandomizer();
-	Moneda getMoneda(String nomenclatura) throws SQLException;
+	int stockRandomizer(); // retorna la cantidad de filas actualizadas
+	Moneda getMoneda(String nomenclatura);
 }
