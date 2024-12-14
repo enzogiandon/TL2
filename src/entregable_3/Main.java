@@ -53,8 +53,9 @@ public class Main {
 		vistaLog.setVisible(true);
 		*/
 		// @formatter:on
-
+		
 		testCompra();
+//		testTransacciones();
 	}
 
 	public static void testMoneda() {
@@ -169,6 +170,10 @@ public class Main {
 
 		int idBitcoin = (int) (Math.random() * 10000) + 1;
 		Cripto bitcoin = new Cripto(idBitcoin, "BTC", 100000.53, "Bitcoin", 100);
+
+		idCuenta = (int) (Math.random() * 10000) + 1;
+		CuentaCripto cBitcoin = new CuentaCripto(idCuenta,1,0,bitcoin);
+		
 		
 		MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
 		CuentaDAO cDAO = FactoryDAO.getCuentaDAO();
@@ -179,7 +184,7 @@ public class Main {
 		
 		cDAO.guardarCuenta(cDolar);
 		cDAO.guardarCuenta(cPeso);
-
+		cDAO.guardarCuenta(cBitcoin);
 
 		CompraVista cVista = new CompraVista();
 		new CompraControlador(cVista, bitcoin, 1);
