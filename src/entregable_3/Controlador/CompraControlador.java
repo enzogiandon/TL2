@@ -110,6 +110,7 @@ public class CompraControlador {
         int idRandom = (int) (Math.random() * 10000) + 1;
         
         Compra compra = new Compra(idRandom,idUsuario,cantidadCripto,criptoSeleccionada,cantidadFiat,fiatSeleccionada);
+        compra.confirmar();
 
         // Guardar en la base de datos
         modelo.guardarTransaccion(compra);
