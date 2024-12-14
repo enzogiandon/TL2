@@ -11,7 +11,7 @@ import entregable_3.Usuario;
 public class LoginModelo {
 
     public Usuario iniciar(String email, String passwd) {
-    	String sql = "SELECT u.ID, u.EMAIL, u.PASSWORD FROM USUARIO u WHERE u.EMAIL = ? AND u.PASSWORD = ?";
+        String sql = "SELECT u.ID, u.ID_PERSONA, u.EMAIL, u.PASSWORD FROM USUARIO u WHERE u.EMAIL = ? AND u.PASSWORD = ?";
         try (Connection con = ConexionBD.getConnection();
              PreparedStatement pstmt = con.prepareStatement(sql)) {
 
@@ -23,8 +23,13 @@ public class LoginModelo {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                // Usuario encontrado, devolver objeto Usuario
-                return new Usuario(rs.getString("EMAIL"), rs.getString("PASSWORD"));
+                // Usuario encontrado, devolver objeto Usuario con ID e ID_PERSONA
+                return new Usuario(
+                    rs.getInt("ID"),
+                    rs.getInt("ID_PERSONA"),
+                    rs.getString("EMAIL"),
+                    rs.getString("PASSWORD")
+                );
             }
         } catch (SQLException e) {
             System.out.println("Error al buscar usuario: " + e.getMessage());
