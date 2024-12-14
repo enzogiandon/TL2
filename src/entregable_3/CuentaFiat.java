@@ -1,13 +1,12 @@
 package entregable_3;
 
 public class CuentaFiat extends Cuenta {
-	protected Fiat fiat;
-	//deberíamos fijarnos si necesita algo más, pero por si las dudas ya la creo.
-	public CuentaFiat (String id, double saldo) {
-		super(id, saldo);
+	
+	public CuentaFiat() {
+		
 	}
-	public CuentaFiat (String id, double saldo,Fiat fiat) {
-		super(id, saldo);
-		this.fiat = fiat;
+
+	public CuentaFiat(int id, int idUsuario, double saldo, Fiat fiat) {
+		super(id, idUsuario, saldo, fiat);
 	}
 }
