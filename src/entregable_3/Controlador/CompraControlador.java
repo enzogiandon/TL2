@@ -11,6 +11,7 @@ import java.util.List;
 
 import entregable_3.Cripto;
 import entregable_3.Cuenta;
+import entregable_3.CuentaFiat;
 import entregable_3.Fiat;
 
 public class CompraControlador {
@@ -20,14 +21,14 @@ public class CompraControlador {
 	private CuentaDAO cDAO;
 	private Cripto criptoSeleccionada;
 
-	public CompraControlador(CompraVista vista, Cripto criptoSeleccionada) {
+	public CompraControlador(CompraVista vista, Cripto criptoSeleccionada,int idUsuario) {
 		this.vista = vista;
 		modelo = FactoryDAO.getTransaccionDAO();
 		mDAO = FactoryDAO.getMonedaDAO();
 		cDAO = FactoryDAO.getCuentaDAO();
 		this.criptoSeleccionada = criptoSeleccionada;
 
-		inicializarVista();
+		inicializarVista(idUsuario);
 		this.vista.botonListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -36,16 +37,16 @@ public class CompraControlador {
 		});
 	}
 
-	private void inicializarVista() {
+	private void inicializarVista(int idUsuario) {
 		vista.setStock(criptoSeleccionada.getStock() + " " + criptoSeleccionada.getNombre() + " ("
 				+ criptoSeleccionada.getCodigo() + ")");
 		vista.setPrecio(String.format("USD %.2f por unidad.", criptoSeleccionada.getPrecioEnDolar()));
 
 		List<String> opciones = new ArrayList<String>();
-		List<Cuenta> cuentas = cDAO.listarCuentasFiat();
+		List<CuentaFiat> cuentas = cDAO.listarCuentasFiat(idUsuario);
 
-		for (Cuenta cuenta : cuentas) {
-			opciones.add(String.format("%s", cuenta.getId()));
+		for (CuentaFiat cuenta : cuentas) {
+			opciones.add(String.format("%s", cuenta.getMoneda().getCodigo()));
 		}
 
 		vista.setOpcionesFiat(opciones);
@@ -59,7 +60,7 @@ public class CompraControlador {
 		double cantidadCripto = cantidadFiat
 				/ ((criptoSeleccionada.getPrecioEnDolar() / fiatSeleccionada.getPrecioEnDolar()));
 
-		vista.setEquivalente(String.format("%.f %s", cantidadCripto, criptoSeleccionada.getCodigo()));
+		vista.setEquivalente(String.format("%.5f %s", cantidadCripto, criptoSeleccionada.getCodigo()));
 
 	}
 }
