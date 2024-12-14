@@ -15,7 +15,7 @@ public interface CuentaDAO {
 	// Guardar una cuenta en la BD
 		public boolean guardarCuenta(Cuenta cuenta);
 		 
-		// Métodos para listar activos de un usuario
+		// Métodos para listar activos de un usuario !!
 		public List<CuentaCripto> listarCuentasCripto(int idUsuario);
 		public List<CuentaFiat> listarCuentasFiat(int idUsuario);
 		
