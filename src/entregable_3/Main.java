@@ -44,26 +44,6 @@ public class Main {
 		 */
 
 		/*
-		 * // Transaccion (habria que probarlo con una compra o algo xd) TransaccionDAO
-		 * tDAO = FactoryDAO.getTransaccionDAO(); //modelo
-		 * 
-		 * // Me hago una compra imaginaria
-		 * 
-		 * Compra compra = new Compra(1,bitcoin,1,dolar);
-		 * 
-		 * // La guardo con un id random int idRandom = (int)
-		 * Math.ceil(Math.random()*10000);
-		 * tDAO.guardarTransaccion(idRandom,compra.getDescripcion(), 1);
-		 * 
-		 * 
-		 * // La muestro TransaccionVista tVista = new TransaccionVista();
-		 * 
-		 * new TransaccionControlador(tVista);
-		 * 
-		 * tVista.setVisible(true);
-		 */
-
-		/*
 		 * //Balance CuentaDAOjdbc modeloBal = new CuentaDAOjdbc(); BalanceVista
 		 * vistaBal = new BalanceVista(); new BalanceControlador(modeloBal, vistaBal);
 		 * //Mostrar la Vista de Balance vistaBal.setVisible(true);
@@ -75,12 +55,14 @@ public class Main {
 		 * 
 		 * // Mostrar la Vista de Cotización vistaCot.mostrarVentana();
 		 */
-		//testMoneda();
-		//testCuenta();
+
+		// testMoneda();
+		// testCuenta();
+		testCompra();
 
 	}
 
-	public static void testMoneda(){
+	public static void testMoneda() {
 		int id;
 
 		id = (int) (Math.random() * 10000) + 1;
@@ -103,7 +85,7 @@ public class Main {
 		for (Moneda moneda : lista) {
 			System.out.println(moneda.toString());
 		}
-		
+
 		Moneda m = mDAO.getMoneda("USD");
 		if (m != null)
 			System.out.println("Otra moneda: " + m.toString());
@@ -113,42 +95,73 @@ public class Main {
 	public static void testCuenta() {
 		CuentaDAO cDAO = FactoryDAO.getCuentaDAO();
 		MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
-		
-		Fiat f = (Fiat) mDAO.getMoneda("USD");		
-		CuentaFiat cf = new CuentaFiat(64234,2,1000,f);
+
+		Fiat f = (Fiat) mDAO.getMoneda("USD");
+		CuentaFiat cf = new CuentaFiat(64234, 2, 1000, f);
 
 		cDAO.guardarCuenta(cf);
 
 		Cripto c = (Cripto) mDAO.getMoneda("BTC");
-		CuentaCripto cc = new CuentaCripto(4325,2,100,c);
+		CuentaCripto cc = new CuentaCripto(4325, 2, 100, c);
 
 		cDAO.guardarCuenta(cc);
-		
+
 		List<CuentaCripto> listac = cDAO.listarCuentasCripto(2);
 
 		System.out.println("Lista de cuentas Cripto:");
 		for (CuentaCripto cuenta : listac) {
 			System.out.println(cuenta.toString());
 		}
-		
+
 		List<CuentaFiat> listaf = cDAO.listarCuentasFiat(2);
 
 		System.out.println("Lista de cuentas Fiat:");
 		for (CuentaFiat cuenta : listaf) {
 			System.out.println(cuenta.toString());
 		}
-		
+
 		double cantUSD, cantBTC;
-		
-		//revisar de aca en adelante
-		
+
+		// revisar de aca en adelante
+
 		cantUSD = cDAO.obtenerCantidadFiat("USD", 2);
 		cantBTC = cDAO.obtenerCantidadCripto("BTC", 2);
-		System.out.printf("Tengo %.2f USD y %.2f BTC. \n\n",cantUSD,cantBTC);
-	
-		System.out.println(cDAO.getCuentaFiat("USD",2).toString());
+		System.out.printf("Tengo %.2f USD y %.2f BTC. \n\n", cantUSD, cantBTC);
 
-		System.out.println(cDAO.getCuentaCripto("BTC",2).toString());
-	
+		System.out.println(cDAO.getCuentaFiat("USD", 2).toString());
+
+		System.out.println(cDAO.getCuentaCripto("BTC", 2).toString());
 	}
+
+	public static void testCompra() {
+		TransaccionDAO tDAO = FactoryDAO.getTransaccionDAO();
+
+		// Me hago una compra imaginaria
+
+		int id;
+
+		id = (int) (Math.random() * 10000) + 1;
+		Cripto bitcoin = new Cripto(id, "BTC", 123, "Bitcoin", 100);
+
+		id = (int) (Math.random() * 10000) + 1;
+		Fiat dolar = new Fiat(id, "USD", 1, "Dolar", 10000);
+		
+		
+
+		// La guardo con un id random
+		int idRandom = (int) Math.ceil(Math.random() * 10000);
+		Compra compra = new Compra(idRandom,1,1, bitcoin, 1, dolar);
+
+
+		tDAO.guardarTransaccion(compra);
+
+		// La muestro 
+		TransaccionVista tVista = new TransaccionVista();
+
+		new TransaccionControlador(tVista,1);
+
+		tVista.setVisible(true);
+
+	}
+
 }
