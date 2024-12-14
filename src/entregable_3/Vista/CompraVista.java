@@ -13,13 +13,14 @@ public class CompraVista extends JFrame {
 	private JTextField cantidadFiatField;
 	private JComboBox<String> fiatDropdown;
 	private JButton convertirButton;
+	private JButton comprarButton;
 	private JLabel equivalenteLabel;
 
 	public CompraVista() {
 		setTitle("Compra");
 		setSize(400, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLayout(new GridLayout(6, 2, 10, 10));
+		setLayout(new GridLayout(7, 2, 10, 10));
 
 		// Inicializo las variables de los elementos de la GUI
 		stockLabel = new JLabel("Stock disponible: -");
@@ -27,7 +28,8 @@ public class CompraVista extends JFrame {
 		cantidadFiatField = new JTextField();
 		fiatDropdown = new JComboBox<>();
 		convertirButton = new JButton("Convertir");
-		equivalenteLabel = new JLabel("Equivale a: -");
+		comprarButton = new JButton("Comprar");
+		equivalenteLabel = new JLabel("");
 
 		// Agregar elementos a la ventana
 		add(new JLabel("Stock disponible:"));
@@ -40,6 +42,8 @@ public class CompraVista extends JFrame {
 		add(fiatDropdown);
 		add(new JLabel(""));
 		add(convertirButton);
+		add(new JLabel(""));
+		add(comprarButton);
 		add(new JLabel("Equivale a:"));
 		add(equivalenteLabel);
 	}
@@ -52,17 +56,27 @@ public class CompraVista extends JFrame {
 		return (String) fiatDropdown.getSelectedItem();
 	}
 	
-	public void botonListener(ActionListener listener) {
+	public void convertirListener(ActionListener listener) {
 		convertirButton.addActionListener(listener);
 
+	}
+	public void comprarListener(ActionListener listener) {
+		comprarButton.addActionListener(listener);
 	}
 
 	public void setEquivalente(String equivalente) {
 		equivalenteLabel.setText(equivalente);	
 	}
+	public String getEquivalente() {
+		return equivalenteLabel.getText();
+	}
 	
 	public void setStock(String stock) {
 		stockLabel.setText(stock);
+	}
+	
+	public double getStock() {
+		return Double.valueOf(stockLabel.getText());
 	}
 	
 	public void setPrecio(String precio) {
