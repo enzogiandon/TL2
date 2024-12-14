@@ -21,10 +21,7 @@ public class Transaccion {
 		this.hora = LocalTime.now();
 		this.confirmacion = false; // Pendiente de confirmación
 	}
-	
-	
-	
-	
+
 	public Transaccion() {
 	}
 
