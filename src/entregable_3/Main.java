@@ -75,8 +75,8 @@ public class Main {
 		 * 
 		 * // Mostrar la Vista de Cotización vistaCot.mostrarVentana();
 		 */
-		testMoneda();
-		//testCuenta();
+		//testMoneda();
+		testCuenta();
 
 	}
 
@@ -95,7 +95,7 @@ public class Main {
 		mDAO.guardarMoneda(bitcoin);
 		mDAO.stockRandomizer();
 
-		List<Moneda> lista = new ArrayList<Moneda>();
+		/*List<Moneda> lista = new ArrayList<Moneda>();
 
 		lista = mDAO.listarMonedas();
 
@@ -103,7 +103,7 @@ public class Main {
 		for (Moneda moneda : lista) {
 			System.out.print(moneda.toString());
 		}
-
+*/
 		Moneda m = mDAO.getMoneda("USD");
 		if (m != null)
 			System.out.println("Otra moneda: " + m.toString());
