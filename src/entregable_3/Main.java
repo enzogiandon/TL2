@@ -27,11 +27,13 @@ public class Main {
 			System.out.println("Error de sql: "+ e.getMessage());
 			System.exit(2);;
 		}
+
 		//Carga de datos en la base de datos
 		DatosModelo modelo = new DatosModelo();
         DatosVista vista = new DatosVista();
         new DatosControlador(modelo, vista);
         vista.setVisible(true);       
+        
 		// Login de usuario		
         LoginModelo modeloLog = new LoginModelo();
         LoginVista vistaLog = new LoginVista();
