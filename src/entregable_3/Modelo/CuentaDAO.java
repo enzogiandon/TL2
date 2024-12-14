@@ -10,8 +10,8 @@ public interface CuentaDAO {
 	public boolean guardarCuenta(Cuenta cuenta);
 	 
 	// Métodos para listar activos de un usuario
-	public List<Cuenta> listarCuentasCripto(int idUsuario);
-	public List<Cuenta> listarCuentasFiat(int idUsuario);
+	public List<CuentaCripto> listarCuentasCripto(int idUsuario);
+	public List<CuentaFiat> listarCuentasFiat(int idUsuario);
 	
 	// Métodos para obtener saldo de una moneda para un usuario
     public double obtenerCantidadCripto(String idCripto, int idUsuario);

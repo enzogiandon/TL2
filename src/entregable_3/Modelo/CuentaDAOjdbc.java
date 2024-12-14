@@ -37,30 +37,51 @@ public class CuentaDAOjdbc implements CuentaDAO {
 		}
 	}
 
-	private List<Cuenta> listarCuentas(String sql, int idUsuario) {
-		List<Cuenta> lista = new ArrayList<Cuenta>();
-		try (Connection con = ConexionBD.getConnection();
-				PreparedStatement pst = con.prepareStatement(sql);
-				ResultSet rs = pst.executeQuery()) {
+	@Override
+	public List<CuentaCripto> listarCuentasCripto(int idUsuario) {
+		// @formatter:off
+		String sql = "SELECT " +
+		             "ACTIVO.ID AS ID, " +
+		             "ACTIVO.ID_USUARIO AS ID_USUARIO, " +
+		             "ACTIVO.CANTIDAD AS CANTIDAD, " +
+		             "MONEDA.ID AS ID_MONEDA, " +
+		             "MONEDA.NOMBRE AS NOMBRE, " +
+		             "MONEDA.NOMENCLATURA AS NOMENCLATURA, " +
+		             "MONEDA.VALOR_DOLAR AS VALOR_DOLAR, " +
+		             "MONEDA.STOCK AS STOCK, " +
+		             "MONEDA.VOLATILIDAD AS VOLATILIDAD " +
+		             "FROM ACTIVO_CRIPTO AS ACTIVO " +
+		             "JOIN MONEDA ON ACTIVO.ID_MONEDA = MONEDA.ID " +
+		             "WHERE ACTIVO.ID_USUARIO = ?";
+			// @formatter:on
+		List<CuentaCripto> lista = new ArrayList<>();
+		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
 
-			while (rs.next()) {
-				// @formatter:off
-				Moneda moneda = new Moneda(
-	                    rs.getInt("MONEDA.ID"),
-	                    rs.getString("MONEDA.NOMENCLATURA"),
-	                    rs.getDouble("MONEDA.VALOR_DOLAR"),
-	                    rs.getString("MONEDA.NOMBRE"),
-	                    rs.getDouble("MONEDA.STOCK"),
-	                    rs.getDouble("MONEDA.VOLATILIDAD")
-				);
-				Cuenta cuenta = new Cuenta(
-						rs.getInt("ACTIVO.ID"),
-						rs.getInt("ACTIVO.ID_USUARIO"),
-						rs.getDouble("ACTIVO.CANTIDAD"),
-						moneda
-						);
-				// @formatter:on
-				lista.add(cuenta);
+			pst.setInt(1, idUsuario);
+
+			try (ResultSet rs = pst.executeQuery()) {
+				while (rs.next()) {
+
+					// @formatter:off
+					Cripto cripto = new Cripto(
+						rs.getInt("ID_MONEDA"),           
+	                    rs.getString("NOMENCLATURA"),     
+	                    rs.getDouble("VALOR_DOLAR"),      
+	                    rs.getString("NOMBRE"),           
+	                    rs.getDouble("STOCK"),            
+	                    rs.getDouble("VOLATILIDAD")       
+	                );
+
+	                CuentaCripto cuentaCripto = new CuentaCripto(
+	                    rs.getInt("ID"),                 
+	                    rs.getInt("ID_USUARIO"),         
+	                    rs.getDouble("CANTIDAD"),        
+	                    cripto                           
+	                );
+		            // @formatter:on
+
+					lista.add(cuentaCripto);
+				}
 			}
 		} catch (SQLException e) {
 			System.out.println("Error de SQL: " + e.getMessage());
@@ -69,37 +90,58 @@ public class CuentaDAOjdbc implements CuentaDAO {
 		return lista;
 	}
 
-	// @formatter:off
 	@Override
-	public List<Cuenta> listarCuentasCripto(int idUsuario) {
-		String sql = "SELECT ACTIVO.ID_ACTIVO,"+
-                "ACTIVO.ID_USUARIO, " +
-                "ACTIVO.ID_MONEDA, " +
-                "ACTIVO.CANTIDAD, " +
-                "MONEDA.NOMBRE, " +
-                "MONEDA.NOMENCLATURA, " +
-                "MONEDA.VALOR_DOLAR " +
-                "FROM ACTIVO_CRIPTO AS ACTIVO " +
-                "JOIN MONEDA ON ACTIVO.ID_MONEDA = MONEDA.ID" + 
-                "WHERE ACTIVO.ID_USUARIO = ?";
-		return listarCuentas(sql,idUsuario);
-	}
+	public List<CuentaFiat> listarCuentasFiat(int idUsuario) {
+		// @formatter:off
+		String sql = "SELECT " +
+		             "ACTIVO.ID AS ID, " +
+		             "ACTIVO.ID_USUARIO AS ID_USUARIO, " +
+		             "ACTIVO.CANTIDAD AS CANTIDAD, " +
+		             "MONEDA.ID AS ID_MONEDA, " +
+		             "MONEDA.NOMBRE AS NOMBRE, " +
+		             "MONEDA.NOMENCLATURA AS NOMENCLATURA, " +
+		             "MONEDA.VALOR_DOLAR AS VALOR_DOLAR, " +
+		             "MONEDA.STOCK AS STOCK, " +
+		             "MONEDA.VOLATILIDAD AS VOLATILIDAD " +
+		             "FROM ACTIVO_FIAT AS ACTIVO " +
+		             "JOIN MONEDA ON ACTIVO.ID_MONEDA = MONEDA.ID " +
+		             "WHERE ACTIVO.ID_USUARIO = ?";
+			// @formatter:on
+		List<CuentaFiat> lista = new ArrayList<>();
+		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
 
-	@Override
-	public List<Cuenta> listarCuentasFiat(int idUsuario) {
-		String sql = "SELECT ACTIVO.ID_ACTIVO,"+
-                "ACTIVO.ID_USUARIO, " +
-                "ACTIVO.ID_MONEDA, " +
-                "ACTIVO.CANTIDAD, " +
-                "MONEDA.NOMBRE, " +
-                "MONEDA.NOMENCLATURA, " +
-                "MONEDA.VALOR_DOLAR " +
-                "FROM ACTIVO_FIAT AS ACTIVO " +
-                "JOIN MONEDA ON ACTIVO.ID_MONEDA = MONEDA.ID" + 
-                "WHERE ACTIVO.ID_USUARIO = ?";
-		return listarCuentas(sql,idUsuario);
+			pst.setInt(1, idUsuario);
+
+			try (ResultSet rs = pst.executeQuery()) {
+				while (rs.next()) {
+
+					// @formatter:off
+					Fiat fiat = new Fiat(
+						rs.getInt("ID_MONEDA"),           
+	                    rs.getString("NOMENCLATURA"),     
+	                    rs.getDouble("VALOR_DOLAR"),      
+	                    rs.getString("NOMBRE"),           
+	                    rs.getDouble("STOCK"),            
+	                    rs.getDouble("VOLATILIDAD")       
+	                );
+
+	                CuentaFiat cuentaFiat = new CuentaFiat(
+	                    rs.getInt("ID"),                 
+	                    rs.getInt("ID_USUARIO"),         
+	                    rs.getDouble("CANTIDAD"),        
+	                    fiat                           
+	                );
+		            // @formatter:on
+
+					lista.add(cuentaFiat);
+				}
+			}
+		} catch (SQLException e) {
+			System.out.println("Error de SQL: " + e.getMessage());
+		}
+
+		return lista;
 	}
-	// @formatter:on
 
 	private boolean actualizarCuentas(String sql, List<Cuenta> cuentas) {
 
