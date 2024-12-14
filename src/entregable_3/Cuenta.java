@@ -1,20 +1,43 @@
 package entregable_3;
 
-
 //para que las cuentas puedan ordenarse por saldo de manera descendente, implementa la 
 //interfaz Comparable en la clase cuenta
 public class Cuenta implements Comparable<Cuenta> {
-	protected double saldo;
-	protected String id;
+
+	private int id;
+	private int idUsuario;
+	private double saldo;
+	private Moneda moneda;
+	
+	
 
 	// Constructor, getters y setters
-	public Cuenta(String id, double saldo) {
+	public Cuenta(int id, int idUsuario, double saldo, Moneda moneda) {
+		this.id = id;
+		this.idUsuario = idUsuario;
 		this.saldo = saldo;
+		this.moneda = moneda;
+	}
+
+	
+	public Cuenta() {
+
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	public Cuenta() {
+	public int getIdUsuario() {
+		return idUsuario;
+	}
 
+	public void setIdUsuario(int idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 
 	public double getSaldo() {
@@ -25,12 +48,12 @@ public class Cuenta implements Comparable<Cuenta> {
 		this.saldo = saldo;
 	}
 
-	public String getId() {
-		return id;
+	public Moneda getMoneda() {
+		return moneda;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setMoneda(Moneda moneda) {
+		this.moneda = moneda;
 	}
 
 	@Override
