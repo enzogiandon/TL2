@@ -30,63 +30,38 @@ public class Main {
 			;
 		}
 
-		/**
-		 * // Login de usuario LoginModelo modeloLog = new LoginModelo(); LoginVista
-		 * vistaLog = new LoginVista(); new LoginControlador(modeloLog, vistaLog);
-		 * 
-		 * // Mostrar la Vista vistaLog.setVisible(true);
-		 * 
-		 * // Registro de usuario RegistroModelo modeloReg = new RegistroModelo();
-		 * RegistroVista vistaReg = new RegistroVista(); new
-		 * RegistroControlador(modeloReg, vistaReg);
-		 * 
-		 * // Mostrar la Vista de Registro vistaReg.setVisible(true);
-		 * 
-		 */
-
-		/*
-		 * //Balance CuentaDAOjdbc modeloBal = new CuentaDAOjdbc(); BalanceVista
-		 * vistaBal = new BalanceVista(); new BalanceControlador(modeloBal, vistaBal);
-		 * //Mostrar la Vista de Balance vistaBal.setVisible(true);
-		 * 
-		 * // Crear las instancias del Modelo, Vista y Controlador // Cotización de
-		 * Criptomonedas // Cotización de Criptomonedas CotizacionModelo modeloCot = new
-		 * CotizacionModelo(); CotizacionVista vistaCot = new CotizacionVista(); new
-		 * CotizacionControlador(modeloCot, vistaCot);
-		 * 
-		 * // Mostrar la Vista de Cotización vistaCot.mostrarVentana();
-		 */
-
 		// testMoneda();
 		// testCuenta();
-		testCompra();
-		
-		
+		// testCompra();
 
-		//Carga de datos en la base de datos
+		// @formatter:off
+		/*
+		// Carga de datos en la base de datos
 		DatosModelo modelo = new DatosModelo();
-        DatosVista vista = new DatosVista();
-        new DatosControlador(modelo, vista);
+		DatosVista vista = new DatosVista();
+		new DatosControlador(modelo, vista);
 
-        vista.setVisible(true);
-        
+		vista.setVisible(true);
+
 		// Login de usuario
-		
-        LoginModelo modeloLog = new LoginModelo();
-        LoginVista vistaLog = new LoginVista();
-        new LoginControlador(modeloLog, vistaLog);
 
-        // Mostrar la Vista
-        vistaLog.setVisible(true);
-		
+		LoginModelo modeloLog = new LoginModelo();
+		LoginVista vistaLog = new LoginVista();
+		new LoginControlador(modeloLog, vistaLog);
 
+		// Mostrar la Vista
+		vistaLog.setVisible(true);
+		*/
+		// @formatter:on
+
+		testCompra();
 	}
 
 	public static void testMoneda() {
 		int id;
 
 		id = (int) (Math.random() * 10000) + 1;
-		Cripto bitcoin = new Cripto(id, "BTC", 123, "Bitcoin", 100);
+		Cripto bitcoin = new Cripto(id, "BTC", 100000, "Bitcoin", 100);
 
 		id = (int) (Math.random() * 10000) + 1;
 		Fiat dolar = new Fiat(id, "USD", 1, "Dolar", 10000);
@@ -154,35 +129,36 @@ public class Main {
 	}
 
 	public static void testCompra() {
-		TransaccionDAO tDAO = FactoryDAO.getTransaccionDAO();
-
-		// Me hago una compra imaginaria
-
-		int id;
-
-		id = (int) (Math.random() * 10000) + 1;
-		Cripto bitcoin = new Cripto(id, "BTC", 123, "Bitcoin", 100);
-
-		id = (int) (Math.random() * 10000) + 1;
-		Fiat dolar = new Fiat(id, "USD", 1, "Dolar", 10000);
+		int idDolar = (int) (Math.random() * 10000) + 1;
+		Fiat dolar = new Fiat(idDolar, "USD", 1, "Dolar", 10000);
 		
+		int idPeso = (int) (Math.random() * 10000) + 1;
+		Fiat peso = new Fiat(idPeso, "ARS", 0.01, "Peso argentino", 100000);
+
+		int idCuenta = (int) (Math.random() * 10000) + 1;
+		CuentaFiat cDolar = new CuentaFiat(idCuenta, 1, 50000, dolar);
+
+		idCuenta = (int) (Math.random() * 10000) + 1;
+		CuentaFiat cPeso = new CuentaFiat(idCuenta, 1, 500000, peso);
+
+		int idBitcoin = (int) (Math.random() * 10000) + 1;
+		Cripto bitcoin = new Cripto(idBitcoin, "BTC", 100000.53, "Bitcoin", 100);
 		
+		MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
+		CuentaDAO cDAO = FactoryDAO.getCuentaDAO();
 
-		// La guardo con un id random
-		int idRandom = (int) Math.ceil(Math.random() * 10000);
-		Compra compra = new Compra(idRandom,1,1, bitcoin, 1, dolar);
+		mDAO.guardarMoneda(dolar);
+		mDAO.guardarMoneda(peso);
+		mDAO.guardarMoneda(bitcoin);
+		
+		cDAO.guardarCuenta(cDolar);
+		cDAO.guardarCuenta(cPeso);
 
 
-		tDAO.guardarTransaccion(compra);
-
-		// La muestro 
-		TransaccionVista tVista = new TransaccionVista();
-
-		new TransaccionControlador(tVista,1);
-
-		tVista.setVisible(true);
+		CompraVista cVista = new CompraVista();
+		new CompraControlador(cVista, bitcoin, 1);
+		cVista.setVisible(true);
 
 	}
 
-	
 }
