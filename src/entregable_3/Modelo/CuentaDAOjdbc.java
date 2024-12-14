@@ -14,10 +14,10 @@ public class CuentaDAOjdbc implements CuentaDAO {
 		if (cuenta instanceof CuentaCripto)
 			// Usamos UPDATE con ON CONFLICT
 			sql = "INSERT INTO ACTIVO_CRIPTO (ID, ID_USUARIO, ID_MONEDA, CANTIDAD) VALUES (?,?, ?, ?) "
-					+ "ON CONFLICT(ID_MONEDA) DO UPDATE SET CANTIDAD = excluded.CANTIDAD";
+					+ "ON CONFLICT(ID) DO UPDATE SET CANTIDAD = excluded.CANTIDAD";
 		else if (cuenta instanceof CuentaFiat)
 			sql = "INSERT INTO ACTIVO_FIAT (ID, ID_USUARIO, ID_MONEDA, CANTIDAD) VALUES (?,?, ?, ?) "
-					+ "ON CONFLICT(ID_MONEDA) DO UPDATE SET CANTIDAD = excluded.CANTIDAD";
+					+ "ON CONFLICT(ID) DO UPDATE SET CANTIDAD = excluded.CANTIDAD";
 		else {
 			System.out.println("No se pudo guardar la cuenta.");
 			return false;
