@@ -16,11 +16,11 @@ public class DatosModelo {
             try (PreparedStatement pstmt = con.prepareStatement(sqlMoneda)) {
             	//BITCOIN ID = 1
             	pstmt.setString(1, "C");
-                pstmt.setString(2, "101559");
+                pstmt.setString(2, "Bitcoin");
                 pstmt.setString(3, "BTC");
-                pstmt.setDouble(4, 35000.00);
+                pstmt.setDouble(4, 101559);
                 pstmt.setDouble(5, 0.05);
-                pstmt.setDouble(6, 21000000);
+                pstmt.setDouble(6, 10000);
                 pstmt.setString(7, "bitcoin_icon.png");
                 pstmt.executeUpdate();
                 //ETHEREUM ID = 2
@@ -72,7 +72,7 @@ public class DatosModelo {
                 pstmt.setString(1, "F");
                 pstmt.setString(2, "Peso Argentino");
                 pstmt.setString(3, "ARS");
-                pstmt.setDouble(4, 1016.45);
+                pstmt.setDouble(4, 0.00098);
                 pstmt.setDouble(5, 0.5); //50%?
                 pstmt.setDouble(6, 500000);
                 pstmt.setString(7, "ars_icon.png");
@@ -131,26 +131,26 @@ public class DatosModelo {
             // Insertar datos iniciales en la tabla ACTIVO_CRIPTO
             String sqlCripto = "INSERT INTO ACTIVO_CRIPTO (ID_USUARIO, ID_MONEDA, CANTIDAD) VALUES (?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(sqlCripto)) {
-                // Juan Pérez tiene 200 BTC y 29 DOGE
+                // Juan Pérez tiene 0.4 BTC y 3 DOGE
                 pstmt.setInt(1, 1); //ID DE JUAN
                 pstmt.setInt(2, 1);  // ID de Bitcoin
-                pstmt.setDouble(3, 200);
+                pstmt.setDouble(3, 0.4);
                 pstmt.executeUpdate();
                 pstmt.setInt(1, 1); //ID DE JUAN
                 pstmt.setInt(2, 5);  // ID de DOGE
-                pstmt.setDouble(3, 29);
+                pstmt.setDouble(3, 3);
                 pstmt.executeUpdate();
 
-                // Ana Gómez tiene 300.5 BTC
+                // Ana Gómez tiene 1.1 BTC
                 pstmt.setInt(1, 2); //ID ANA
                 pstmt.setInt(2, 1);  // ID de Bitcoin
-                pstmt.setDouble(3, 300.5);
+                pstmt.setDouble(3, 1.1);
                 pstmt.executeUpdate();
                 
-             // Enzo tiene 912 BTC; 2 ETH y 89 USDC
+             // Enzo tiene 0.912 BTC; 2 ETH y 89 USDC
                 pstmt.setInt(1, 3); //ID ENZO
                 pstmt.setInt(2, 1);  // ID de Bitcoin
-                pstmt.setDouble(3, 912);
+                pstmt.setDouble(3, 0.912);
                 pstmt.executeUpdate();
                 pstmt.setInt(1, 3); //ID ENZO
                 pstmt.setInt(2, 2);  // ID de Ethereum
@@ -161,10 +161,10 @@ public class DatosModelo {
                 pstmt.setDouble(3, 89);
                 pstmt.executeUpdate();
                 
-             // Martina Hubler tiene 34500.5 BTC
+             // Martina Hubler tiene 0.5 BTC
                 pstmt.setInt(1, 4); //ID MARTINA
                 pstmt.setInt(2, 1);  // ID de Bitcoin
-                pstmt.setDouble(3, 34500.5);
+                pstmt.setDouble(3, 0.5);
                 pstmt.executeUpdate();
             }
 
