@@ -71,4 +71,8 @@ public class BalanceVista extends JFrame {
     public JButton getBotonCotizar() {
     	return botonCotizacion;
     }
+    
+    public JButton getBotonMovimientos() {
+    	return botonMovimientos;
+    }
 }
