@@ -41,4 +41,43 @@ public class Main {
         // Mostrar la Vista
         vistaLog.setVisible(true);         
 	}
+	
+	
+	//ESTO DEL TEST ES DE ENZO, lo pegue solo para ir viendolo mientras integro la vista de la compra
+	public static void testCompra() {
+		int idDolar = (int) (Math.random() * 10000) + 1;
+		Fiat dolar = new Fiat(idDolar, "USD", 1, "Dolar", 10000);
+		
+		int idPeso = (int) (Math.random() * 10000) + 1;
+		Fiat peso = new Fiat(idPeso, "ARS", 0.01, "Peso argentino", 100000);
+
+		int idCuenta = (int) (Math.random() * 10000) + 1;
+		CuentaFiat cDolar = new CuentaFiat(idCuenta, 1, 50000, dolar);
+
+		idCuenta = (int) (Math.random() * 10000) + 1;
+		CuentaFiat cPeso = new CuentaFiat(idCuenta, 1, 500000, peso);
+
+		int idBitcoin = (int) (Math.random() * 10000) + 1;
+		Cripto bitcoin = new Cripto(idBitcoin, "BTC", 100000.53, "Bitcoin", 100);
+
+		idCuenta = (int) (Math.random() * 10000) + 1;
+		CuentaCripto cBitcoin = new CuentaCripto(idCuenta,1,0,bitcoin);
+		
+		
+		MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
+		CuentaDAO cDAO = FactoryDAO.getCuentaDAO();
+
+		mDAO.guardarMoneda(dolar);
+		mDAO.guardarMoneda(peso);
+		mDAO.guardarMoneda(bitcoin);
+		
+		cDAO.guardarCuenta(cDolar);
+		cDAO.guardarCuenta(cPeso);
+		cDAO.guardarCuenta(cBitcoin);
+
+		CompraVista cVista = new CompraVista();
+		new CompraControlador(cVista, bitcoin, 1);
+		cVista.setVisible(true);
+
+	}
 }
