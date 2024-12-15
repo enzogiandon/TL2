@@ -3,7 +3,11 @@ package entregable_3.Controlador;
 import entregable_3.Vista.*;
 import entregable_3.Cripto;
 import entregable_3.Modelo.*;
-
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import entregable_3.ConexionBD;
 
 public class CotizacionControlador {
     
@@ -17,41 +21,82 @@ public class CotizacionControlador {
     private Cripto USDT;
     private Cripto DOGE;
     //HABRIA QUE PASAR EL ID DE USUARIO y 
-    //TODO ESTO ESTA SIENDO INTEGRADO POR MARTI H!!
-    public CotizacionControlador(CotizacionModelo modelo, CotizacionVista vista) {
+    private int id;
+    
+    
+    
+    //metodo para cargar los datos de cada moneda
+    private void cargarCriptos(){
+    	String query = "SELECT ID, NOMENCLATURA, VALOR_DOLAR, NOMBRE, STOCK FROM MONEDA WHERE NOMENCLATURA IN ('BTC', 'ETH', 'USDC', 'USDT', 'DOGE')";
+        try (Connection con = ConexionBD.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(query);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                int id = rs.getInt("ID");
+                String codigo = rs.getString("NOMENCLATURA");
+                double precioEnDolar = rs.getDouble("VALOR_DOLAR");
+                String nombre = rs.getString("NOMBRE");
+                double stock = rs.getDouble("STOCK");
+
+                switch (codigo) {
+                    case "BTC":
+                        BTC = new Cripto(id, codigo, precioEnDolar, nombre, stock);
+                        break;
+                    case "ETH":
+                        ETH = new Cripto(id, codigo, precioEnDolar, nombre, stock);
+                        break;
+                    case "USDC":
+                        USDC = new Cripto(id, codigo, precioEnDolar, nombre, stock);
+                        break;
+                    case "USDT":
+                        USDT = new Cripto(id, codigo, precioEnDolar, nombre, stock);
+                        break;
+                    case "DOGE":
+                        DOGE = new Cripto(id, codigo, precioEnDolar, nombre, stock);
+                        break;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error al cargar las criptomonedas: " + e.getMessage());
+        }
+    }
+    public CotizacionControlador(CotizacionModelo modelo, CotizacionVista vista, int id) {
     	this.modelo = modelo;
     	this.vista = vista;
-    	
+    	this.id = id; //le pase el id desde balance
     	vistaComp = new CompraVista();
+    	cargarCriptos();
 		//CompraVista vista, Cripto criptoSeleccionada, int idUsuario
     	//podría hacer los 5 botones, uno para cada moneda
     	this.vista.getBotonComprarBTC().addActionListener(e -> {
     		vista.dispose();
-    		new CompraControlador(vistaComp, BTC, 1);
+    		new CompraControlador(vistaComp, BTC, id); 
     		vistaComp.setVisible(true);
         	
     	});
     	this.vista.getBotonComprarETH().addActionListener(e -> {
     		vista.dispose();
-    		new CompraControlador(vistaComp, ETH, 1);
+    		new CompraControlador(vistaComp, ETH, id);
     		vistaComp.setVisible(true);
         	
     	});
     	this.vista.getBotonComprarUSDC().addActionListener(e -> {
     		vista.dispose();
-    		new CompraControlador(vistaComp, USDC, 1);
+    		new CompraControlador(vistaComp, USDC, id);
     		vistaComp.setVisible(true);
         	
     	});
     	this.vista.getBotonComprarUSDT().addActionListener(e -> {
     		vista.dispose();
-    		new CompraControlador(vistaComp, USDT, 1);
+    		new CompraControlador(vistaComp, USDT, id);
     		vistaComp.setVisible(true);
         	
     	});
     	this.vista.getBotonComprarDOGE().addActionListener(e -> {
     		vista.dispose();
-    		new CompraControlador(vistaComp, DOGE, 1);
+    		new CompraControlador(vistaComp, DOGE, id);
     		vistaComp.setVisible(true);
         	
     	});
