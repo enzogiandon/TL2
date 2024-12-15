@@ -54,7 +54,7 @@ public class Main {
 		*/
 		// @formatter:on
 		
-		testCompra();
+//		testCompra();
 //		testTransacciones();
 		
 		
