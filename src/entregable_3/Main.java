@@ -56,6 +56,24 @@ public class Main {
 		
 		testCompra();
 //		testTransacciones();
+		
+		
+		
+		
+		
+
+		//Carga de datos en la base de datos
+		DatosModelo modelo = new DatosModelo();
+        DatosVista vista = new DatosVista();
+        new DatosControlador(modelo, vista);
+        vista.setVisible(true);       
+        
+		// Login de usuario		
+        LoginModelo modeloLog = new LoginModelo();
+        LoginVista vistaLog = new LoginVista();
+        new LoginControlador(modeloLog, vistaLog);
+        // Mostrar la Vista
+        vistaLog.setVisible(true);         
 	}
 
 	public static void testMoneda() {
