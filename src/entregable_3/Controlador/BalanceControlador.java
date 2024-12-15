@@ -30,7 +30,7 @@ public class BalanceControlador {
         this.id = id; //le pasé el id cuando hizo el login
         modeloCot = new CotizacionModelo();
         vistaCot = new CotizacionVista();
-        new CotizacionControlador(modeloCot, vistaCot);
+        new CotizacionControlador(modeloCot, vistaCot,id);
         cargarDatosEnVista();
         this.vista.addExportListener(new ExportListener());
         
@@ -48,7 +48,7 @@ public class BalanceControlador {
   			        //Cotizacion 
   			        modeloCot = new CotizacionModelo();
   			        vistaCot = new CotizacionVista();
-  			        new CotizacionControlador(modeloCot,vistaCot);
+  			        new CotizacionControlador(modeloCot,vistaCot,id);
   			        
   			        //Mostrar la Vista de Controlador
   			        vistaCot.mostrarVentana(); //internamente la pone en true
