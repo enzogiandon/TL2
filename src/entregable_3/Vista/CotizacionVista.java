@@ -8,7 +8,11 @@ public class CotizacionVista extends JFrame {
     
     private JFrame frame;
     private JTextArea areaTexto;
-    private JButton botonCompra;
+    private JButton botonCompraBTC;
+    private JButton botonCompraETH;
+    private JButton botonCompraUSDC;
+    private JButton botonCompraUSDT;
+    private JButton botonCompraDOGE;
 
     public CotizacionVista() {
         // Configuración de la ventana principal
@@ -30,9 +34,29 @@ public class CotizacionVista extends JFrame {
         frame.add(botonActualizar, BorderLayout.SOUTH);
         
         //Crear un botón para la accion de comprar alguna cripto
-        JButton botonCompra = new JButton("Comprar");
-        botonCompra.addActionListener(null);
-        frame.add(botonCompra, BorderLayout.NORTH);
+        JButton botonCompraBTC = new JButton("Comprar BTC");
+        botonCompraBTC.addActionListener(null);
+        frame.add(botonCompraBTC, BorderLayout.NORTH);
+        
+      //Crear un botón para la accion de comprar alguna cripto
+        JButton botonCompraETH = new JButton("Comprar ETH");
+        botonCompraETH.addActionListener(null);
+        frame.add(botonCompraETH, BorderLayout.EAST);
+        
+      //Crear un botón para la accion de comprar alguna cripto
+        JButton botonCompraUSDC = new JButton("Comprar USDC");
+        botonCompraUSDC.addActionListener(null);
+        frame.add(botonCompraUSDC, BorderLayout.WEST);
+      
+        //Crear un botón para la accion de comprar alguna cripto
+        JButton botonCompraUDST = new JButton("Comprar USDT");
+        botonCompraUSDT.addActionListener(null);
+        frame.add(botonCompraUSDT, BorderLayout.NORTH); //HAY QUE VER DONDE LO PONGO
+      
+        //Crear un botón para la accion de comprar alguna cripto
+        JButton botonCompraDOGE = new JButton("Comprar DOGE");
+        botonCompraDOGE.addActionListener(null);
+        frame.add(botonCompraDOGE, BorderLayout.NORTH); //HAY QUE VER DONDE LO PONGO
     }
 
     public void mostrarVentana() {
@@ -50,8 +74,24 @@ public class CotizacionVista extends JFrame {
         }
     }
     
-    public JButton getBotonComprar() {
-    	return botonCompra;
+    public JButton getBotonComprarBTC() {
+    	return botonCompraBTC;
+    }
+    
+    public JButton getBotonComprarETH() {
+    	return botonCompraETH;
+    }
+    
+    public JButton getBotonComprarUSDC() {
+    	return botonCompraUSDC;
+    }
+    
+    public JButton getBotonComprarUSDT() {
+    	return botonCompraUSDT;
+    }
+    
+    public JButton getBotonComprarDOGE() {
+    	return botonCompraDOGE;
     }
     
 }
