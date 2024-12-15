@@ -34,16 +34,17 @@ public class BalanceControlador {
         cargarDatosEnVista();
         this.vista.addExportListener(new ExportListener());
         
-      //Asigna el controlador al botón de la vista
-        this.vista.getBotonCotizar().addActionListener(new IniciarListener());
+      //Asigna el controlador al botón de "Cotizaciones" y al de Movimientos
+        this.vista.getBotonCotizar().addActionListener(new CotizarListener());
+        this.vista.getBotonMovimientos().addActionListener(new MovimientosListener());
         
     }
 
-  //clase interna que implementa la accion de Iniciar Sesión
-  	class IniciarListener implements ActionListener{
+  //clase interna que implementa la accion del boton de Cotizaciones
+  	class CotizarListener implements ActionListener{
   		public void actionPerformed(ActionEvent e) {
   			try { 				
-  					vista.dispose(); // Cierra la ventana de Balance
+  					//vista.dispose(); // Cierra la ventana de Balance
   					
   			        //Cotizacion 
   			        modeloCot = new CotizacionModelo();
@@ -51,7 +52,7 @@ public class BalanceControlador {
   			        new CotizacionControlador(modeloCot,vistaCot,id);
   			        
   			        //Mostrar la Vista de Controlador
-  			        vistaCot.mostrarVentana(); //internamente la pone en true
+  			        vistaCot.mostrarVentana(); 
   				
   			}catch(NumberFormatException ex) {
   				//excepcion
@@ -60,7 +61,23 @@ public class BalanceControlador {
   			
   		}
   	}
-  	
+  	class MovimientosListener implements ActionListener{
+  		public void actionPerformed(ActionEvent e) {
+  			try { 				
+  			        //Cotizacion 
+  			        TransaccionVista vistaT= new TransaccionVista();
+  			        new TransaccionControlador(vistaT,id);
+  			        
+  			        //Mostrar la Vista de Controlador
+  			        vistaT.setVisible(true); 
+  				
+  			}catch(NumberFormatException ex) {
+  				//excepcion
+  			}
+  				
+  			
+  		}
+  	}
   	private Double calcularBalance(double precioDolar, double cantidad) {
   		return precioDolar*cantidad;
   	}
