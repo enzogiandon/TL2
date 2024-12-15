@@ -182,7 +182,7 @@ public class CuentaDAOjdbc implements CuentaDAO {
 		List<Cuenta> cuentas = new ArrayList<>();
 		cuentas.addAll(fiats);
 
-		String sql = "UPDATE ACTIVO_FIAT SET CANTIDAD = ? WHERE NOMENCLATURA = ?";
+		String sql = "UPDATE ACTIVO_FIAT SET CANTIDAD = ? WHERE NOMENCLATURA = ?"; //NOMENCLATURA EN VEZ DE ID
 		return actualizarCuentas(sql, cuentas);
 	}
 

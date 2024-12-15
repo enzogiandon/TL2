@@ -1,57 +1,59 @@
 package entregable_3;
 
 public class Usuario {
-	private int id;
-	private int idPersona;
-	private String email;
-	private String passwd;
+    private int id;
+    private int idPersona;
+    private String email;
+    private String passwd;
 
-	public Usuario(int id, int idPersona, String email, String passwd) {
-		super();
-		this.idPersona = idPersona;
-		this.email = email;
-		this.passwd = passwd;
-	}
+    // Constructor que incluye todos los atributos
+    public Usuario(int id, int idPersona, String email, String passwd) {
+        this.id = id;
+        this.idPersona = idPersona;
+        this.email = email;
+        this.passwd = passwd;
+    }
 
-	public Usuario(String email, String passwd) {
-		super();
-		this.email = email;
-		this.passwd = passwd;
-	}
+    // Constructor para solo email y password
+    public Usuario(String email, String passwd) {
+        this.email = email;
+        this.passwd = passwd;
+    }
 
-	public Usuario() {
-		super();
-	}
+    // Constructor vacío
+    public Usuario() {
+    }
 
-	public int getId() {
-		return id;
-	}
+    // Getters y Setters
+    public int getId() {
+        return id;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setIdPersona(int idPersona) {
-		this.idPersona = idPersona;
-	}
+    public int getIdPersona() {
+        return idPersona;
+    }
 
-	public int getIdPersona() {
-		return idPersona;
-	}
+    public void setIdPersona(int idPersona) {
+        this.idPersona = idPersona;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public String getPasswd() {
-		return passwd;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getPasswd() {
+        return passwd;
+    }
 
-	public void setPasswd(String passwd) {
-		this.passwd = passwd;
-	}
+    public void setPasswd(String passwd) {
+        this.passwd = passwd;
+    }
 }

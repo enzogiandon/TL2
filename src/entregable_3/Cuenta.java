@@ -1,5 +1,4 @@
 package entregable_3;
-
 //para que las cuentas puedan ordenarse por saldo de manera descendente, implementa la 
 //interfaz Comparable en la clase cuenta
 public class Cuenta implements Comparable<Cuenta> {
@@ -9,8 +8,6 @@ public class Cuenta implements Comparable<Cuenta> {
 	private double saldo;
 	private Moneda moneda;
 	
-	
-
 	// Constructor, getters y setters
 	public Cuenta(int id, int idUsuario, double saldo, Moneda moneda) {
 		this.id = id;
@@ -18,7 +15,6 @@ public class Cuenta implements Comparable<Cuenta> {
 		this.saldo = saldo;
 		this.moneda = moneda;
 	}
-
 	
 	public Cuenta() {
 

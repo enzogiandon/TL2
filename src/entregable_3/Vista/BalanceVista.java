@@ -39,7 +39,7 @@ public class BalanceVista extends JFrame {
 
         // Panel inferior con balance total y botón de exportar
         JPanel panelInferior = new JPanel(new BorderLayout());
-        lblBalanceTotal = new JLabel("Balance Total: $0.00", SwingConstants.LEFT);
+        lblBalanceTotal = new JLabel("Balance: USD $0.00", SwingConstants.LEFT);
         lblBalanceTotal.setFont(new Font("Arial", Font.BOLD, 14));
         panelInferior.add(lblBalanceTotal, BorderLayout.WEST);
 
@@ -61,7 +61,7 @@ public class BalanceVista extends JFrame {
     }
 
     public void setBalanceTotal(String balance) {
-        lblBalanceTotal.setText("Balance Total: " + balance);
+        lblBalanceTotal.setText("Balance: USD" + balance);
     }
 
     public void addExportListener(ActionListener listener) {
