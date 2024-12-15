@@ -21,7 +21,7 @@ public class CotizacionControlador {
     private Cripto USDT;
     private Cripto DOGE;
     //HABRIA QUE PASAR EL ID DE USUARIO y 
-    private int id;
+    private int ID;
     
     
     
@@ -62,41 +62,41 @@ public class CotizacionControlador {
             System.out.println("Error al cargar las criptomonedas: " + e.getMessage());
         }
     }
-    public CotizacionControlador(CotizacionModelo modelo, CotizacionVista vista, int id) {
+    public CotizacionControlador(CotizacionModelo modelo, CotizacionVista vista, int ID) {
     	this.modelo = modelo;
     	this.vista = vista;
-    	this.id = id; //le pase el id desde balance
+    	this.ID = ID; //le pase el id del usuario desde balance
     	vistaComp = new CompraVista();
     	cargarCriptos();
 		//CompraVista vista, Cripto criptoSeleccionada, int idUsuario
     	//podría hacer los 5 botones, uno para cada moneda
     	this.vista.getBotonComprarBTC().addActionListener(e -> {
     		vista.dispose();
-    		new CompraControlador(vistaComp, BTC, id); 
+    		new CompraControlador(vistaComp, BTC, ID); 
     		vistaComp.setVisible(true);
         	
     	});
     	this.vista.getBotonComprarETH().addActionListener(e -> {
     		vista.dispose();
-    		new CompraControlador(vistaComp, ETH, id);
+    		new CompraControlador(vistaComp, ETH, ID);
     		vistaComp.setVisible(true);
         	
     	});
     	this.vista.getBotonComprarUSDC().addActionListener(e -> {
     		vista.dispose();
-    		new CompraControlador(vistaComp, USDC, id);
+    		new CompraControlador(vistaComp, USDC, ID);
     		vistaComp.setVisible(true);
         	
     	});
     	this.vista.getBotonComprarUSDT().addActionListener(e -> {
     		vista.dispose();
-    		new CompraControlador(vistaComp, USDT, id);
+    		new CompraControlador(vistaComp, USDT, ID);
     		vistaComp.setVisible(true);
         	
     	});
     	this.vista.getBotonComprarDOGE().addActionListener(e -> {
     		vista.dispose();
-    		new CompraControlador(vistaComp, DOGE, id);
+    		new CompraControlador(vistaComp, DOGE, ID);
     		vistaComp.setVisible(true);
         	
     	});
