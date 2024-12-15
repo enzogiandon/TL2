@@ -15,48 +15,39 @@ public class CotizacionVista extends JFrame {
     private JButton botonCompraDOGE;
 
     public CotizacionVista() {
-        // Configuración de la ventana principal
+    	// Configuración de la ventana principal
         frame = new JFrame("Cotización de Criptomonedas");
-        
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setSize(400, 300);
+        frame.setSize(600, 400); // Tamaño más largo y ancho
         frame.setLayout(new BorderLayout());
-        
+
         // Crear un área de texto para mostrar los resultados
         areaTexto = new JTextArea();
         areaTexto.setEditable(false);
         JScrollPane scroll = new JScrollPane(areaTexto);
         frame.add(scroll, BorderLayout.CENTER);
-        
+
         // Crear un botón para actualizar la cotización
         JButton botonActualizar = new JButton("Actualizar Precios");
         botonActualizar.addActionListener(e -> mostrarCotizaciones());
         frame.add(botonActualizar, BorderLayout.SOUTH);
         
-        //Crear un botón para la accion de comprar alguna cripto
-        JButton botonCompraBTC = new JButton("Comprar BTC");
-        botonCompraBTC.addActionListener(null);
-        frame.add(botonCompraBTC, BorderLayout.NORTH);
         
-      //Crear un botón para la accion de comprar alguna cripto
-        JButton botonCompraETH = new JButton("Comprar ETH");
-        botonCompraETH.addActionListener(null);
-        frame.add(botonCompraETH, BorderLayout.EAST);
+     // Inicializar los botones de instancia
+        botonCompraBTC = new JButton("Comprar BTC");
+        botonCompraETH = new JButton("Comprar ETH");
+        botonCompraUSDC = new JButton("Comprar USDC");
+        botonCompraUSDT = new JButton("Comprar USDT");
+        botonCompraDOGE = new JButton("Comprar DOGE");
         
-      //Crear un botón para la accion de comprar alguna cripto
-        JButton botonCompraUSDC = new JButton("Comprar USDC");
-        botonCompraUSDC.addActionListener(null);
-        frame.add(botonCompraUSDC, BorderLayout.WEST);
-      
-        //Crear un botón para la accion de comprar alguna cripto
-        JButton botonCompraUDST = new JButton("Comprar USDT");
-        botonCompraUSDT.addActionListener(null);
-        frame.add(botonCompraUSDT, BorderLayout.NORTH); //HAY QUE VER DONDE LO PONGO
-      
-        //Crear un botón para la accion de comprar alguna cripto
-        JButton botonCompraDOGE = new JButton("Comprar DOGE");
-        botonCompraDOGE.addActionListener(null);
-        frame.add(botonCompraDOGE, BorderLayout.NORTH); //HAY QUE VER DONDE LO PONGO
+     // Agregar los botones a la ventana (ajustar el diseño según sea necesario)
+        JPanel panelBotones = new JPanel(new GridLayout(2, 3, 10, 10)); // 2 filas, 3 columnas, con espaciado
+        panelBotones.add(botonCompraBTC);
+        panelBotones.add(botonCompraETH);
+        panelBotones.add(botonCompraUSDC);
+        panelBotones.add(botonCompraUSDT);
+        panelBotones.add(botonCompraDOGE);
+        frame.add(panelBotones, BorderLayout.NORTH);
     }
 
     public void mostrarVentana() {
