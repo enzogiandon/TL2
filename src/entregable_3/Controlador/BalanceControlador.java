@@ -42,8 +42,7 @@ public class BalanceControlador {
   //clase interna que implementa la accion de Iniciar Sesión
   	class IniciarListener implements ActionListener{
   		public void actionPerformed(ActionEvent e) {
-  			try {
-  				
+  			try { 				
   					vista.dispose(); // Cierra la ventana de Balance
   					
   			        //Cotizacion 
@@ -61,11 +60,12 @@ public class BalanceControlador {
   			
   		}
   	}
+  	
+  	private Double calcularBalance(double precioDolar, double cantidad) {
+  		return precioDolar*cantidad;
+  	}
 
     private void cargarDatosEnVista() {
-        // Obtener datos del modelo
-    	System.out.println("ID USUARIO: " + id);
-    	
     	
         List<CuentaCripto> cuentasCripto = modelo.listarCuentasCripto(id); 
         List<CuentaFiat> cuentasFiat = modelo.listarCuentasFiat(id); 
@@ -79,14 +79,16 @@ public class BalanceControlador {
             data[i][0] = "Cripto";
             data[i][1] = cuenta.getMoneda().getCodigo();
             data[i][2] = cuenta.getSaldo();
-            balanceTotal += cuenta.getSaldo();
+            double bal = calcularBalance(cuenta.getMoneda().getPrecioEnDolar(), cuenta.getSaldo());
+            balanceTotal += bal;
             i++;
         }
         for (Cuenta cuenta : cuentasFiat) {
             data[i][0] = "Fiat";
             data[i][1] = cuenta.getMoneda().getCodigo();
             data[i][2] = cuenta.getSaldo();
-            balanceTotal += cuenta.getSaldo();
+            double bal = calcularBalance(cuenta.getMoneda().getPrecioEnDolar(), cuenta.getSaldo());
+            balanceTotal += bal;
             i++;
         }
 
