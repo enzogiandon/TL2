@@ -1,60 +1,110 @@
 package entregable_3.Vista;
+
 import javax.swing.*;
 import java.awt.*;
 
-
-public class LoginVista extends JFrame{
-	private JTextField campoEmail;
+public class LoginVista extends JFrame {
+    private JTextField campoEmail;
     private JPasswordField campoPasswd;
+    private JButton botonLogin;
+    private JButton botonRegistro;
+    private JTextField campoResultado;
 
-	private JButton botonLogin;
-	private JButton botonRegistro;
-	private JTextField campoResultado;
-	
-	public LoginVista() {
-		
-		campoEmail = new JTextField(10); //mail
-	    campoPasswd = new JPasswordField(10);//paswd
+    public LoginVista() {
+        // Configuración de la ventana principal
+        setTitle("Login de Usuario");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 300);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout(10, 10));
+        
 
-		botonLogin = new JButton ("Login");
-		campoResultado = new JTextField(10); //acá podría ir el mensaje de inicio correcto
-		botonRegistro = new JButton ("Registrarse"); //botón para registrarse
-		
-		setTitle ("-- LOGIN DE USUARIO --");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(600,400);
-		setLocationRelativeTo(null);
-		setLayout(new GridLayout(6, 5));
-		
-		add (new JLabel("email:")); add (campoEmail); add (new JLabel("password:")); add (campoPasswd);
-		add(new JLabel("")); add(new JLabel("")); add(new JLabel("")); add(botonLogin);
-		add(new JLabel("")); add(new JLabel("")); add(new JLabel("Estado: ")); add(campoResultado);
-		add(new JLabel("")); add(new JLabel("")); add(new JLabel("")); add(botonRegistro);
-		campoResultado.setEditable(false);
-	}
-	
-	//Getters para los campos y botón
-	public String getEmail() {
-		return campoEmail.getText();
-	}
-	public String getPasswd() {
-		return campoPasswd.getText();
-	}
-	
-	public void setResultado (boolean resultado) {
-		campoResultado.setText(resultado ? "Inicio exitoso" : "Fallo en inicio");
-	}
-	
-	public JButton getBotonLogin() {
-		return botonLogin;
-	}
-	
-	public JButton getBotonRegistro() {
-	    return botonRegistro;
-	}
-	
-	public void mostrarMensajeError(String mensaje) {
-		JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
-	}
-	
+        // Panel principal
+        JPanel panelPrincipal = new JPanel(new GridBagLayout());
+        panelPrincipal.setBackground(new Color(240, 240, 240));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        // Campo para email
+        JLabel etiquetaEmail = new JLabel("Email:");
+        etiquetaEmail.setFont(new Font("Arial", Font.PLAIN, 14));
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        panelPrincipal.add(etiquetaEmail, gbc);
+
+        campoEmail = new JTextField(20);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        panelPrincipal.add(campoEmail, gbc);
+
+        // Campo para contraseña
+        JLabel etiquetaPasswd = new JLabel("Password:");
+        etiquetaPasswd.setFont(new Font("Arial", Font.PLAIN, 14));
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        panelPrincipal.add(etiquetaPasswd, gbc);
+
+        campoPasswd = new JPasswordField(20);
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        panelPrincipal.add(campoPasswd, gbc);
+
+        // Botón de login
+        botonLogin = new JButton("Login");
+        botonLogin.setBackground(new Color(100, 149, 237)); // Color azul claro
+        botonLogin.setForeground(Color.WHITE);
+        botonLogin.setFocusPainted(false);
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.EAST;
+        panelPrincipal.add(botonLogin, gbc);
+
+        // Botón de registro
+        botonRegistro = new JButton("Registrarse");
+        botonRegistro.setBackground(new Color(60, 179, 113)); // Color verde
+        botonRegistro.setForeground(Color.WHITE);
+        botonRegistro.setFocusPainted(false);
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        gbc.anchor = GridBagConstraints.EAST;
+        panelPrincipal.add(botonRegistro, gbc);
+
+        // Campo para mostrar mensajes
+        campoResultado = new JTextField();
+        campoResultado.setEditable(false);
+        campoResultado.setHorizontalAlignment(JTextField.CENTER);
+        campoResultado.setFont(new Font("Arial", Font.PLAIN, 12));
+        campoResultado.setForeground(Color.DARK_GRAY);
+        campoResultado.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+        // Añadir los paneles a la ventana
+        add(panelPrincipal, BorderLayout.CENTER);
+        add(campoResultado, BorderLayout.SOUTH);
+    }
+
+    // Getters para los campos y botones
+    public String getEmail() {
+        return campoEmail.getText();
+    }
+
+    public String getPasswd() {
+        return new String(campoPasswd.getPassword());
+    }
+
+    public void setResultado(boolean resultado) {
+        campoResultado.setText(resultado ? "Inicio exitoso" : "Fallo en inicio");
+    }
+
+    public JButton getBotonLogin() {
+        return botonLogin;
+    }
+
+    public JButton getBotonRegistro() {
+        return botonRegistro;
+    }
+
+    public void mostrarMensajeError(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+    }
 }
