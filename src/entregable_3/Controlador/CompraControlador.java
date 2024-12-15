@@ -120,7 +120,7 @@ public class CompraControlador {
         cDAO.guardarCuenta(cuentaFiat);  // update
         
         
-        double  nuevoSaldoCripto = cuentaCripto.getSaldo() - cantidadCripto; 
+        double  nuevoSaldoCripto = cuentaCripto.getSaldo() + cantidadCripto; 
         cuentaCripto.setSaldo(nuevoSaldoCripto);
         cDAO.guardarCuenta(cuentaCripto);  //update
         
