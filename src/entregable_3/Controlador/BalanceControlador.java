@@ -34,11 +34,26 @@ public class BalanceControlador {
         cargarDatosEnVista();
         this.vista.addExportListener(new ExportListener());
         
-      //Asigna el controlador al botón de "Cotizaciones" y al de Movimientos
+      //Asigna el controlador al botón de "Cotizaciones" y al de Movimientos y al de Salir
         this.vista.getBotonCotizar().addActionListener(new CotizarListener());
         this.vista.getBotonMovimientos().addActionListener(new MovimientosListener());
+        this.vista.getBotonSalir().addActionListener(new SalirListener());
         
     }
+    
+  //clase interna que implementa la accion del boton de Cotizaciones
+  	class SalirListener implements ActionListener{
+  		public void actionPerformed(ActionEvent e) {
+  			try { 				
+  					vista.dispose();  
+  				
+  			}catch(NumberFormatException ex) {
+  				//excepcion
+  			}
+  				
+  			
+  		}
+  	}
 
   //clase interna que implementa la accion del boton de Cotizaciones
   	class CotizarListener implements ActionListener{
