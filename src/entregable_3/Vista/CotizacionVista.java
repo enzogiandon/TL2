@@ -15,7 +15,7 @@ public class CotizacionVista extends JFrame {
 
     public CotizacionVista() {
         setTitle("Cotización de Criptomonedas");
-        setSize(600, 400);
+        setSize(800, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
