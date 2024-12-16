@@ -22,7 +22,7 @@ public class CotizacionVista extends JFrame {
         // Colores y fuentes
         Color fondo = new Color(245, 245, 245); // Gris claro
         Color botones = new Color(30, 35, 55); // azul marino
-        Font fuente = new Font("Verdana", Font.PLAIN, 13);
+        Font fuente = new Font("Verdana", Font.PLAIN, 22);
 
         // Área de texto
         areaTexto = new JTextArea();
