@@ -13,45 +13,71 @@ public class BalanceVista extends JFrame {
     private JButton botonMovimientos;
 
     public BalanceVista() {
-    	botonCotizacion = new JButton ("Cotizaciones"); //Boton de cotizaciones
-    	botonMovimientos = new JButton ("Movimientos");
-    	add(botonCotizacion);
-    	add(botonMovimientos);
         setTitle("Balance y Mis Cuentas");
-        setSize(600, 400);
+        setSize(800, 500); // Tamaño más amplio para una mejor distribución
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
+        // Fondo general
+        getContentPane().setBackground(new Color(240, 248, 255)); // Azul claro
+
         initComponents();
     }
 
     private void initComponents() {
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout(10, 10));
 
         // Título
         JLabel lblTitulo = new JLabel("Balance y Mis Cuentas", SwingConstants.CENTER);
-        lblTitulo.setFont(new Font("Arial", Font.BOLD, 18));
+        lblTitulo.setFont(new Font("Arial", Font.BOLD, 24));
+        lblTitulo.setForeground(new Color(70, 130, 180)); // Azul fuerte
+        lblTitulo.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         add(lblTitulo, BorderLayout.NORTH);
 
         // Tabla para mostrar las cuentas
         tableCuentas = new JTable();
+        tableCuentas.setFont(new Font("Arial", Font.PLAIN, 14));
+        tableCuentas.setRowHeight(25); // Altura de las filas
+        tableCuentas.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14)); // Fuente de la cabecera
+        tableCuentas.getTableHeader().setBackground(new Color(135, 206, 250)); // Azul cielo
+        tableCuentas.getTableHeader().setForeground(Color.WHITE); // Texto blanco en la cabecera
         JScrollPane scrollPane = new JScrollPane(tableCuentas);
+        scrollPane.setBorder(BorderFactory.createTitledBorder("Cuentas Activas"));
         add(scrollPane, BorderLayout.CENTER);
 
-        // Panel inferior con balance total y botón de exportar
-        JPanel panelInferior = new JPanel(new BorderLayout());
+        // Panel inferior para balance y botones
+        JPanel panelInferior = new JPanel(new GridLayout(2, 1, 10, 10)); // Dos filas: Balance y Botones
+        panelInferior.setBackground(new Color(240, 248, 255));
+
+        // Balance Total
         lblBalanceTotal = new JLabel("Balance: USD $0.00", SwingConstants.LEFT);
-        lblBalanceTotal.setFont(new Font("Arial", Font.BOLD, 14));
-        panelInferior.add(lblBalanceTotal, BorderLayout.WEST);
+        lblBalanceTotal.setFont(new Font("Arial", Font.BOLD, 16));
+        lblBalanceTotal.setForeground(new Color(34, 139, 34)); // Verde
+        panelInferior.add(lblBalanceTotal);
+
+        // Panel para los botones
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 5));
+        panelBotones.setBackground(new Color(240, 248, 255));
 
         btnExportar = new JButton("Exportar a CSV");
-        panelInferior.add(btnExportar, BorderLayout.EAST);
-        //agrego boton para cotizaciones
+        btnExportar.setFont(new Font("Arial", Font.BOLD, 14));
+        btnExportar.setBackground(new Color(0, 128, 255)); // Azul oscuro
+        btnExportar.setForeground(Color.WHITE);
+        panelBotones.add(btnExportar);
+
         botonCotizacion = new JButton("Cotizaciones");
-        panelInferior.add(botonCotizacion, BorderLayout.NORTH);
-        
-        //agrego boton para movimientos
+        botonCotizacion.setFont(new Font("Arial", Font.BOLD, 14));
+        botonCotizacion.setBackground(new Color(100, 149, 237)); // Azul medio
+        botonCotizacion.setForeground(Color.WHITE);
+        panelBotones.add(botonCotizacion);
+
         botonMovimientos = new JButton("Movimientos");
-        panelInferior.add(botonMovimientos, BorderLayout.SOUTH);
+        botonMovimientos.setFont(new Font("Arial", Font.BOLD, 14));
+        botonMovimientos.setBackground(new Color(65, 105, 225)); // Azul real
+        botonMovimientos.setForeground(Color.WHITE);
+        panelBotones.add(botonMovimientos);
+
+        panelInferior.add(panelBotones);
 
         add(panelInferior, BorderLayout.SOUTH);
     }
@@ -61,18 +87,18 @@ public class BalanceVista extends JFrame {
     }
 
     public void setBalanceTotal(String balance) {
-        lblBalanceTotal.setText("Balance: USD" + balance);
+        lblBalanceTotal.setText("Balance: USD " + balance);
     }
 
     public void addExportListener(ActionListener listener) {
         btnExportar.addActionListener(listener);
     }
-    
+
     public JButton getBotonCotizar() {
-    	return botonCotizacion;
+        return botonCotizacion;
     }
-    
+
     public JButton getBotonMovimientos() {
-    	return botonMovimientos;
+        return botonMovimientos;
     }
 }
