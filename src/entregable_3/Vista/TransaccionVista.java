@@ -23,7 +23,7 @@ public class TransaccionVista extends JFrame {
         // Título
         JLabel titulo = new JLabel("Historial de Transacciones");
         titulo.setFont(new Font("Arial", Font.BOLD, 20));
-        titulo.setForeground(new Color(50, 70, 150));
+        titulo.setForeground(new Color(30, 35, 55));
         titulo.setBounds(180, 20, 300, 30);
         add(titulo);
 
@@ -54,8 +54,8 @@ public class TransaccionVista extends JFrame {
         
      // Botón de cierre
         cerrarButton = new JButton("CERRAR");
-        cerrarButton.setFont(new Font("Arial", Font.PLAIN, 14));
-        cerrarButton.setBackground(new Color(220, 53, 69)); // Rojo oscuro
+        cerrarButton.setFont(new Font("Arial", Font.BOLD, 14));
+        cerrarButton.setBackground(new Color(153, 0, 0)); // Rojo oscuro
         cerrarButton.setForeground(Color.WHITE);
         cerrarButton.setFocusPainted(false);
         cerrarButton.setBounds(250, 400, 100, 40); // Ajusta las coordenadas y el tamaño
