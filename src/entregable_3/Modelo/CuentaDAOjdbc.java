@@ -330,31 +330,5 @@ public class CuentaDAOjdbc implements CuentaDAO {
 
 		return cc;
 	}
-	@Override
-	public boolean existeMoneda(String codigoMoneda) {
-		String sql = "SELECT COUNT(*) FROM MONEDAS WHERE NOMENCLATURA = ?";
-		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
-			pst.setString(1, codigoMoneda);
-			ResultSet rs = pst.executeQuery();
-			rs.next();
-			pst.close();
-			con.close();
-			return rs.getInt(1) > 0;
-		} catch (SQLException e) {
-			System.out.println("Error de SQL: " + e.getMessage());
-			return false;
-		}
-	}
-	public void registrarTransaccion(String descripcion) {
-		String sql = "INSERT INTO TRANSACCION (descripcion) VALUES (?)";
-		try (Connection con = ConexionBD.getConnection(); PreparedStatement pst = con.prepareStatement(sql)) {
-			pst.setString(1, descripcion);
-			pst.executeUpdate();
-			pst.close();
-			con.close();
-		} catch (SQLException e) {
-			System.out.println("Error de SQL: " + e.getMessage());
-		}
-	}
 
 }
