@@ -1,4 +1,6 @@
 package entregable_3.Controlador;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -28,7 +30,13 @@ public class TransaccionControlador {
                 }
             }
 			
-		});						
+		});		
+		this.vista.cerrarListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				vista.dispose();
+			}
+		});
 		}				
 	private void cargarTransacciones() {
 		try {
