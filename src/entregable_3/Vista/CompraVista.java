@@ -25,7 +25,7 @@ public class CompraVista extends JFrame {
 
         // Colores y fuentes
         Color fondo = new Color(240, 248, 255); // Azul claro
-        Color botones = new Color(0, 128, 255); // Azul oscuro
+        Color botones = new Color(30, 35, 55); // Azul oscuro
         Color texto = new Color(0, 51, 102); // Azul oscuro
         Font fuente = new Font("Arial", Font.BOLD, 14);
 
@@ -52,7 +52,7 @@ public class CompraVista extends JFrame {
         convertirButton.setForeground(Color.WHITE);
         comprarButton.setBackground(botones);
         comprarButton.setForeground(Color.WHITE);
-        cerrarButton.setBackground(new Color(220, 53, 69)); //rojo
+        cerrarButton.setBackground(new Color(153, 0, 0)); //rojo
         cerrarButton.setForeground(Color.WHITE);
 
         stockLabel.setFont(fuente);
