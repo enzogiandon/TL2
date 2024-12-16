@@ -31,7 +31,7 @@ public class BalanceVista extends JFrame {
         // Título
         JLabel lblTitulo = new JLabel("Balance y Mis Cuentas", SwingConstants.CENTER);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 24));
-        lblTitulo.setForeground(new Color(70, 130, 180)); // Azul fuerte
+        lblTitulo.setForeground(new Color(30, 35, 55)); // Azul fuerte
         lblTitulo.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         add(lblTitulo, BorderLayout.NORTH);
 
@@ -40,7 +40,7 @@ public class BalanceVista extends JFrame {
         tableCuentas.setFont(new Font("Arial", Font.PLAIN, 14));
         tableCuentas.setRowHeight(25); // Altura de las filas
         tableCuentas.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14)); // Fuente de la cabecera
-        tableCuentas.getTableHeader().setBackground(new Color(135, 206, 250)); // Azul cielo
+        tableCuentas.getTableHeader().setBackground(new Color(30, 35, 55)); 
         tableCuentas.getTableHeader().setForeground(Color.WHITE); // Texto blanco en la cabecera
         JScrollPane scrollPane = new JScrollPane(tableCuentas);
         scrollPane.setBorder(BorderFactory.createTitledBorder("Cuentas Activas"));
@@ -53,7 +53,7 @@ public class BalanceVista extends JFrame {
         // Balance Total
         lblBalanceTotal = new JLabel("Balance: USD $0.00", SwingConstants.LEFT);
         lblBalanceTotal.setFont(new Font("Arial", Font.BOLD, 16));
-        lblBalanceTotal.setForeground(new Color(34, 139, 34)); // Verde
+        lblBalanceTotal.setForeground(new Color(30, 35, 55)); // Azul osc
         panelInferior.add(lblBalanceTotal);
 
         // Panel para los botones
@@ -62,25 +62,25 @@ public class BalanceVista extends JFrame {
 
         btnExportar = new JButton("Exportar a CSV");
         btnExportar.setFont(new Font("Arial", Font.BOLD, 14));
-        btnExportar.setBackground(new Color(0, 128, 255)); // Azul oscuro
+        btnExportar.setBackground(new Color(30, 35, 55)); // Azul oscuro
         btnExportar.setForeground(Color.WHITE);
         panelBotones.add(btnExportar);
 
         botonCotizacion = new JButton("Cotizaciones");
         botonCotizacion.setFont(new Font("Arial", Font.BOLD, 14));
-        botonCotizacion.setBackground(new Color(0, 128, 255)); // Azul oscuro
+        botonCotizacion.setBackground(new Color(30, 35, 55)); // Azul oscuro
         botonCotizacion.setForeground(Color.WHITE);
         panelBotones.add(botonCotizacion);
 
         botonMovimientos = new JButton("Movimientos");
         botonMovimientos.setFont(new Font("Arial", Font.BOLD, 14));
-        botonMovimientos.setBackground(new Color(0, 128, 255)); // Azul oscuro
+        botonMovimientos.setBackground(new Color(30, 35, 55)); // Azul oscuro
         botonMovimientos.setForeground(Color.WHITE);
         panelBotones.add(botonMovimientos);
         
         botonSalir = new JButton("SALIR");
         botonSalir.setFont(new Font("Arial", Font.BOLD, 14));
-        botonSalir.setBackground(new Color(220, 53, 69)); // Rojo
+        botonSalir.setBackground(new Color(153, 0, 0)); // Rojo
         botonSalir.setForeground(Color.WHITE);
         panelBotones.add(botonSalir);
 
