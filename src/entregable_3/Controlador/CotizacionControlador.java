@@ -20,7 +20,10 @@ public class CotizacionControlador {
     private Cripto USDC;
     private Cripto USDT;
     private Cripto DOGE;
-    private int ID; //ID DE USUARIO
+    //HABRIA QUE PASAR EL ID DE USUARIO y 
+    private int ID;
+    
+    
     
     //metodo para cargar los datos de cada moneda
     private void cargarCriptos(){
@@ -62,10 +65,11 @@ public class CotizacionControlador {
     public CotizacionControlador(CotizacionModelo modelo, CotizacionVista vista, int ID) {
     	this.modelo = modelo;
     	this.vista = vista;
-    	this.ID = ID; 					//le pase el id del usuario desde balance
+    	this.ID = ID; //le pase el id del usuario desde balance
     	vistaComp = new CompraVista();
-    	cargarCriptos();		
-    	
+    	cargarCriptos();
+		//CompraVista vista, Cripto criptoSeleccionada, int idUsuario
+    	//podría hacer los 5 botones, uno para cada moneda
     	this.vista.getBotonComprarBTC().addActionListener(e -> {
     		vista.dispose();
     		new CompraControlador(vistaComp, BTC, ID); 
