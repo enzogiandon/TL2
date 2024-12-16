@@ -38,13 +38,13 @@ public class DatosVista extends JFrame {
 
         btnCargarDatos = new JButton("Cargar Datos");
         btnCargarDatos.setFont(new Font("SansSerif", Font.BOLD, 14));
-        btnCargarDatos.setBackground(new Color(70, 130, 180));
+        btnCargarDatos.setBackground(new Color(30, 35, 55));
         btnCargarDatos.setForeground(Color.WHITE);
         btnCargarDatos.setFocusPainted(false);
 
         btnSalir = new JButton("Cerrar");
         btnSalir.setFont(new Font("SansSerif", Font.BOLD, 14));
-        btnSalir.setBackground(new Color(220, 53, 69));
+        btnSalir.setBackground(new Color(153, 0, 0));
         btnSalir.setForeground(Color.WHITE);
         btnSalir.setFocusPainted(false);
 
