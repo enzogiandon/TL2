@@ -80,7 +80,7 @@ public class RegistroVista extends JFrame {
         // Botón de registrar
         botonRegistrar = new JButton("Registrar");
         botonRegistrar.setFont(new Font("Arial", Font.BOLD, 16));
-        botonRegistrar.setBackground(new Color(76, 175, 80));
+        botonRegistrar.setBackground(new Color(30, 35, 55));
         botonRegistrar.setForeground(Color.WHITE);
         botonRegistrar.setBounds(130, 370, 120, 35);
         add(botonRegistrar);
