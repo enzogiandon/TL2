@@ -5,44 +5,58 @@ import java.awt.*;
 import java.util.List;
 
 public class TransaccionVista extends JFrame {
-
-    private static final long serialVersionUID = 1L;
-    
-	private JList<Integer> transaccionList; // Para mostrar IDs
-    private DefaultListModel<Integer> listModel; // Modelo de la lista
-    private JTextArea resumenArea; // Para mostrar el resumen
-    private JButton mostrarResumenButton; // Botón para mostrar el resumen
+    private JList<Integer> transaccionList;
+    private JTextArea resumenArea;
 
     public TransaccionVista() {
-        // Configuración de la ventana
-        setTitle("Transacciones");
-        setSize(400, 300);
+        setTitle("Historial de Transacciones");
+        setSize(600, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
+        setLocationRelativeTo(null);
+        setLayout(null);
 
-        // Inicializar componentes
-        listModel = new DefaultListModel<>();
-        transaccionList = new JList<>(listModel);
+        // Fondo
+        getContentPane().setBackground(new Color(245, 245, 245));
+
+        // Título
+        JLabel titulo = new JLabel("Historial de Transacciones");
+        titulo.setFont(new Font("Arial", Font.BOLD, 20));
+        titulo.setForeground(new Color(50, 70, 150));
+        titulo.setBounds(180, 20, 300, 30);
+        add(titulo);
+
+        // Lista de transacciones
+        transaccionList = new JList<>();
+        transaccionList.setFont(new Font("Arial", Font.PLAIN, 14));
+        transaccionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        JScrollPane scrollPaneLista = new JScrollPane(transaccionList);
+        scrollPaneLista.setBounds(50, 80, 200, 300);
+        add(scrollPaneLista);
+
+        // Área de resumen
+        JLabel resumenLabel = new JLabel("Resumen:");
+        resumenLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        resumenLabel.setBounds(300, 80, 100, 25);
+        add(resumenLabel);
+
         resumenArea = new JTextArea();
-        mostrarResumenButton = new JButton("Mostrar Resumen");
-
-        // Panel izquierdo: lista de transacciones
-        JPanel leftPanel = new JPanel(new BorderLayout());
-        leftPanel.add(new JScrollPane(transaccionList), BorderLayout.CENTER);
-        add(leftPanel, BorderLayout.WEST);
-
-        // Panel derecho: área de resumen y botón
-        JPanel rightPanel = new JPanel(new BorderLayout());
+        resumenArea.setFont(new Font("Arial", Font.PLAIN, 14));
+        resumenArea.setLineWrap(true);
+        resumenArea.setWrapStyleWord(true);
         resumenArea.setEditable(false);
-        rightPanel.add(new JScrollPane(resumenArea), BorderLayout.CENTER);
-        add(rightPanel, BorderLayout.CENTER);
+
+        JScrollPane scrollPaneResumen = new JScrollPane(resumenArea);
+        scrollPaneResumen.setBounds(300, 110, 250, 270);
+        add(scrollPaneResumen);
     }
 
-    public void actualizarListaTransacciones(List<Integer> transaccionIds) {
-        listModel.clear();
-        for (Integer id : transaccionIds) {
-            listModel.addElement(id);
-        }
+    public JList<Integer> getTransaccionList() {
+        return transaccionList;
+    }
+
+    public void actualizarListaTransacciones(List<Integer> ids) {
+        transaccionList.setListData(ids.toArray(new Integer[0]));
     }
 
     public int obtenerIdSeleccionado() {
@@ -51,13 +65,5 @@ public class TransaccionVista extends JFrame {
 
     public void mostrarResumen(String resumen) {
         resumenArea.setText(resumen);
-    }
-
-    public JButton getMostrarResumenButton() {
-        return mostrarResumenButton;
-    }
-    
-    public JList<Integer> getTransaccionList(){
-    	return transaccionList;
     }
 }

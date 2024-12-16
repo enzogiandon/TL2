@@ -4,48 +4,90 @@ import javax.swing.*;
 import java.awt.*;
 
 public class RegistroVista extends JFrame {
-    private JTextField campoNombres;
-    private JTextField campoApellidos;
-    private JTextField campoEmail;
-    private JPasswordField campoPassword;
-    private JCheckBox checkboxTerminos;
+    private JTextField campoNombre, campoApellidos, campoEmail;
+    private JPasswordField campoClave;
+    private JCheckBox terminosCheckbox;
     private JButton botonRegistrar;
-    private JTextField campoResultado;
 
     public RegistroVista() {
-    	campoNombres = new JTextField(10);
-        campoApellidos = new JTextField(10);
-        campoEmail = new JTextField(10);
-        campoPassword = new JPasswordField(10);
-        checkboxTerminos = new JCheckBox("Acepto los términos y condiciones");
-        botonRegistrar = new JButton("Registrar");
-        campoResultado = new JTextField(20);
-        setTitle("-- REGISTRO DE USUARIO --");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(900, 400);
+        setTitle("Registro de Usuario");
+        setSize(400, 500);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new GridLayout(8, 2));
+        setLayout(null);
 
-        add(new JLabel("Nombres:"));
-        add(campoNombres);
-        add(new JLabel("Apellidos:"));
+        // Fondo
+        getContentPane().setBackground(new Color(230, 240, 250));
+
+        // Título
+        JLabel titulo = new JLabel("Registro de Usuario");
+        titulo.setFont(new Font("Arial", Font.BOLD, 20));
+        titulo.setForeground(new Color(50, 70, 150));
+        titulo.setBounds(100, 20, 250, 30);
+        add(titulo);
+
+        // Etiqueta y campo para el nombre
+        JLabel nombreLabel = new JLabel("Nombres:");
+        nombreLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        nombreLabel.setBounds(50, 80, 100, 25);
+        add(nombreLabel);
+
+        campoNombre = new JTextField();
+        campoNombre.setFont(new Font("Arial", Font.PLAIN, 14));
+        campoNombre.setBounds(150, 80, 200, 25);
+        add(campoNombre);
+
+        // Etiqueta y campo para apellidos
+        JLabel apellidosLabel = new JLabel("Apellidos:");
+        apellidosLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        apellidosLabel.setBounds(50, 140, 100, 25);
+        add(apellidosLabel);
+
+        campoApellidos = new JTextField();
+        campoApellidos.setFont(new Font("Arial", Font.PLAIN, 14));
+        campoApellidos.setBounds(150, 140, 200, 25);
         add(campoApellidos);
-        add(new JLabel("Email:"));
-        add(campoEmail);
-        add(new JLabel("Contraseña:"));
-        add(campoPassword);
-        add(checkboxTerminos);
-        add(new JLabel(""));
-        add(new JLabel("Estado:"));
-        add(campoResultado);
-        add(botonRegistrar);
 
-        campoResultado.setEditable(false);
+        // Etiqueta y campo para email
+        JLabel emailLabel = new JLabel("Email:");
+        emailLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        emailLabel.setBounds(50, 200, 100, 25);
+        add(emailLabel);
+
+        campoEmail = new JTextField();
+        campoEmail.setFont(new Font("Arial", Font.PLAIN, 14));
+        campoEmail.setBounds(150, 200, 200, 25);
+        add(campoEmail);
+
+        // Etiqueta y campo para contraseña
+        JLabel claveLabel = new JLabel("Contraseña:");
+        claveLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        claveLabel.setBounds(50, 260, 100, 25);
+        add(claveLabel);
+
+        campoClave = new JPasswordField();
+        campoClave.setFont(new Font("Arial", Font.PLAIN, 14));
+        campoClave.setBounds(150, 260, 200, 25);
+        add(campoClave);
+
+        // Checkbox para aceptar términos
+        terminosCheckbox = new JCheckBox("Acepto los términos y condiciones");
+        terminosCheckbox.setFont(new Font("Arial", Font.PLAIN, 12));
+        terminosCheckbox.setBackground(new Color(230, 240, 250));
+        terminosCheckbox.setBounds(50, 320, 300, 25);
+        add(terminosCheckbox);
+
+        // Botón de registrar
+        botonRegistrar = new JButton("Registrar");
+        botonRegistrar.setFont(new Font("Arial", Font.BOLD, 16));
+        botonRegistrar.setBackground(new Color(76, 175, 80));
+        botonRegistrar.setForeground(Color.WHITE);
+        botonRegistrar.setBounds(130, 370, 120, 35);
+        add(botonRegistrar);
     }
 
-    // Getters para acceder a los campos
-    public String getNombres() {
-        return campoNombres.getText();
+    public String getCampoNombre() {
+        return campoNombre.getText();
     }
 
     public String getApellidos() {
@@ -57,22 +99,22 @@ public class RegistroVista extends JFrame {
     }
 
     public String getPassword() {
-        return new String(campoPassword.getPassword());
+        return new String(campoClave.getPassword());
     }
 
     public boolean isTerminosAceptados() {
-        return checkboxTerminos.isSelected();
+        return terminosCheckbox.isSelected();
     }
 
     public JButton getBotonRegistrar() {
         return botonRegistrar;
     }
 
-    public void mostrarResultado(String mensaje) {
-        campoResultado.setText(mensaje);
-    }
-
     public void mostrarMensajeError(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void mostrarResultado(String mensaje) {
+        JOptionPane.showMessageDialog(this, mensaje, "Resultado", JOptionPane.INFORMATION_MESSAGE);
     }
 }

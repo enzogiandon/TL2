@@ -2,87 +2,93 @@ package entregable_3.Vista;
 
 import javax.swing.*;
 import java.awt.*;
-import entregable_3.Modelo.CotizacionModelo;
 
 public class CotizacionVista extends JFrame {
-    
-    private JFrame frame;
     private JTextArea areaTexto;
+    private JButton botonActualizar;
     private JButton botonCompraBTC;
     private JButton botonCompraETH;
     private JButton botonCompraUSDC;
     private JButton botonCompraUSDT;
     private JButton botonCompraDOGE;
+    
 
     public CotizacionVista() {
-    	// Configuración de la ventana principal
-        frame = new JFrame("Cotización de Criptomonedas");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setSize(600, 400); // Tamaño más largo y ancho
-        frame.setLayout(new BorderLayout());
+        setTitle("Cotización de Criptomonedas");
+        setSize(600, 400);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout(10, 10));
 
-        // Crear un área de texto para mostrar los resultados
+        // Colores y fuentes
+        Color fondo = new Color(245, 245, 245); // Gris claro
+        Color botones = new Color(34, 139, 34); // Verde
+        Font fuente = new Font("Verdana", Font.PLAIN, 13);
+
+        // Área de texto
         areaTexto = new JTextArea();
         areaTexto.setEditable(false);
-        JScrollPane scroll = new JScrollPane(areaTexto);
-        frame.add(scroll, BorderLayout.CENTER);
+        areaTexto.setBackground(fondo);
+        areaTexto.setFont(fuente);
+        JScrollPane scrollPane = new JScrollPane(areaTexto);
+        add(scrollPane, BorderLayout.CENTER);
 
-        // Crear un botón para actualizar la cotización
-        JButton botonActualizar = new JButton("Actualizar Precios");
-        botonActualizar.addActionListener(e -> mostrarCotizaciones());
-        frame.add(botonActualizar, BorderLayout.SOUTH);
-        
-        
-     // Inicializar los botones de instancia
+        // Botón actualizar
+        botonActualizar = new JButton("Actualizar Precios");
+        botonActualizar.setBackground(botones);
+        botonActualizar.setForeground(Color.WHITE);
+        add(botonActualizar, BorderLayout.SOUTH);
+
+        // Botones de compra
+        JPanel panelBotones = new JPanel(new GridLayout(1, 5, 10, 10));
         botonCompraBTC = new JButton("Comprar BTC");
         botonCompraETH = new JButton("Comprar ETH");
         botonCompraUSDC = new JButton("Comprar USDC");
         botonCompraUSDT = new JButton("Comprar USDT");
         botonCompraDOGE = new JButton("Comprar DOGE");
-        
-     // Agregar los botones a la ventana (ajustar el diseño según sea necesario)
-        JPanel panelBotones = new JPanel(new GridLayout(2, 3, 10, 10)); // 2 filas, 3 columnas, con espaciado
-        panelBotones.add(botonCompraBTC);
-        panelBotones.add(botonCompraETH);
-        panelBotones.add(botonCompraUSDC);
-        panelBotones.add(botonCompraUSDT);
-        panelBotones.add(botonCompraDOGE);
-        frame.add(panelBotones, BorderLayout.NORTH);
-    }
 
-    public void mostrarVentana() {
-        frame.setVisible(true);
-    }
+        JButton[] botonesCompra = {
+            botonCompraBTC, botonCompraETH, botonCompraUSDC, botonCompraUSDT, botonCompraDOGE
+        };
 
-    public void mostrarCotizaciones() {
-        // Obtiene los datos de la cotización desde el modelo
-        String respuesta = CotizacionModelo.obtenerCotizaciones();
-        if (respuesta != null) {
-            // Muestra las cotizaciones en el área de texto
-            areaTexto.setText(respuesta);
-        } else {
-            areaTexto.setText("Error al obtener cotizaciones.");
+        for (JButton boton : botonesCompra) {
+            boton.setBackground(botones);
+            boton.setForeground(Color.WHITE);
+            panelBotones.add(boton);
         }
+
+        add(panelBotones, BorderLayout.NORTH);
+    }
+
+    public JButton getBotonActualizar() {
+        return botonActualizar;
+    }
+
+    public void setTextoCotizaciones(String texto) {
+        areaTexto.setText(texto);
+    }
+
+    public JButton getBotonCompraBTC() {
+        return botonCompraBTC;
+    }
+
+    public JButton getBotonCompraETH() {
+        return botonCompraETH;
+    }
+
+    public JButton getBotonCompraUSDC() {
+        return botonCompraUSDC;
+    }
+
+    public JButton getBotonCompraUSDT() {
+        return botonCompraUSDT;
+    }
+
+    public JButton getBotonCompraDOGE() {
+        return botonCompraDOGE;
     }
     
-    public JButton getBotonComprarBTC() {
-    	return botonCompraBTC;
+    public void mostrarVentana() {
+        setVisible(true);
     }
-    
-    public JButton getBotonComprarETH() {
-    	return botonCompraETH;
-    }
-    
-    public JButton getBotonComprarUSDC() {
-    	return botonCompraUSDC;
-    }
-    
-    public JButton getBotonComprarUSDT() {
-    	return botonCompraUSDT;
-    }
-    
-    public JButton getBotonComprarDOGE() {
-    	return botonCompraDOGE;
-    }
-    
 }
