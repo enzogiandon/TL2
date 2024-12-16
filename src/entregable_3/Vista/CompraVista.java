@@ -13,6 +13,7 @@ public class CompraVista extends JFrame {
     private JComboBox<String> fiatDropdown;
     private JButton convertirButton;
     private JButton comprarButton;
+    private JButton cerrarButton;
     private JLabel equivalenteLabel;
 
     public CompraVista() {
@@ -24,12 +25,12 @@ public class CompraVista extends JFrame {
 
         // Colores y fuentes
         Color fondo = new Color(240, 248, 255); // Azul claro
-        Color botones = new Color(30, 144, 255); // Azul intenso
+        Color botones = new Color(0, 128, 255); // Azul oscuro
         Color texto = new Color(0, 51, 102); // Azul oscuro
         Font fuente = new Font("Arial", Font.BOLD, 14);
 
         // Panel principal
-        JPanel panelPrincipal = new JPanel(new GridLayout(7, 2, 10, 10));
+        JPanel panelPrincipal = new JPanel(new GridLayout(6, 2, 10, 10));
         panelPrincipal.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         panelPrincipal.setBackground(fondo);
 
@@ -40,6 +41,7 @@ public class CompraVista extends JFrame {
         fiatDropdown = new JComboBox<>();
         convertirButton = new JButton("Convertir");
         comprarButton = new JButton("Comprar");
+        cerrarButton = new JButton("CERRAR");
         equivalenteLabel = new JLabel("-");
 
         // Estética
@@ -50,30 +52,38 @@ public class CompraVista extends JFrame {
         convertirButton.setForeground(Color.WHITE);
         comprarButton.setBackground(botones);
         comprarButton.setForeground(Color.WHITE);
+        cerrarButton.setBackground(new Color(220, 53, 69)); //rojo
+        cerrarButton.setForeground(Color.WHITE);
 
         stockLabel.setFont(fuente);
         precioLabel.setFont(fuente);
         equivalenteLabel.setFont(fuente);
 
         // Agregar elementos al panel
-        panelPrincipal.add(new JLabel("Stock disponible:"));
+        panelPrincipal.add(new JLabel("Stock disponible:", JLabel.RIGHT));
         panelPrincipal.add(stockLabel);
-        panelPrincipal.add(new JLabel("Precio de compra:"));
+        panelPrincipal.add(new JLabel("Precio de compra:", JLabel.RIGHT));
         panelPrincipal.add(precioLabel);
-        panelPrincipal.add(new JLabel("Cantidad Fiat:"));
+        panelPrincipal.add(new JLabel("Cantidad Fiat:", JLabel.RIGHT));
         panelPrincipal.add(cantidadFiatField);
-        panelPrincipal.add(new JLabel("Moneda Fiat:"));
+        panelPrincipal.add(new JLabel("Moneda Fiat:", JLabel.RIGHT));
         panelPrincipal.add(fiatDropdown);
-        panelPrincipal.add(new JLabel(""));
-        panelPrincipal.add(convertirButton);
-        panelPrincipal.add(new JLabel("Equivalente en Cripto:"));
+        panelPrincipal.add(new JLabel("Equivalente en Cripto:", JLabel.RIGHT));
         panelPrincipal.add(equivalenteLabel);
-        panelPrincipal.add(new JLabel(""));
-        panelPrincipal.add(comprarButton);
 
+        // Panel inferior para botones
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        panelBotones.setBackground(fondo);
+        panelBotones.add(convertirButton);
+        panelBotones.add(comprarButton);
+        panelBotones.add(cerrarButton);
+
+        // Añadir paneles al frame
         add(panelPrincipal, BorderLayout.CENTER);
+        add(panelBotones, BorderLayout.SOUTH);
     }
 
+    // Métodos de acceso y eventos
     public double getCantidadFiat() {
         return Double.valueOf(cantidadFiatField.getText());
     }
@@ -88,6 +98,10 @@ public class CompraVista extends JFrame {
 
     public void comprarListener(ActionListener listener) {
         comprarButton.addActionListener(listener);
+    }
+    
+    public void cerrarListener(ActionListener listener) {
+        cerrarButton.addActionListener(listener);
     }
 
     public void setEquivalente(String equivalente) {
