@@ -11,6 +11,7 @@ public class BalanceVista extends JFrame {
     private JLabel lblBalanceTotal;
     private JButton botonCotizacion;
     private JButton botonMovimientos;
+    private JButton botonSalir;
 
     public BalanceVista() {
         setTitle("Balance y Mis Cuentas");
@@ -67,15 +68,21 @@ public class BalanceVista extends JFrame {
 
         botonCotizacion = new JButton("Cotizaciones");
         botonCotizacion.setFont(new Font("Arial", Font.BOLD, 14));
-        botonCotizacion.setBackground(new Color(100, 149, 237)); // Azul medio
+        botonCotizacion.setBackground(new Color(0, 128, 255)); // Azul oscuro
         botonCotizacion.setForeground(Color.WHITE);
         panelBotones.add(botonCotizacion);
 
         botonMovimientos = new JButton("Movimientos");
         botonMovimientos.setFont(new Font("Arial", Font.BOLD, 14));
-        botonMovimientos.setBackground(new Color(65, 105, 225)); // Azul real
+        botonMovimientos.setBackground(new Color(0, 128, 255)); // Azul oscuro
         botonMovimientos.setForeground(Color.WHITE);
         panelBotones.add(botonMovimientos);
+        
+        botonSalir = new JButton("SALIR");
+        botonSalir.setFont(new Font("Arial", Font.BOLD, 14));
+        botonSalir.setBackground(new Color(220, 53, 69)); // Rojo
+        botonSalir.setForeground(Color.WHITE);
+        panelBotones.add(botonSalir);
 
         panelInferior.add(panelBotones);
 
@@ -93,6 +100,7 @@ public class BalanceVista extends JFrame {
     public void addExportListener(ActionListener listener) {
         btnExportar.addActionListener(listener);
     }
+    
 
     public JButton getBotonCotizar() {
         return botonCotizacion;
@@ -101,4 +109,10 @@ public class BalanceVista extends JFrame {
     public JButton getBotonMovimientos() {
         return botonMovimientos;
     }
+    
+    public JButton getBotonSalir() {
+        return botonSalir;
+    }
+    
+    
 }
