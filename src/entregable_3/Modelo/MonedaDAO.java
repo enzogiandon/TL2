@@ -1,7 +1,6 @@
 package entregable_3.Modelo;
 
 import entregable_3.Moneda;
-import java.sql.*;
 import java.util.List;
 
 public interface MonedaDAO {

@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LoginVista extends JFrame {
-    private JTextField campoEmail;
+	private JTextField campoEmail;
     private JPasswordField campoPasswd;
     private JButton botonLogin;
     private JButton botonRegistro;

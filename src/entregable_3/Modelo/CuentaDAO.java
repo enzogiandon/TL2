@@ -1,14 +1,9 @@
 package entregable_3.Modelo;
 
-import entregable_3.ConexionBD;
 import entregable_3.Cuenta;
 import entregable_3.CuentaFiat;
 import entregable_3.CuentaCripto;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 public interface CuentaDAO {

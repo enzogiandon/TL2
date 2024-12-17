@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CotizacionVista extends JFrame {
-    private JTextArea areaTexto;
+	private JTextArea areaTexto;
     private JButton botonActualizar;
     private JButton botonCompraBTC;
     private JButton botonCompraETH;

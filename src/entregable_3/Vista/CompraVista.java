@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class CompraVista extends JFrame {
-    private static final long serialVersionUID = 1L;
     private JLabel stockLabel;
     private JLabel precioLabel;
     private JTextField cantidadFiatField;

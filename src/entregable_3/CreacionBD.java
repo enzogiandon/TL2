@@ -101,9 +101,7 @@ public class CreacionBD {
 
 		} catch (SQLException e) {
 			System.out.println("Error al crear las tablas: " + e.getMessage());
-			e.printStackTrace();
 			throw e;
-
 		} finally {
 
 			if (stmt != null) {
