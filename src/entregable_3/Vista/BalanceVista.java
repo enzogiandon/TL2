@@ -6,7 +6,11 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class BalanceVista extends JFrame {
-    private JTable tableCuentas;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4408864746618104326L;
+	private JTable tableCuentas;
     private JButton btnExportar;
     private JLabel lblBalanceTotal;
     private JButton botonCotizacion;

@@ -6,7 +6,11 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class TransaccionVista extends JFrame {
-    private JList<Integer> transaccionList;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7819207669631740816L;
+	private JList<Integer> transaccionList;
     private JTextArea resumenArea;
     private JButton cerrarButton;
 

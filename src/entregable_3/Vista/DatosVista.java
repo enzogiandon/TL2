@@ -7,7 +7,11 @@ import java.awt.event.ActionListener;
 
 public class DatosVista extends JFrame {
 
-    private JButton btnCargarDatos;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4678786069994823883L;
+	private JButton btnCargarDatos;
     private JButton btnSalir;
     private JTextArea areaMensajes;
 

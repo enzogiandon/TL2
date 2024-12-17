@@ -4,6 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CotizacionVista extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4350970877661487827L;
 	private JTextArea areaTexto;
     private JButton botonActualizar;
     private JButton botonCompraBTC;

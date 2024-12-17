@@ -8,7 +8,6 @@ public class Transaccion {
 	private int idUsuario;
 	private double monto;
 	private LocalDate fecha;
-	private double comisiones;
 	private LocalTime hora;
 	private boolean confirmacion;
 	private String resumen;

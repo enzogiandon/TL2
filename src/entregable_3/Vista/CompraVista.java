@@ -6,7 +6,11 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class CompraVista extends JFrame {
-    private JLabel stockLabel;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6642970132873413402L;
+	private JLabel stockLabel;
     private JLabel precioLabel;
     private JTextField cantidadFiatField;
     private JComboBox<String> fiatDropdown;

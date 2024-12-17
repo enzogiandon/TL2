@@ -4,6 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LoginVista extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4574118564183103125L;
 	private JTextField campoEmail;
     private JPasswordField campoPasswd;
     private JButton botonLogin;

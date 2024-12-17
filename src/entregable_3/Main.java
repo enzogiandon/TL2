@@ -44,7 +44,7 @@ public class Main {
 	}
 
 	
-	// metodos para crear monedas random
+	// metodos para crear objetos en la bd
 	public static void testMoneda() {
 		int id;
 
