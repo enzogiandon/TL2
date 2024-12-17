@@ -4,62 +4,76 @@ import entregable_3.ConexionBD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import org.json.JSONObject;
 
 public class DatosModelo {
 
-    
-
     public void cargarDatosIniciales() throws SQLException {
+    	
+    	// Obtener los precios de las criptomonedas en tiempo real
+        String datosCriptoJSON = ConsultarPrecioCripto.obtenerDatosCripto();
+        if (datosCriptoJSON == null) {
+            throw new RuntimeException("No se pudieron obtener los datos de la API.");
+        }
+
+        // Parsear los datos del JSON
+        JSONObject json = new JSONObject(datosCriptoJSON);
+    	
         try (Connection con = ConexionBD.getConnection()) {
             // Insertar datos iniciales en la tabla MONEDA
             String sqlMoneda = "INSERT INTO MONEDA (TIPO, NOMBRE, NOMENCLATURA, VALOR_DOLAR, VOLATILIDAD, STOCK, NOMBRE_ICONO) VALUES (?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(sqlMoneda)) {
-            	//BITCOIN ID = 1
-            	pstmt.setString(1, "C");
+            	// Bitcoin
+                pstmt.setString(1, "C");
                 pstmt.setString(2, "Bitcoin");
                 pstmt.setString(3, "BTC");
-                pstmt.setDouble(4, 101559);
-                pstmt.setDouble(5, 0.05);
-                pstmt.setDouble(6, 10000);
+                pstmt.setDouble(4, json.getJSONObject("bitcoin").getDouble("usd")); // Precio desde la API
+                pstmt.setDouble(5, 0.05); // Volatilidad estimada
+                pstmt.setDouble(6, 10000); // Stock fijo
                 pstmt.setString(7, "bitcoin_icon.png");
                 pstmt.executeUpdate();
-                //ETHEREUM ID = 2
+
+                // Ethereum
                 pstmt.setString(1, "C");
                 pstmt.setString(2, "Ethereum");
                 pstmt.setString(3, "ETH");
-                pstmt.setDouble(4, 3884.86);
-                pstmt.setDouble(5, 0.7); //70%
+                pstmt.setDouble(4, json.getJSONObject("ethereum").getDouble("usd"));
+                pstmt.setDouble(5, 0.7);
                 pstmt.setDouble(6, 1000000);
                 pstmt.setString(7, "ethereum_icon.png");
                 pstmt.executeUpdate();
-                //USDC ID = 3
+
+                // USD Coin
                 pstmt.setString(1, "C");
                 pstmt.setString(2, "USD Coin");
                 pstmt.setString(3, "USDC");
-                pstmt.setDouble(4, 0.999698);
-                pstmt.setDouble(5, 0.001); 
+                pstmt.setDouble(4, json.getJSONObject("usd-coin").getDouble("usd"));
+                pstmt.setDouble(5, 0.001);
                 pstmt.setDouble(6, 1000000);
                 pstmt.setString(7, "usdcoin_icon.png");
                 pstmt.executeUpdate();
-                //USDT ID = 4
+
+                // Tether
                 pstmt.setString(1, "C");
                 pstmt.setString(2, "Tether");
                 pstmt.setString(3, "USDT");
-                pstmt.setDouble(4, 0.99953);
-                pstmt.setDouble(5, 0.01); //1%
+                pstmt.setDouble(4, json.getJSONObject("tether").getDouble("usd"));
+                pstmt.setDouble(5, 0.01);
                 pstmt.setDouble(6, 1000000);
                 pstmt.setString(7, "tether_icon.png");
                 pstmt.executeUpdate();
-                //DOGE ID = 5
+
+                // Dogecoin
                 pstmt.setString(1, "C");
                 pstmt.setString(2, "Doge Coin");
                 pstmt.setString(3, "DOGE");
-                pstmt.setDouble(4, 0.39832);
-                pstmt.setDouble(5, 0.2); //20%
+                pstmt.setDouble(4, json.getJSONObject("dogecoin").getDouble("usd"));
+                pstmt.setDouble(5, 0.2);
                 pstmt.setDouble(6, 1000000);
                 pstmt.setString(7, "dogecoin_icon.png");
                 pstmt.executeUpdate();
-                //USD ID = 6
+
+                // Dólar Estadounidense
                 pstmt.setString(1, "F");
                 pstmt.setString(2, "Dólar Estadounidense");
                 pstmt.setString(3, "USD");
@@ -68,12 +82,13 @@ public class DatosModelo {
                 pstmt.setDouble(6, 1000000000);
                 pstmt.setString(7, "usd_icon.png");
                 pstmt.executeUpdate();
-                //ARS ID = 7
+
+                // Peso Argentino
                 pstmt.setString(1, "F");
                 pstmt.setString(2, "Peso Argentino");
                 pstmt.setString(3, "ARS");
                 pstmt.setDouble(4, 0.00098);
-                pstmt.setDouble(5, 0.5); //50%?
+                pstmt.setDouble(5, 0.5);
                 pstmt.setDouble(6, 500000);
                 pstmt.setString(7, "ars_icon.png");
                 pstmt.executeUpdate();

@@ -35,6 +35,12 @@ public class CompraControlador {
 				comprar(idUsuario);
 			}
 		});
+		this.vista.cerrarListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				vista.dispose();
+			}
+		});
 	}
 
 	private void inicializarVista(int idUsuario) {

@@ -20,11 +20,17 @@ public class DatosControlador {
                 cargarDatos();
             }
         });
+        
+        this.vista.agregarListenerParaCerrar(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                vista.dispose();
+            }
+        });
     }
 
     private void cargarDatos() {
         try {
-            //modelo.crearTablas();
             modelo.cargarDatosIniciales();
             vista.mostrarMensaje("Las tablas y los datos iniciales se han cargado exitosamente.");
         } catch (Exception e) {

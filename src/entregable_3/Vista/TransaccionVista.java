@@ -2,11 +2,13 @@ package entregable_3.Vista;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 public class TransaccionVista extends JFrame {
     private JList<Integer> transaccionList;
     private JTextArea resumenArea;
+    private JButton cerrarButton;
 
     public TransaccionVista() {
         setTitle("Historial de Transacciones");
@@ -21,7 +23,7 @@ public class TransaccionVista extends JFrame {
         // Título
         JLabel titulo = new JLabel("Historial de Transacciones");
         titulo.setFont(new Font("Arial", Font.BOLD, 20));
-        titulo.setForeground(new Color(50, 70, 150));
+        titulo.setForeground(new Color(30, 35, 55));
         titulo.setBounds(180, 20, 300, 30);
         add(titulo);
 
@@ -49,7 +51,16 @@ public class TransaccionVista extends JFrame {
         JScrollPane scrollPaneResumen = new JScrollPane(resumenArea);
         scrollPaneResumen.setBounds(300, 110, 250, 270);
         add(scrollPaneResumen);
-    }
+        
+     // Botón de cierre
+        cerrarButton = new JButton("CERRAR");
+        cerrarButton.setFont(new Font("Arial", Font.BOLD, 14));
+        cerrarButton.setBackground(new Color(153, 0, 0)); // Rojo oscuro
+        cerrarButton.setForeground(Color.WHITE);
+        cerrarButton.setFocusPainted(false);
+        cerrarButton.setBounds(250, 400, 100, 40); // Ajusta las coordenadas y el tamaño
+        add(cerrarButton);
+            }
 
     public JList<Integer> getTransaccionList() {
         return transaccionList;
@@ -65,5 +76,9 @@ public class TransaccionVista extends JFrame {
 
     public void mostrarResumen(String resumen) {
         resumenArea.setText(resumen);
+    }
+    
+    public void cerrarListener(ActionListener listener) {
+        cerrarButton.addActionListener(listener);
     }
 }

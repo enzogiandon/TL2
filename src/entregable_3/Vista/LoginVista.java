@@ -52,7 +52,7 @@ public class LoginVista extends JFrame {
 
         // Botón de login
         botonLogin = new JButton("Login");
-        botonLogin.setBackground(new Color(100, 149, 237)); // Color azul claro
+        botonLogin.setBackground(new Color(30, 35, 100)); // Color azul claro
         botonLogin.setForeground(Color.WHITE);
         botonLogin.setFocusPainted(false);
         gbc.gridx = 1;
@@ -62,7 +62,7 @@ public class LoginVista extends JFrame {
 
         // Botón de registro
         botonRegistro = new JButton("Registrarse");
-        botonRegistro.setBackground(new Color(60, 179, 113)); // Color verde
+        botonRegistro.setBackground(new Color(30, 35, 55)); 
         botonRegistro.setForeground(Color.WHITE);
         botonRegistro.setFocusPainted(false);
         gbc.gridx = 1;
