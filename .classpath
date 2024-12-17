@@ -5,7 +5,8 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="src"/>
+	<classpathentry excluding="entregable_3/Imagenes/" kind="src" path="src"/>
+	<classpathentry kind="src" path="src/entregable_3/Imagenes"/>
 	<classpathentry kind="lib" path="json-20240303.jar"/>
 	<classpathentry kind="lib" path="sqlite-jdbc-3.46.1.3.jar"/>
 	<classpathentry kind="output" path="bin"/>

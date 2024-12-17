@@ -56,11 +56,18 @@ public class CompraControlador {
 	}
 
 	private void convertir() {
-		Fiat fiatSeleccionada = (Fiat) mDAO.getMoneda(vista.getFiatSeleccionada());
-		double cantidadFiat = vista.getCantidadFiat();
-		double cantidadCripto = cantidadFiat
-				/ ((criptoSeleccionada.getPrecioEnDolar() / fiatSeleccionada.getPrecioEnDolar()));
-		vista.setEquivalente(String.format("%.5f %s", cantidadCripto, criptoSeleccionada.getCodigo()));
+		try {
+			Fiat fiatSeleccionada = (Fiat) mDAO.getMoneda(vista.getFiatSeleccionada());
+			double cantidadFiat = vista.getCantidadFiat();
+			double cantidadCripto = cantidadFiat
+					/ ((criptoSeleccionada.getPrecioEnDolar() / fiatSeleccionada.getPrecioEnDolar()));
+			vista.setEquivalente(String.format("%.5f %s", cantidadCripto, criptoSeleccionada.getCodigo()));
+		} catch (ArithmeticException e) {
+			System.out.println("Se intento dividir por cero");
+		} catch (IllegalArgumentException e) {
+			JOptionPane.showMessageDialog(vista, "Por favor ingresa un dato adecuado.");
+			System.out.println(e.getMessage());
+		}
 	}
 
 	private void comprar(int idUsuario) {
@@ -77,7 +84,7 @@ public class CompraControlador {
 				JOptionPane.showMessageDialog(vista, "Fondos insuficientes para realizar la compra.");
 				return;
 			}
-			
+
 			double cantidadCripto;
 			try {
 				cantidadCripto = cantidadFiat

@@ -85,7 +85,7 @@ public class CotizacionVista extends JFrame {
             ImageIcon icono = new ImageIcon(getClass().getResource("/entregable_3/Imagenes/" + nombreImagen));
             Image imagenEscalada = icono.getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH);
             etiquetaImagen = new JLabel(new ImageIcon(imagenEscalada));
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             etiquetaImagen = new JLabel("Imagen no encontrada");
             etiquetaImagen.setForeground(Color.RED);
         }
