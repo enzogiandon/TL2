@@ -23,59 +23,28 @@ public class Main {
 			}
 			System.out.println("Conexión establecida");
 
+			// Carga de datos en la base de datos
+			DatosModelo modelo = new DatosModelo();
+			DatosVista vista = new DatosVista();
+			new DatosControlador(modelo, vista);
+			vista.setVisible(true);
+
+			// Login de usuario
+			LoginModelo modeloLog = new LoginModelo();
+			LoginVista vistaLog = new LoginVista();
+			new LoginControlador(modeloLog, vistaLog);
+			// Mostrar la Vista
+			vistaLog.setVisible(true);
 			CreacionBD.crearTablas();
+
 		} catch (SQLException e) {
 			System.out.println("Error de sql: " + e.getMessage());
 			System.exit(2);
-			;
 		}
-
-		// testMoneda();
-		// testCuenta();
-		// testCompra();
-
-		// @formatter:off
-		/*
-		// Carga de datos en la base de datos
-		DatosModelo modelo = new DatosModelo();
-		DatosVista vista = new DatosVista();
-		new DatosControlador(modelo, vista);
-
-		vista.setVisible(true);
-
-		// Login de usuario
-
-		LoginModelo modeloLog = new LoginModelo();
-		LoginVista vistaLog = new LoginVista();
-		new LoginControlador(modeloLog, vistaLog);
-
-		// Mostrar la Vista
-		vistaLog.setVisible(true);
-		*/
-		// @formatter:on
-		
-//		testCompra();
-//		testTransacciones();
-		
-		
-		
-		
-		
-
-		//Carga de datos en la base de datos
-		DatosModelo modelo = new DatosModelo();
-        DatosVista vista = new DatosVista();
-        new DatosControlador(modelo, vista);
-        vista.setVisible(true);       
-        
-		// Login de usuario		
-        LoginModelo modeloLog = new LoginModelo();
-        LoginVista vistaLog = new LoginVista();
-        new LoginControlador(modeloLog, vistaLog);
-        // Mostrar la Vista
-        vistaLog.setVisible(true);         
 	}
 
+	
+	// metodos para crear monedas random
 	public static void testMoneda() {
 		int id;
 
@@ -147,36 +116,33 @@ public class Main {
 		System.out.println(cDAO.getCuentaCripto("BTC", 2).toString());
 	}
 
-
-	
 	public static void testTransacciones() {
 		TransaccionDAO tDAO = FactoryDAO.getTransaccionDAO();
-		
+
 		// Me hago una compra imaginaria
 		int id;
 		id = (int) (Math.random() * 10000) + 1;
 		Cripto bitcoin = new Cripto(id, "BTC", 123, "Bitcoin", 100);
 		id = (int) (Math.random() * 10000) + 1;
 		Fiat dolar = new Fiat(id, "USD", 1, "Dolar", 10000);
-		
+
 		// La guardo con un id random
 		int idRandom = (int) Math.ceil(Math.random() * 10000);
-		Compra compra = new Compra(idRandom,1,1, bitcoin, 1, dolar);
-		
+		Compra compra = new Compra(idRandom, 1, 1, bitcoin, 1, dolar);
+
 		tDAO.guardarTransaccion(compra);
-		
-		// La muestro 
-		TransaccionVista tVista = new TransaccionVista();		
-		
-		new TransaccionControlador(tVista,1);
+
+		// La muestro
+		TransaccionVista tVista = new TransaccionVista();
+
+		new TransaccionControlador(tVista, 1);
 		tVista.setVisible(true);
 	}
-	
-	
+
 	public static void testCompra() {
 		int idDolar = (int) (Math.random() * 10000) + 1;
 		Fiat dolar = new Fiat(idDolar, "USD", 1, "Dolar", 10000);
-		
+
 		int idPeso = (int) (Math.random() * 10000) + 1;
 		Fiat peso = new Fiat(idPeso, "ARS", 0.01, "Peso argentino", 100000);
 
@@ -190,16 +156,15 @@ public class Main {
 		Cripto bitcoin = new Cripto(idBitcoin, "BTC", 100000.53, "Bitcoin", 100);
 
 		idCuenta = (int) (Math.random() * 10000) + 1;
-		CuentaCripto cBitcoin = new CuentaCripto(idCuenta,1,0,bitcoin);
-		
-		
+		CuentaCripto cBitcoin = new CuentaCripto(idCuenta, 1, 0, bitcoin);
+
 		MonedaDAO mDAO = FactoryDAO.getMonedaDAO();
 		CuentaDAO cDAO = FactoryDAO.getCuentaDAO();
 
 		mDAO.guardarMoneda(dolar);
 		mDAO.guardarMoneda(peso);
 		mDAO.guardarMoneda(bitcoin);
-		
+
 		cDAO.guardarCuenta(cDolar);
 		cDAO.guardarCuenta(cPeso);
 		cDAO.guardarCuenta(cBitcoin);
