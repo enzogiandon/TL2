@@ -16,7 +16,7 @@ public class RegistroVista extends JFrame {
     public RegistroVista() {
         setTitle("Registro de Usuario");
         setSize(400, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
 

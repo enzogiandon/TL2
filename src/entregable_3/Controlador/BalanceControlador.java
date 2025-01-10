@@ -74,10 +74,6 @@ public class BalanceControlador {
 		}
 	}
 
-	private double calcularBalance(double precioDolar, double cantidad) {
-		return precioDolar * cantidad;
-	}
-
 	private void cargarDatosEnVista() {
 
 		List<CuentaCripto> cuentasCripto = modelo.listarCuentasCripto(id);
@@ -93,16 +89,16 @@ public class BalanceControlador {
 				data[i][0] = "Cripto";
 				data[i][1] = cuenta.getMoneda().getCodigo();
 				data[i][2] = cuenta.getSaldo();
-				double bal = calcularBalance(cuenta.getMoneda().getPrecioEnDolar(), cuenta.getSaldo());
-				balanceTotal += bal;
+				double balance = cuenta.getMoneda().getPrecioEnDolar() * cuenta.getSaldo();
+				balanceTotal += balance;
 				i++;
 			}
 			for (Cuenta cuenta : cuentasFiat) {
 				data[i][0] = "Fiat";
 				data[i][1] = cuenta.getMoneda().getCodigo();
 				data[i][2] = cuenta.getSaldo();
-				double bal = calcularBalance(cuenta.getMoneda().getPrecioEnDolar(), cuenta.getSaldo());
-				balanceTotal += bal;
+				double balance = cuenta.getMoneda().getPrecioEnDolar() * cuenta.getSaldo();
+				balanceTotal += balance;
 				i++;
 			}
 		} catch (IndexOutOfBoundsException e) {

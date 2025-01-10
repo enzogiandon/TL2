@@ -18,7 +18,7 @@ public class DatosVista extends JFrame {
     public DatosVista() {
         setTitle("Gestión de Datos");
         setSize(500, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         // Configuración general del panel

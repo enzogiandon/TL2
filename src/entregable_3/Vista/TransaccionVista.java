@@ -17,7 +17,7 @@ public class TransaccionVista extends JFrame {
     public TransaccionVista() {
         setTitle("Historial de Transacciones");
         setSize(600, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
 

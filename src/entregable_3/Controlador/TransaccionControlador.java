@@ -9,6 +9,7 @@ import javax.swing.event.ListSelectionListener;
 import entregable_3.*;
 import entregable_3.Vista.*;
 import entregable_3.Modelo.*;
+
 public class TransaccionControlador {
 	private TransaccionDAO modelo;
 	private TransaccionVista vista;
