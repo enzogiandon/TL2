@@ -22,7 +22,8 @@ public class Main {
 				System.exit(1);
 			}
 			System.out.println("Conexión establecida");
-
+			CreacionBD.crearTablas();
+			
 			// Carga de datos en la base de datos
 			DatosModelo modelo = new DatosModelo();
 			DatosVista vista = new DatosVista();
@@ -35,8 +36,6 @@ public class Main {
 			new LoginControlador(modeloLog, vistaLog);
 			// Mostrar la Vista
 			vistaLog.setVisible(true);
-			CreacionBD.crearTablas();
-
 		} catch (SQLException e) {
 			System.out.println("Error de sql: " + e.getMessage());
 			System.exit(2);
