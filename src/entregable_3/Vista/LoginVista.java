@@ -22,7 +22,6 @@ public class LoginVista extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
         
-
         // Panel principal
         JPanel panelPrincipal = new JPanel(new GridBagLayout());
         panelPrincipal.setBackground(new Color(240, 240, 240));
@@ -53,9 +52,13 @@ public class LoginVista extends JFrame {
         gbc.gridx = 1;
         gbc.gridy = 1;
         panelPrincipal.add(campoPasswd, gbc);
+        campoPasswd.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("ENTER"), "login");
+        
+        // Esto es para que al tocar Enter en el campo de la contraseña ya inicie
 
         // Botón de login
         botonLogin = new JButton("Login");
+        botonLogin = new JButton("Iniciar sesión");
         botonLogin.setBackground(new Color(30, 35, 100)); // Color azul claro
         botonLogin.setForeground(Color.WHITE);
         botonLogin.setFocusPainted(false);

@@ -28,11 +28,12 @@ public class BalanceControlador {
 		vistaCot = new CotizacionVista();
 		new CotizacionControlador(modeloCot, vistaCot, id);
 		cargarDatosEnVista();
-		this.vista.addExportListener(new ExportListener());
 
-		// Asigna el controlador al botón de "Cotizaciones" y al de Movimientos
+		// Asigna el controlador a los botones
+		this.vista.addExportListener(new ExportListener());
 		this.vista.getBotonCotizar().addActionListener(new CotizarListener());
 		this.vista.getBotonMovimientos().addActionListener(new MovimientosListener());
+		this.vista.getBotonSalir().addActionListener(new CerrarListener());
 
 	}
 
@@ -130,6 +131,21 @@ public class BalanceControlador {
 			} catch (IOException ex) {
 				JOptionPane.showMessageDialog(vista, "Error al exportar datos: " + ex.getMessage());
 			}
+		}
+	}
+	
+	private class CerrarListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			vista.dispose();
+			
+			// Login de usuario
+			LoginModelo modeloLog = new LoginModelo();
+			LoginVista vistaLog = new LoginVista();
+			new LoginControlador(modeloLog, vistaLog);
+			// Mostrar la Vista
+			JOptionPane.showMessageDialog(vista, "Sesión cerrada correctamente.");
+			vistaLog.setVisible(true);
 		}
 	}
 }
