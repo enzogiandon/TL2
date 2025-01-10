@@ -55,9 +55,15 @@ public class LoginVista extends JFrame {
         campoPasswd.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("ENTER"), "login");
         
         // Esto es para que al tocar Enter en el campo de la contraseña ya inicie
+        campoPasswd.getActionMap().put("login", new AbstractAction() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                botonLogin.doClick(); // Simula un clic en el botón de Login
+            }
+        });
+        
 
         // Botón de login
-        botonLogin = new JButton("Login");
         botonLogin = new JButton("Iniciar sesión");
         botonLogin.setBackground(new Color(30, 35, 100)); // Color azul claro
         botonLogin.setForeground(Color.WHITE);

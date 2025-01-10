@@ -82,7 +82,7 @@ public class BalanceVista extends JFrame {
         botonMovimientos.setForeground(Color.WHITE);
         panelBotones.add(botonMovimientos);
         
-        botonSalir = new JButton("SALIR");
+        botonSalir = new JButton("Cerrar sesión");
         botonSalir.setFont(new Font("Arial", Font.BOLD, 14));
         botonSalir.setBackground(new Color(153, 0, 0)); // Rojo
         botonSalir.setForeground(Color.WHITE);
