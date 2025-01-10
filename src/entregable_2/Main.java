@@ -327,6 +327,8 @@ public class Main {
 			if (confirmacion.equalsIgnoreCase("S")) {
 				// Instancio una compra y la guardo
 				Compra compra = new Compra(cantidadCripto, cripto, cantidadFiat, fiat);
+				compra.confirmar();
+
 				tDAO.guardarTransaccion(compra.getDescripcion());
 
 				// actualizo los fondos y lo guardo en BD
@@ -344,7 +346,6 @@ public class Main {
 				List<CuentaCripto> listaCripto = List.of(cc);
 				cDAO.actualizarCuentasCripto(listaCripto);
 
-				compra.confirmar();
 
 				return true;
 			} else {

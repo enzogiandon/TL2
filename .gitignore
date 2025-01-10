@@ -1,5 +1,3 @@
 /.metadata/
-test.db
-*.db
 *.class
-json-20240303.jar
+*.jar

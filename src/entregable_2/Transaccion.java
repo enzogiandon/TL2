@@ -6,14 +6,14 @@ import java.time.LocalTime;
 public abstract class Transaccion {
     protected double monto;
     protected LocalDate fecha;
+    protected LocalTime hora;
     protected double comisiones;
-    protected LocalTime tiempoElegido;
     protected boolean confirmacion;
 
     public Transaccion(double monto) {
         this.monto = monto;
         this.fecha = LocalDate.now();
-        this.tiempoElegido = LocalTime.now();
+        this.hora = LocalTime.now();
         this.confirmacion = false; // Pendiente de confirmación
     }
 
@@ -21,6 +21,6 @@ public abstract class Transaccion {
     public abstract void confirmar();
 
     public String getDescripcion() {
-        return "Monto adquirido: " + monto + ", Fecha: " + fecha + ", Confirmación: " + confirmacion;
+        return "Monto adquirido: " + monto + ", Fecha y hora: " + fecha + hora + ", Confirmación: " + confirmacion;
     }
 }
