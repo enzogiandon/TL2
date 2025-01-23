@@ -56,6 +56,10 @@ public class LoginControlador {
 			} catch (NullPointerException ex) {
 				System.out.println("No se encontró coincidencia entre id y contraseña." + ex.getMessage());
 				vista.mostrarMensajeError("Credenciales inválidas. Intente nuevamente.");
+			} finally {
+				if (resultado) {
+					vista.dispose();
+					}
 			}
 		}
 	}
