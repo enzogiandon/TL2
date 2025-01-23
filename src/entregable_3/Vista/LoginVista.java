@@ -12,7 +12,6 @@ public class LoginVista extends JFrame {
     private JPasswordField campoPasswd;
     private JButton botonLogin;
     private JButton botonRegistro;
-    private JTextField campoResultado;
 
     public LoginVista() {
         // Configuración de la ventana principal
@@ -83,17 +82,8 @@ public class LoginVista extends JFrame {
         gbc.anchor = GridBagConstraints.EAST;
         panelPrincipal.add(botonRegistro, gbc);
 
-        // Campo para mostrar mensajes
-        campoResultado = new JTextField();
-        campoResultado.setEditable(false);
-        campoResultado.setHorizontalAlignment(JTextField.CENTER);
-        campoResultado.setFont(new Font("Arial", Font.PLAIN, 12));
-        campoResultado.setForeground(Color.DARK_GRAY);
-        campoResultado.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-
         // Añadir los paneles a la ventana
         add(panelPrincipal, BorderLayout.CENTER);
-        add(campoResultado, BorderLayout.SOUTH);
     }
 
     // Getters para los campos y botones
@@ -103,10 +93,6 @@ public class LoginVista extends JFrame {
 
     public String getPasswd() {
         return new String(campoPasswd.getPassword());
-    }
-
-    public void setResultado(boolean resultado) {
-        campoResultado.setText(resultado ? "Inicio exitoso" : "Fallo en inicio");
     }
 
     public JButton getBotonLogin() {

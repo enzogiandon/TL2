@@ -43,8 +43,6 @@ public class LoginControlador {
 				user = modelo.iniciar(email, passwd);
 
 				// Actualiza la vista con el resultado
-				vista.setResultado(true);
-				vista.dispose(); // Cierra la ventana de login
 
 				// Balance
 				modeloBal = new CuentaDAOjdbc();
@@ -58,7 +56,6 @@ public class LoginControlador {
 				vista.mostrarMensajeError("Por favor ingrese datos válidos");
 			} catch (NullPointerException ex) {
 				System.out.println("No se encontró coincidencia entre id y contraseña." + ex.getMessage());
-				vista.setResultado(false); // inicio incorrecto
 				vista.mostrarMensajeError("Credenciales inválidas. Intente nuevamente.");
 			}
 		}
