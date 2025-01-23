@@ -35,22 +35,21 @@ public class LoginControlador {
 	// clase interna que implementa la accion de Iniciar Sesión
 	class IniciarListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			boolean resultado = false;
 			try {
 				String email = vista.getEmail();
 				String passwd = vista.getPasswd();
 
 				// Llamada al modelo para realizar la operación
 				user = modelo.iniciar(email, passwd);
-
-				// Actualiza la vista con el resultado
-
 				// Balance
 				modeloBal = new CuentaDAOjdbc();
 				vistaBal = new BalanceVista();
 				System.out.println("ID:" + user.getId());
 				new BalanceControlador(modeloBal, vistaBal, user.getId());
 				// Mostrar la Vista de Balance
-				vistaBal.setVisible(true);
+				resultado = true;
+				vistaBal.setVisible(resultado);
 
 			} catch (NumberFormatException ex) {
 				vista.mostrarMensajeError("Por favor ingrese datos válidos");
