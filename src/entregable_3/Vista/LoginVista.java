@@ -4,11 +4,14 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LoginVista extends JFrame {
-    private JTextField campoEmail;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4574118564183103125L;
+	private JTextField campoEmail;
     private JPasswordField campoPasswd;
     private JButton botonLogin;
     private JButton botonRegistro;
-    private JTextField campoResultado;
 
     public LoginVista() {
         // Configuración de la ventana principal
@@ -18,7 +21,6 @@ public class LoginVista extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
         
-
         // Panel principal
         JPanel panelPrincipal = new JPanel(new GridBagLayout());
         panelPrincipal.setBackground(new Color(240, 240, 240));
@@ -49,9 +51,19 @@ public class LoginVista extends JFrame {
         gbc.gridx = 1;
         gbc.gridy = 1;
         panelPrincipal.add(campoPasswd, gbc);
+        campoPasswd.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("ENTER"), "login");
+        
+        // Esto es para que al tocar Enter en el campo de la contraseña ya inicie
+        campoPasswd.getActionMap().put("login", new AbstractAction() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                botonLogin.doClick(); // Simula un clic en el botón de Login
+            }
+        });
+        
 
         // Botón de login
-        botonLogin = new JButton("Login");
+        botonLogin = new JButton("Iniciar sesión");
         botonLogin.setBackground(new Color(30, 35, 100)); // Color azul claro
         botonLogin.setForeground(Color.WHITE);
         botonLogin.setFocusPainted(false);
@@ -70,17 +82,8 @@ public class LoginVista extends JFrame {
         gbc.anchor = GridBagConstraints.EAST;
         panelPrincipal.add(botonRegistro, gbc);
 
-        // Campo para mostrar mensajes
-        campoResultado = new JTextField();
-        campoResultado.setEditable(false);
-        campoResultado.setHorizontalAlignment(JTextField.CENTER);
-        campoResultado.setFont(new Font("Arial", Font.PLAIN, 12));
-        campoResultado.setForeground(Color.DARK_GRAY);
-        campoResultado.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-
         // Añadir los paneles a la ventana
         add(panelPrincipal, BorderLayout.CENTER);
-        add(campoResultado, BorderLayout.SOUTH);
     }
 
     // Getters para los campos y botones
@@ -90,10 +93,6 @@ public class LoginVista extends JFrame {
 
     public String getPasswd() {
         return new String(campoPasswd.getPassword());
-    }
-
-    public void setResultado(boolean resultado) {
-        campoResultado.setText(resultado ? "Inicio exitoso" : "Fallo en inicio");
     }
 
     public JButton getBotonLogin() {
