@@ -7,14 +7,18 @@ import java.awt.event.ActionListener;
 
 public class DatosVista extends JFrame {
 
-    private JButton btnCargarDatos;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4678786069994823883L;
+	private JButton btnCargarDatos;
     private JButton btnSalir;
     private JTextArea areaMensajes;
 
     public DatosVista() {
         setTitle("Gestión de Datos");
         setSize(500, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         // Configuración general del panel
