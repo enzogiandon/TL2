@@ -4,7 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class RegistroVista extends JFrame {
-    private JTextField campoNombre, campoApellidos, campoEmail;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6113396190751485680L;
+	private JTextField campoNombre, campoApellidos, campoEmail;
     private JPasswordField campoClave;
     private JCheckBox terminosCheckbox;
     private JButton botonRegistrar;
@@ -12,7 +16,7 @@ public class RegistroVista extends JFrame {
     public RegistroVista() {
         setTitle("Registro de Usuario");
         setSize(400, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
 
