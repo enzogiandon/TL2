@@ -6,7 +6,11 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class BalanceVista extends JFrame {
-    private JTable tableCuentas;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4408864746618104326L;
+	private JTable tableCuentas;
     private JButton btnExportar;
     private JLabel lblBalanceTotal;
     private JButton botonCotizacion;
@@ -78,7 +82,7 @@ public class BalanceVista extends JFrame {
         botonMovimientos.setForeground(Color.WHITE);
         panelBotones.add(botonMovimientos);
         
-        botonSalir = new JButton("SALIR");
+        botonSalir = new JButton("Cerrar sesión");
         botonSalir.setFont(new Font("Arial", Font.BOLD, 14));
         botonSalir.setBackground(new Color(153, 0, 0)); // Rojo
         botonSalir.setForeground(Color.WHITE);
@@ -105,9 +109,9 @@ public class BalanceVista extends JFrame {
     public JButton getBotonCotizar() {
         return botonCotizacion;
     }
-
+    
     public JButton getBotonMovimientos() {
-        return botonMovimientos;
+    	return botonMovimientos;
     }
     
     public JButton getBotonSalir() {
