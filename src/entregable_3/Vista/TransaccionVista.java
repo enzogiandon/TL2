@@ -6,14 +6,18 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class TransaccionVista extends JFrame {
-    private JList<Integer> transaccionList;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7819207669631740816L;
+	private JList<Integer> transaccionList;
     private JTextArea resumenArea;
     private JButton cerrarButton;
 
     public TransaccionVista() {
         setTitle("Historial de Transacciones");
         setSize(600, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
 
